@@ -33,7 +33,7 @@ instance HasUID        QDefinition where uid = qua . uid
 instance NamedIdea     QDefinition where term = qua . term
 instance Idea          QDefinition where getA c = getA $ c ^. qua
 instance HasSpace      QDefinition where typ = qua . typ
-instance HasSymbol     QDefinition where symbol e = symbol (e^.qua)
+instance HasSymbol     QDefinition where symbol e = symbol (e ^. qua)
 instance Definition    QDefinition where defn = defn'
 instance Quantity      QDefinition where
 instance DefiningExpr  QDefinition where defnExpr = equat

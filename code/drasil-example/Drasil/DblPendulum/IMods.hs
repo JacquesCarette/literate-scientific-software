@@ -3,8 +3,8 @@ module Drasil.DblPendulum.IMods (iMods, angularDisplacementIM) where
 import Prelude hiding (cos, sin)
 
 import Language.Drasil
-import Theory.Drasil (InstanceModel, imNoRefs, qwC, ModelKinds (OthModel)) 
-  --imNoDerivNoRefs, )
+import Language.Drasil.ShortHands
+import Theory.Drasil (InstanceModel, imNoRefs, qwC, ModelKinds (EquationalModel)) 
 import Utils.Drasil
 import Data.Drasil.Quantities.Physics (gravitationalAccel,
          angularAccel, momentOfInertia,
@@ -17,23 +17,30 @@ import Data.Drasil.Concepts.Physics (pendulum)
 import Data.Drasil.Theories.Physics (newtonSLR)
 import Drasil.DblPendulum.GenDefs (angFrequencyGD)
 
-
 iMods :: [InstanceModel]
 iMods = [angularDisplacementIM]
 
 ---
 angularDisplacementIM :: InstanceModel
-angularDisplacementIM = imNoRefs (OthModel angularDisplacementRC) 
+angularDisplacementIM = imNoRefs (EquationalModel angularDisplacementQD) 
   [qwC lenRod $ UpFrom (Exc, 0)
-  ,qwC initialPendAngle $ UpFrom (Exc, 0)
+  , qwC initialPendAngle $ UpFrom (Exc, 0)
   , qwC gravitationalAccel $ UpFrom (Exc, 0)]
   (qw pendDisplacementAngle) [UpFrom (Exc, 0)]
   (Just angularDisplacementDeriv) "calOfAngularDisplacement" [angularDispConstraintNote]
   
 
-angularDisplacementRC :: RelationConcept
-angularDisplacementRC = makeRC "angularDisplacementRC" (nounPhraseSP "calculation of angular displacement")
-  EmptyS $ apply1 pendDisplacementAngle time $= sy initialPendAngle * cos ( sy angularFrequency * sy time)
+angularDisplacementExpr :: Expr
+angularDisplacementExpr = sy initialPendAngle * cos (sy angularFrequency * sy time)
+
+angularDisplacementQD :: QDefinition
+-- angularDisplacementQD = mkQuantDef' pendDisplacementAngle (nounPhraseSP "calculation of angular displacement") angularDisplacementExpr
+angularDisplacementQD = fromEqn' "pendDisplacementAngle"
+  (nounPhraseSP "calculation of angular displacement")
+  EmptyS (sub lP lP) Real angularDisplacementExpr
+
+-- makeRC "angularDisplacementRC" (nounPhraseSP "calculation of angular displacement")
+--   EmptyS $ apply1 pendDisplacementAngle time $= angularDisplacementExpr
   
 
 angularDisplacementDeriv :: Derivation 

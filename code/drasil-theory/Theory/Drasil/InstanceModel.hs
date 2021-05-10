@@ -12,6 +12,8 @@ import Data.Drasil.TheoryConcepts (inModel)
 import Control.Lens (makeLenses, view, lens, (^.), set, Lens', to, _1, _2)
 import Theory.Drasil.ModelKinds (ModelKinds(..), elimMk, setMk, getEqModQds)
 
+import Language.Drasil.ShortHands
+
 type Input = (QuantityDict, Maybe (RealInterval Expr Expr))
 type Inputs = [Input]
 type Output = QuantityDict
@@ -58,7 +60,10 @@ instance HasInputs          InstanceModel where
 instance HasOutput          InstanceModel where
   output          = imOutput . _1
   out_constraints = imOutput . _2
-instance HasSymbol          InstanceModel where symbol = symbol . view output -- ???
+-- instance HasSymbol          InstanceModel where symbol = symbol . view output -- ???
+instance HasSymbol          InstanceModel where
+  symbol (IM (EquationalModel q) _ _ _ _ _ _ _) = symbol q
+  symbol im_                                    = symbol (view output im_)
 instance HasSpace           InstanceModel where typ = output . typ
 instance MayHaveUnit        InstanceModel where getUnit = getUnit . view output
 

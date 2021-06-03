@@ -156,10 +156,3 @@ instance HasUID        Reference where uid = ui
 instance HasRefAddress Reference where getRefAdd = getAdd . ra
 -- | Finds the shortname of the reference address used for the 'Reference'.
 instance HasShortName  Reference where shortname = sn
-
-------------------------------------------------------
--- | A 'ShortName' is the text to be displayed for a link.
--- Used for referencing within a document that can include symbols and whatnot if required.
--- Visible in the typeset documents (pdf).
-class HasShortName  s where
-  shortname :: s -> ShortName

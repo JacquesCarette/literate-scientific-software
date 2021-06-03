@@ -4,15 +4,15 @@ module Language.Drasil.Chunk.Concept.Core(ConceptChunk(ConDict), CommonConcept(C
   , sDom)
   where
 
-import Language.Drasil.Classes.Core (HasUID(uid), HasShortName(shortname),
+import Language.Drasil.Classes.Core (HasUID(uid),
   HasRefAddress(getRefAdd))
 import Language.Drasil.Classes (NamedIdea(term), Idea(getA),
-  Definition(defn), ConceptDomain(cdom), CommonIdea(abrv), Referable(refAdd, renderRef))
+  Definition(defn), ConceptDomain(cdom), CommonIdea(abrv),
+  Referable(refAdd, renderRef))
 import Language.Drasil.Chunk.CommonIdea (CI)
 import Language.Drasil.Chunk.NamedIdea (IdeaDict)
 import Language.Drasil.Label.Type (LblType(RP), name, raw, (+::+), defer)
-import Language.Drasil.Sentence (Sentence)
-import Language.Drasil.ShortName (ShortName)
+import Language.Drasil.Sentence (Sentence, ShortName, HasShortName(shortname))
 import Language.Drasil.UID (UID)
 
 import Control.Lens (makeLenses, (^.), view)

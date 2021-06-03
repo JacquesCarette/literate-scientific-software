@@ -26,6 +26,8 @@ module Language.Drasil.Classes (
   -- the unsorted rest
   , IsUnit(udefn, getUnits)
   , UnitEq(uniteq)
+  
+  --, HasShortName(shortname)
   ) where
 
 -- some classes are so 'core' that they are defined elswhere
@@ -38,9 +40,10 @@ import Language.Drasil.UnitLang(UDefn, USymb)
 import Language.Drasil.Expr (Expr, Relation)
 import Language.Drasil.Label.Type (LblType)
 import Language.Drasil.NounPhrase.Core (NP)
-import Language.Drasil.RefProg (Reference)
+--import Language.Drasil.RefProg (Reference)
 import Language.Drasil.Space (Space)
-import Language.Drasil.Sentence (Sentence)
+import Language.Drasil.Sentence (Sentence, Reference)
+--import Language.Drasil.ShortName (ShortName)
 import Language.Drasil.UID (UID)
 import Language.Drasil.Uncertainty.Core (Uncertainty)
 

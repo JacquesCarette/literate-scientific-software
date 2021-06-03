@@ -2,8 +2,7 @@ module Language.Drasil.Sentence.Extract(sdep, shortdep, lnames, lnames') where
 
 import Data.List (nub)
 import Language.Drasil.UID (UID)
-import Language.Drasil.Sentence(Sentence(..), SentenceStyle(..))
-import Language.Drasil.RefProg (Reference(Reference))
+import Language.Drasil.Sentence(Sentence(..), SentenceStyle(..), Reference(Reference))
 import Language.Drasil.Expr.Extract(names)
 
 

@@ -2,14 +2,14 @@
 -- | Document Description Language
 module Language.Drasil.Document where
 
-import Language.Drasil.Classes.Core (HasUID(uid), HasShortName(shortname), getRefAdd)
+import Language.Drasil.Classes.Core (HasUID(uid), getRefAdd)
 import Language.Drasil.Classes (Referable(refAdd, renderRef))
 import Language.Drasil.Document.Core
 import Language.Drasil.Label.Type (prepend, LblType(RP, URI),raw, (+::+), name)
 import Language.Drasil.Misc (repUnd)
-import Language.Drasil.RefProg (Reference(Reference), RefInfo(None))
-import Language.Drasil.Sentence (Sentence(..))
-import Language.Drasil.ShortName (ShortName, shortname')
+import Language.Drasil.RefProg ()
+import Language.Drasil.Sentence (Sentence(..), ShortName, shortname',
+  HasShortName(shortname), Reference(Reference), RefInfo(None))
 import Language.Drasil.UID (UID)
 
 import Control.Lens (makeLenses, view)

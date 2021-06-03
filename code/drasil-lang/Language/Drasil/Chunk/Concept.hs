@@ -9,10 +9,9 @@ import Language.Drasil.Classes (Idea, Definition(defn), ConceptDomain(cdom), Con
 import Language.Drasil.Chunk.CommonIdea (commonIdea)
 import Language.Drasil.Chunk.Concept.Core (ConceptChunk(ConDict),
   ConceptInstance(ConInst), CommonConcept(ComConDict))
-import Language.Drasil.Sentence (Sentence(S))
+import Language.Drasil.Sentence (Sentence(S), shortname')
 import Language.Drasil.Chunk.NamedIdea(mkIdea,nw, nc)
 import Language.Drasil.NounPhrase (NP, pn)
-import Language.Drasil.ShortName (shortname')
 
 import Control.Lens ((^.))
 

@@ -3,14 +3,11 @@ module Language.Drasil.Document.Core where
 
 import Language.Drasil.Chunk.Citation (BibRef)
 
-import Language.Drasil.Classes.Core (HasUID(uid), HasRefAddress(getRefAdd),
-  HasShortName(shortname))
+import Language.Drasil.Classes.Core (HasUID(uid), HasRefAddress(getRefAdd))
 import Language.Drasil.Classes (Referable(refAdd, renderRef))
 import Language.Drasil.Expr (Expr)
 import Language.Drasil.Label.Type (LblType(RP), IRefProg, name, raw, (+::+))
-import Language.Drasil.RefProg(Reference)
-import Language.Drasil.Sentence (Sentence)
-
+import Language.Drasil.Sentence (Sentence, Reference, HasShortName(shortname))
 import Control.Lens ((^.), makeLenses, Lens', set, view)
 
 -- | Denotes the different possible types that can be used as a list.

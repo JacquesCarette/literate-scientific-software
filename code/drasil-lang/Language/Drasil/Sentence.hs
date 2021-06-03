@@ -1,18 +1,21 @@
-{-# LANGUAGE GADTs, PostfixOperators #-}
+{-# LANGUAGE GADTs, PostfixOperators, TemplateHaskell #-}
 {-# OPTIONS_GHC -Wno-redundant-constraints #-}
 -- | Contains Sentences and helpers
 module Language.Drasil.Sentence (Sentence(..), SentenceStyle(..), (+:+),
   (+:+.), (+:), (!.), capSent, ch, sC, sDash, sentencePlural, sentenceShort,
-  sentenceSymb, sentenceTerm, sParen) where
+  sentenceSymb, sentenceTerm, sParen,
+  Reference(Reference, refInfo), RefInfo(..), HasShortName(shortname),
+  ShortName, getStringSN, shortname') where
 
-import Language.Drasil.Classes.Core (HasUID(uid), HasSymbol)
+import Language.Drasil.Classes.Core (HasUID(uid), HasSymbol, HasRefAddress(getRefAdd))
 import Language.Drasil.Expr (Expr)
-import Language.Drasil.RefProg (Reference)
+--import Language.Drasil.RefProg (Reference)
 import Language.Drasil.Symbol (Symbol)
 import Language.Drasil.UnitLang (USymb)
+import Language.Drasil.Label.Type (LblType, getAdd)
 import Language.Drasil.UID (UID)
 
-import Control.Lens ((^.))
+import Control.Lens ((^.), makeLenses)
 
 import Data.Char (toUpper)
 
@@ -116,3 +119,47 @@ capSent (S (s:ss)) = S (toUpper s : ss)
 --capSent (plural x) = atStart' x
 capSent (a :+: b)  = capSent a :+: b
 capSent x          = x
+
+-----------
+-- ShortName and Reference modules here to temporarily solve import cycles
+-----------
+
+-- | Used for holding the short form of a name (as a 'Sentence' with a wrapper).
+newtype ShortName = ShortNm String
+
+-- | Pulls the short form (as a 'Sentence') out of a 'ShortName'.
+getStringSN :: ShortName -> String
+getStringSN (ShortNm s) = s
+
+-- | Smart constructor for making a 'String' into a 'ShortName'.
+shortname' :: String -> ShortName
+shortname' = ShortNm
+
+-- | Holds any extra information needed for a 'Reference', be it an equation, pages, a note, or nothing.
+data RefInfo = None
+             | Equation [Int]
+             | Page [Int]
+             | RefNote String
+
+-- | A Reference contains the identifier ('UID'), a reference address ('LblType'),
+-- a human-readable shortname ('ShortName'), and any extra information about the reference ('RefInfo').
+data Reference = Reference
+  { _ui :: UID
+  ,  ra :: LblType
+  ,  sn :: ShortName
+  ,  refInfo :: RefInfo }
+makeLenses ''Reference
+
+-- | Finds the 'UID' of a 'Reference'.
+instance HasUID        Reference where uid = ui
+-- | Finds the reference address contained in a 'Reference' (through a 'LblType').
+instance HasRefAddress Reference where getRefAdd = getAdd . ra
+-- | Finds the shortname of the reference address used for the 'Reference'.
+instance HasShortName  Reference where shortname = sn
+
+------------------------------------------------------
+-- | A 'ShortName' is the text to be displayed for a link.
+-- Used for referencing within a document that can include symbols and whatnot if required.
+-- Visible in the typeset documents (pdf).
+class HasShortName  s where
+  shortname :: s -> ShortName

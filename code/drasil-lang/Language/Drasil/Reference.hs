@@ -3,10 +3,9 @@ module Language.Drasil.Reference where
 import Control.Lens ((^.))
 
 import Language.Drasil.Chunk.Citation (Citation)
-import Language.Drasil.Classes.Core (HasUID(uid), HasShortName(shortname))
+import Language.Drasil.Classes.Core (HasUID(uid))
 import Language.Drasil.Classes (Referable(renderRef))
-import Language.Drasil.RefProg (Reference(..), RefInfo(..))
-import Language.Drasil.Sentence (Sentence(Ref))
+import Language.Drasil.Sentence (Reference(..), RefInfo(..), Sentence(Ref), HasShortName(shortname))
 
 -- | Projector function that creates a 'Reference' from something 'Referable'.
 makeRef2 :: (Referable l, HasShortName l) => l -> Reference

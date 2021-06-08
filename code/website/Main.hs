@@ -68,10 +68,10 @@ mkExamples repoRoot localPath srsDir = do
 
   -- a list of lists of sources based on existence and contents of src file for each example.
   -- if no src file, then the inner list will be empty
-  sources <- mapM (\x -> listDirectory (localPath ++ x) >>= \dirs -> 
+  sources <- mapM (map (\ cs@(CS a dPath c d)-> if takeBaseName dPath == "index" then cs else CS a "" c d)) (mapM (\x -> listDirectory (localPath ++ x) >>= \dirs -> 
     findFiles ((localPath ++ x):dirs) "src" >>=
     fmap (concatMap (map (getSrc names repoRoot) . lines . rstrip)) .
-    mapM readFile) names
+    mapM readFile) names)
 
   -- a list of Just descriptions or Nothing based on existence and contents of desc file.
   descriptions <- mapM (\x -> doesFileExist ("descriptions/" ++ x ++ ".txt") >>=

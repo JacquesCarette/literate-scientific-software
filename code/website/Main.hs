@@ -41,8 +41,8 @@ getSRS = map (\x -> (x, getExtensionName $ takeExtension x)) . filter (\x -> any
 getSrc :: [String] -> String -> FilePath -> CodeSource
 -- source comes in as a path, takeBaseName takes only rightmost folder name
 getSrc names repoRoot source = CS (repoRoot ++ source)
-  ((if null verName then "" else verName ++ "/") ++ takeBaseName source ++ 
-    "/index.html")
+  (doxygenCheck ((if null verName then "" else verName ++ "/") ++ takeBaseName source ++ 
+    "/index.html"))
   verName
   (lang $ takeBaseName source)
   where
@@ -55,6 +55,10 @@ getSrc names repoRoot source = CS (repoRoot ++ source)
     lang x        = error ("No given display name for language: " ++ x)
     eDir = takeBaseName $ takeDirectory $ takeDirectory source
     verName = if any (`isInfixOf` eDir) names then eDir else ""
+    doxygenCheck :: FilePath -> FilePath
+    doxygenCheck p 
+      | (takeBaseName (takeDirectory p)) == "swift" || (takeBaseName (takeDirectory p)) == "Swift" = "" 
+      | otherwise = p
 
 mkExamples :: String -> FilePath -> FilePath -> IO [Example]
 mkExamples repoRoot localPath srsDir = do

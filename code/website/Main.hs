@@ -60,6 +60,13 @@ getSrc names repoRoot source = CS (repoRoot ++ source)
       | (takeBaseName (takeDirectory p)) == "swift" || (takeBaseName (takeDirectory p)) == "Swift" = "" 
       | otherwise = p
 
+
+filePathCheck :: FilePath -> FilePath
+filePathCheck dPath = if takeBaseName dPath == "index" then dPath else ""
+
+langCheck :: String -> String
+langCheck l = if l == "Swift" then "" else l
+
 mkExamples :: String -> FilePath -> FilePath -> IO [Example]
 mkExamples repoRoot localPath srsDir = do
 
@@ -68,10 +75,10 @@ mkExamples repoRoot localPath srsDir = do
 
   -- a list of lists of sources based on existence and contents of src file for each example.
   -- if no src file, then the inner list will be empty
-  sources <- mapM (map (\ cs@(CS a dPath c d)-> if takeBaseName dPath == "index" then cs else CS a "" c d)) (mapM (\x -> listDirectory (localPath ++ x) >>= \dirs -> 
+  sources <- mapM (\x -> listDirectory (localPath ++ x) >>= \dirs -> 
     findFiles ((localPath ++ x):dirs) "src" >>=
     fmap (concatMap (map (getSrc names repoRoot) . lines . rstrip)) .
-    mapM readFile) names)
+    mapM readFile) names
 
   -- a list of Just descriptions or Nothing based on existence and contents of desc file.
   descriptions <- mapM (\x -> doesFileExist ("descriptions/" ++ x ++ ".txt") >>=
@@ -145,7 +152,7 @@ mkExampleCtx exampleDir srsDir doxDir =
       field "path" (return . codePath . snd . itemBody) <>
       -- return language
       field "lang" (return . langName . snd . itemBody) <>
-      field "doxPath" (return . (\x -> exDirPath exampleDir (name $ fst x) doxDir ++ doxPath (snd x)) . itemBody)
+      field "doxPath" (return . (\x -> filePathCheck (exDirPath exampleDir (name $ fst x) doxDir ++ doxPath (snd x))) . itemBody)
       -- Extract each source individually and rewrap as an item
       ) ((\(x,y) -> mapM (makeItem . (x,)) y) . itemBody)) 
     -- (src . itemBody) gets the list of sources to be checked for emptiness

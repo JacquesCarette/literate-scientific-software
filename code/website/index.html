@@ -209,7 +209,9 @@ $-for(examples)$
             $-for(vers)$
               <li>$verName$  
                 $-for(src)$
-                  <a href="$doxPath$">[$lang$]</a>
+                  $if(doxPath)-$
+                    <a href="$doxPath$">[$lang$]</a>
+                  $-endif$
                 $-endfor$
               </li>
             $-endfor$

@@ -4,7 +4,7 @@ module Main where
 
 import Control.Monad (filterM)
 import Data.Char (toUpper)
-import Data.List (isInfixOf, isSuffixOf, sort, zip4, groupBy)
+import Data.List (isInfixOf, isSuffixOf, sort, zip5, groupBy)
 import Data.Maybe (fromMaybe, fromJust, isJust)
 import Hakyll
 import StringUtils (rstrip)
@@ -20,7 +20,8 @@ data CodeSource = CS {codePath :: FilePath,
                       langName :: String}
 type SRSVariants = [(Name, String)]
 type Description = Maybe String
-data Example = E Name [CodeSource] SRSVariants Description
+data Example = E Name [CodeSource] SRSVariants Description [DocsExist]
+data DocsExist = CPP Bool | CSharp Bool | Python Bool | Java Bool | Swift Bool
 
 -- Returns FilePath of the SRS
 exDirPath :: FilePath -> FilePath -> FilePath -> FilePath
@@ -41,8 +42,8 @@ getSRS = map (\x -> (x, getExtensionName $ takeExtension x)) . filter (\x -> any
 getSrc :: [String] -> String -> FilePath -> CodeSource
 -- source comes in as a path, takeBaseName takes only rightmost folder name
 getSrc names repoRoot source = CS (repoRoot ++ source)
-  (doxygenCheck ((if null verName then "" else verName ++ "/") ++ takeBaseName source ++ 
-    "/index.html"))
+  ((if null verName then "" else verName ++ "/") ++ takeBaseName source ++ 
+    "/index.html")
   verName
   (lang $ takeBaseName source)
   where
@@ -55,14 +56,34 @@ getSrc names repoRoot source = CS (repoRoot ++ source)
     lang x        = error ("No given display name for language: " ++ x)
     eDir = takeBaseName $ takeDirectory $ takeDirectory source
     verName = if any (`isInfixOf` eDir) names then eDir else ""
-    doxygenCheck :: FilePath -> FilePath
+    {-doxygenCheck :: FilePath -> FilePath
     doxygenCheck p 
       | (takeBaseName (takeDirectory p)) == "swift" || (takeBaseName (takeDirectory p)) == "Swift" = "" 
-      | otherwise = p
+      | otherwise = p-}
 
+-- Checks a CodeSource to make sure the documentation path exists.
+filePathCheck :: Bool -> FilePath -> String -> DocsExist
+filePathCheck exist _ name
+  | name == "C++" = CPP exist
+  | name == "C#" = CSharp exist
+  | name == "Python" = Python exist
+  | name == "Java" = Java exist
+  | name == "Swift" = Swift exist
+  | otherwise = error ("Not a valid language: " ++ name)
+--filePathCheck dPath = if takeBaseName dPath == "index" then dPath else ""
 
-filePathCheck :: FilePath -> FilePath
-filePathCheck dPath = if takeBaseName dPath == "index" then dPath else ""
+filePathH :: [([Bool], ([FilePath], [String]))] -> [([Bool], [FilePath], [String])]
+filePathH [] = []
+filePathH (bs, (fs, ns)):xs = filePathH2 (bs, fs, ns): xs
+
+filePathH2 :: ([Bool], [FilePath], [String]) -> [(Bool, FilePath, String)]
+filePathH2 (b:bs, f:fs, n:ns) = (b,f,n): filePathH2 (bs,fs,ns)
+filePathH2 _ = []
+
+docPathCheck :: FilePath -> IO Bool
+docPathCheck path = do 
+  exists <- doesFileExist path
+  return exists
 
 langCheck :: String -> String
 langCheck l = if l == "Swift" then "" else l
@@ -84,13 +105,16 @@ mkExamples repoRoot localPath srsDir = do
   descriptions <- mapM (\x -> doesFileExist ("descriptions/" ++ x ++ ".txt") >>=
     \y -> if y then Just . rstrip <$> readFile ("descriptions/" ++ x ++ ".txt") else return Nothing) names
 
+  let docSources = map (map (\(CS _ dPath _ name) -> (dPath, name))) sources
+  docsExistSources <- mapM (mapM doesFileExist) (map (map fst) docSources)
+  let docsExist = map ((uncurry filePathCheck).filePathH) (zip docsExistSources docSources)
   -- creates a list of SRSVariants, so a list of list of tuples.
   -- the outer list has an element for each example.
   srss <- mapM (\x -> sort . getSRS <$> listDirectory (exDirPath localPath x srsDir)) names
 
   -- returns the IO list of examples with constructor E containing
   -- the name of the example, sources, list of variants, and description
-  return $ map (\(name, source, srs, desc) -> E name source srs desc) $ zip4 names sources srss descriptions
+  return $ map (\(name, source, srs, desc, dExist) -> E name source srs desc dExist) $ zip5 names sources srss descriptions docsExist
 
 maybeField :: String -> (Item a -> Compiler (Maybe String)) -> Context a
 maybeField s f = Context $ \k _ i -> do
@@ -152,7 +176,8 @@ mkExampleCtx exampleDir srsDir doxDir =
       field "path" (return . codePath . snd . itemBody) <>
       -- return language
       field "lang" (return . langName . snd . itemBody) <>
-      field "doxPath" (return . (\x -> filePathCheck (exDirPath exampleDir (name $ fst x) doxDir ++ doxPath (snd x))) . itemBody)
+      field "doxPath" (return . (\x -> exDirPath exampleDir (name $ fst x) doxDir ++ doxPath (snd x)) . itemBody) <>
+      boolField "doxExist" (return . itemBody)
       -- Extract each source individually and rewrap as an item
       ) ((\(x,y) -> mapM (makeItem . (x,)) y) . itemBody)) 
     -- (src . itemBody) gets the list of sources to be checked for emptiness
@@ -161,10 +186,10 @@ mkExampleCtx exampleDir srsDir doxDir =
     -- Srcs corresponding to the same version of an example should always be adjacent, so we use groupBy to group the srcs for each version in their own list, then rewrap as an Item
     ((\x -> mapM (makeItem . (x,)) . groupBy (\a b -> versionName a == versionName b) $ src x) . itemBody)
   where
-    name (E nm _ _ _) = nm
-    src (E _ s _ _) = s
-    srs (E _ _ s _) = s
-    desc (E _ _ _ d) = d
+    name (E nm _ _ _ _) = nm
+    src (E _ s _ _ _) = s
+    srs (E _ _ s _ _) = s
+    desc (E _ _ _ d _) = d
     srsVar = fst . itemBody
     example = snd . itemBody
 

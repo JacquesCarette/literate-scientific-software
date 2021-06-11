@@ -84,7 +84,9 @@ selectSrc [a,b,c,d,e] name
   | name == "Java" = d
   | name == "Swift" = e
   | otherwise = error ("Not a valid language: " ++ name)
-selectSrc x name = if (length x == 25) then selectSrc (take 5 x) name else error (show (length x) ++ " DocsExist found. Expected 5 DocsExist for " ++ name)
+selectSrc x name
+  | length x == 25 = selectSrc (take 5 x) name
+  | otherwise      = error (show (length x) ++ " DocsExist found. Expected 5 DocsExist for " ++ name)
 
 -- Meant to help get the boolean value
 getBool :: DocsExist -> Bool
@@ -217,7 +219,9 @@ mkExampleCtx exampleDir srsDir doxDir =
       -- return language
       field "lang" (return . langName . snd . itemBody) <>
       field "doxPath" (return . (\x -> exDirPath exampleDir (name $ fst x) doxDir ++ doxPath (snd x)) . itemBody) <>
-      boolField "doxExist" (getBool . uncurry selectSrc . (\x -> (dox (fst x), langName (snd x))) . itemBody)
+      -- PSEUDO: boolField "doxExist" ((\x -> langName (snd x) `elem` dox (fst x)) . itemBody)
+      boolField "doxExist" ((\x -> langName (snd x) == "Python") . itemBody)
+      -- boolField "doxExist" (getBool . uncurry selectSrc . (\x -> (dox (fst x), langName (snd x))) . itemBody)
       -- Extract each source individually and rewrap as an item
       ) ((\(x,y) -> mapM (makeItem . (x,)) y) . itemBody)) 
     -- (src . itemBody) gets the list of sources to be checked for emptiness

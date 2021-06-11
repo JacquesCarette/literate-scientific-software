@@ -62,8 +62,8 @@ getSrc names repoRoot source = CS (repoRoot ++ source)
       | otherwise = p-}
 
 -- Checks a CodeSource to make sure the documentation path exists.
-filePathCheck :: Bool -> FilePath -> String -> DocsExist
-filePathCheck exist _ name
+filePathCheckH :: Bool -> String -> DocsExist
+filePathCheckH exist name
   | name == "C++" = CPP exist
   | name == "C#" = CSharp exist
   | name == "Python" = Python exist
@@ -72,18 +72,57 @@ filePathCheck exist _ name
   | otherwise = error ("Not a valid language: " ++ name)
 --filePathCheck dPath = if takeBaseName dPath == "index" then dPath else ""
 
-filePathH :: [([Bool], ([FilePath], [String]))] -> [([Bool], [FilePath], [String])]
-filePathH [] = []
-filePathH (bs, (fs, ns)):xs = filePathH2 (bs, fs, ns): xs
+-- Meant to help get the boolean value by matching the correct source.
+-- However, projectile has more than 5 DocsExist so it doesn't really work at all.
+-- I'll have to spend a little more time figuring this one out.
+-- For now, I'm just trying to get it to compile so it will be really janky.
+selectSrc :: [DocsExist] -> String -> DocsExist
+selectSrc [a,b,c,d,e] name 
+  | name == "C++" = a
+  | name == "C#" = b
+  | name == "Python" = c
+  | name == "Java" = d
+  | name == "Swift" = e
+  | otherwise = error ("Not a valid language: " ++ name)
+selectSrc x name = if (length x == 25) then selectSrc (take 5 x) name else error (show (length x) ++ " DocsExist found. Expected 5 DocsExist for " ++ name)
 
-filePathH2 :: ([Bool], [FilePath], [String]) -> [(Bool, FilePath, String)]
-filePathH2 (b:bs, f:fs, n:ns) = (b,f,n): filePathH2 (bs,fs,ns)
-filePathH2 _ = []
+-- Meant to help get the boolean value
+getBool :: DocsExist -> Bool
+getBool (CPP x) = x
+getBool (CSharp x) = x
+getBool (Python x) = x
+getBool (Java x) = x
+getBool (Swift x) = x
 
-docPathCheck :: FilePath -> IO Bool
-docPathCheck path = do 
-  exists <- doesFileExist path
-  return exists
+filePathCheck :: [Bool] -> [String] -> [DocsExist]
+filePathCheck bs ss = map (uncurry filePathCheckH) $ zip bs ss
+
+---filePathH :: [([Bool], ([FilePath], [String]))] -> [([Bool], [FilePath], [String])]
+--filePathH [] = []
+--filePathH (bs, (fs, ns)):xs = filePathH2 (bs, fs, ns): xs
+---filePathH fs = map (\(xs, (ys,zs))-> (xs,ys,zs)) fs
+--filePathH fs = map (uncurry zip3 (\(xs, (ys,zs))-> (xs,ys,zs))) fs
+
+--filePathH2 :: ([Bool], [FilePath], [String]) -> [(Bool, FilePath, String)]
+--filePathH2 (b:bs, f:fs, n:ns) = (b,f,n): filePathH2 (bs,fs,ns)
+--filePathH2 _ = []
+
+-- Some examples dont generate in all languages so this is meant to fill in the missing ones with a False DocsExist
+-- It doesn't really work either though.
+fillMissingCheck :: [[DocsExist]] -> [[DocsExist]]
+fillMissingCheck ds = map (\x -> missingCheck x langs) ds
+  where missingCheck :: [DocsExist] -> [String]-> [DocsExist] 
+        missingCheck [] []= []
+        missingCheck x [] = x -- error ("Should not exceed number of available languages: " ++ show (length x))
+        missingCheck [] ls = map (\x -> filePathCheckH False x) ls
+        missingCheck (c:cs) (l:ls) = if l `elem` (map compareLang (c:cs)) then c : missingCheck cs ls else filePathCheckH False l : missingCheck cs ls
+        langs :: [String]
+        langs = ["C++", "CSharp", "Python", "Java", "Swift"]
+        compareLang (CPP _) = "C++"
+        compareLang (CSharp _) = "CSharp"
+        compareLang (Python _) = "Python"
+        compareLang (Java _) = "Java"
+        compareLang (Swift _) = "Swift"
 
 langCheck :: String -> String
 langCheck l = if l == "Swift" then "" else l
@@ -107,7 +146,8 @@ mkExamples repoRoot localPath srsDir = do
 
   let docSources = map (map (\(CS _ dPath _ name) -> (dPath, name))) sources
   docsExistSources <- mapM (mapM doesFileExist) (map (map fst) docSources)
-  let docsExist = map ((uncurry filePathCheck).filePathH) (zip docsExistSources docSources)
+  let docsExist = fillMissingCheck (map (uncurry filePathCheck) $ zip docsExistSources (map (map snd) docSources))
+  ---let docsExist = map (uncurry filePathCheck) $ filePathH $ zip docsExistSources (map (map snd) docSources)
   -- creates a list of SRSVariants, so a list of list of tuples.
   -- the outer list has an element for each example.
   srss <- mapM (\x -> sort . getSRS <$> listDirectory (exDirPath localPath x srsDir)) names
@@ -177,7 +217,7 @@ mkExampleCtx exampleDir srsDir doxDir =
       -- return language
       field "lang" (return . langName . snd . itemBody) <>
       field "doxPath" (return . (\x -> exDirPath exampleDir (name $ fst x) doxDir ++ doxPath (snd x)) . itemBody) <>
-      boolField "doxExist" (return . itemBody)
+      boolField "doxExist" (getBool . uncurry selectSrc . (\x -> (dox (fst x), langName (snd x))) . itemBody)
       -- Extract each source individually and rewrap as an item
       ) ((\(x,y) -> mapM (makeItem . (x,)) y) . itemBody)) 
     -- (src . itemBody) gets the list of sources to be checked for emptiness
@@ -190,6 +230,7 @@ mkExampleCtx exampleDir srsDir doxDir =
     src (E _ s _ _ _) = s
     srs (E _ _ s _ _) = s
     desc (E _ _ _ d _) = d
+    dox (E _ _ _ _ d) = d
     srsVar = fst . itemBody
     example = snd . itemBody
 

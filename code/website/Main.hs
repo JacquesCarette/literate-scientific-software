@@ -20,8 +20,8 @@ data CodeSource = CS {codePath :: FilePath,
                       langName :: String}
 type SRSVariants = [(Name, String)]
 type Description = Maybe String
-data Example = E Name [CodeSource] SRSVariants Description [DocsExist]
-data DocsExist = CPP Bool | CSharp Bool | Python Bool | Java Bool | Swift Bool
+data Example = E Name [CodeSource] SRSVariants Description [String]
+-- data DocsExist = CPP Bool | CSharp Bool | Python Bool | Java Bool | Swift Bool
 
 -- Returns FilePath of the SRS
 exDirPath :: FilePath -> FilePath -> FilePath -> FilePath
@@ -47,13 +47,6 @@ getSrc names repoRoot source = CS (repoRoot ++ source)
   verName
   (lang $ takeBaseName source)
   where
-    -- Some languages might be named differently than the folders they are stored in.
-    lang "cpp"    = "C++"
-    lang "csharp" = "C#"
-    lang "python" = "Python"
-    lang "java"   = "Java"
-    lang "swift"  = "Swift"
-    lang x        = error ("No given display name for language: " ++ x)
     eDir = takeBaseName $ takeDirectory $ takeDirectory source
     verName = if any (`isInfixOf` eDir) names then eDir else ""
     {-doxygenCheck :: FilePath -> FilePath
@@ -61,7 +54,17 @@ getSrc names repoRoot source = CS (repoRoot ++ source)
       | (takeBaseName (takeDirectory p)) == "swift" || (takeBaseName (takeDirectory p)) == "Swift" = "" 
       | otherwise = p-}
 
--- Checks a CodeSource to make sure the documentation path exists.
+-- Some languages might be named differently than the folders they are stored in.
+-- Also used below now.
+lang :: String -> String
+lang "cpp"    = "C++"
+lang "csharp" = "C#"
+lang "python" = "Python"
+lang "java"   = "Java"
+lang "swift"  = "Swift"
+lang x        = error ("No given display name for language: " ++ x)
+
+{--- Checks a CodeSource to make sure the documentation path exists.
 filePathCheckH :: Bool -> String -> DocsExist
 filePathCheckH exist name
   | name == "C++" = CPP exist
@@ -97,7 +100,7 @@ getBool (Java x) = x
 getBool (Swift x) = x
 
 filePathCheck :: [Bool] -> [String] -> [DocsExist]
-filePathCheck bs ss = map (uncurry filePathCheckH) $ zip bs ss
+filePathCheck bs ss = map (uncurry filePathCheckH) $ zip bs ss-}
 
 ---filePathH :: [([Bool], ([FilePath], [String]))] -> [([Bool], [FilePath], [String])]
 --filePathH [] = []
@@ -111,7 +114,7 @@ filePathCheck bs ss = map (uncurry filePathCheckH) $ zip bs ss
 
 -- Some examples dont generate in all languages so this is meant to fill in the missing ones with a False DocsExist
 -- It doesn't really work either though.
-fillMissingCheck :: [[DocsExist]] -> [[DocsExist]]
+{-fillMissingCheck :: [[DocsExist]] -> [[DocsExist]]
 fillMissingCheck ds = map (\x -> missingCheck x langs) ds
   where missingCheck :: [DocsExist] -> [String]-> [DocsExist] 
         missingCheck [] []= []
@@ -127,7 +130,17 @@ fillMissingCheck ds = map (\x -> missingCheck x langs) ds
         compareLang (Swift _) = "Swift"
 
 langCheck :: String -> String
-langCheck l = if l == "Swift" then "" else l
+langCheck l = if l == "Swift" then "" else l-}
+
+-- helper to filter out "src" and "srs" folders.
+filterDox :: [String] -> [String]
+filterDox dirs 
+  | "doxygen" `elem` dirs = ["doxygen"]
+  | otherwise = []
+
+{-docsGet :: [([String], String)] -> FilePath -> IO [[String]]
+docsGet [] _ = return [[]]
+docsGet (x:xs) fPath = listDirectory (fPath ++ snd x ++ "/" ++ fst.fst x) : docsGet xs fPath-}
 
 mkExamples :: String -> FilePath -> FilePath -> IO [Example]
 mkExamples repoRoot localPath srsDir = do
@@ -146,9 +159,38 @@ mkExamples repoRoot localPath srsDir = do
   descriptions <- mapM (\x -> doesFileExist ("descriptions/" ++ x ++ ".txt") >>=
     \y -> if y then Just . rstrip <$> readFile ("descriptions/" ++ x ++ ".txt") else return Nothing) names
 
-  let docSources = map (map (\(CS _ dPath _ name) -> (dPath, name))) sources
-  docsExistSources <- mapM (mapM doesFileExist) (map (map fst) docSources)
-  let docsExist = fillMissingCheck (map (uncurry filePathCheck) $ zip docsExistSources (map (map snd) docSources))
+  -- let docSources = map (map (\(CS _ dPath _ name) -> (dPath, name))) sources
+
+  -- Meant to take example names then lists directories within examples.
+  -- If the example is projectile, use the first projectile version as a groundbase.
+  -- Then make sure the file actually exists.
+  -- I don't really know how to handle the projectile case, but this seems to work for the other examples.
+  -- Projectile doesn't work at all. Something like the replicate function wouldn't work, would it?
+  docsExist <- mapM (\x ->  (listDirectory (localPath ++ x)) >>= 
+    (\y -> if "doxygen" `elem` y then 
+      (if x == "Projectile" then 
+        listDirectory (localPath ++ x ++ "/doxygen/Projectile_C_P_NoL_B_U_V_D")
+        else listDirectory (localPath ++ x ++ "/doxygen")) 
+      else return []) >>= (\z ->
+    filterM (\a ->  doesFileExist (if x == "Projectile" then
+      localPath ++ x ++ "/doxygen/Projectile_C_P_NoL_B_U_V_D" ++ a ++ "/index.html"
+      -- this part may not be needed if there are no empty directories.
+      else localPath ++ x ++ "/doxygen/" ++ a ++ "/index.html")) z)) names
+
+
+  -- let docsExistSources' = filter (\x -> "doxygen" `elem` x) docsExistSources
+  -- filterM (doesDirectoryExist . (++ "doxygen"))-- >>= filterM (doesDirectoryExist (localPath ++ x ++ "doxygen"))) names -- listDirectory (localPath ++ x ++ "doxygen")) names 
+  -- print docsExist
+  --let docsFilterExist = map filterDox docsExistSources
+  -- let docsZipExist = map (zip docsFilterExist) names
+  --docsExist <- -- docsGet (zip docsFilterExist names) localPath
+  --print docsExist
+  -- >>= \dirs -> 
+    -- findFiles ((localPath ++ x): dirs) "doxygen") names -- >>= \y -> if y then Just <$> x else return Nothing) names
+  -- fst $ map (fst . (map print)) docsExistSources
+  --let docsExist = map (map (\x -> show x)) docsExistSources -- map (map (maybe "" id)) docsExistSources
+  -- docsExistSources <- mapM (mapM doesFileExist) (map (map fst) docSources)
+  -- let docsExist = fillMissingCheck (map (uncurry filePathCheck) $ zip docsExistSources (map (map snd) docSources))
   ---let docsExist = map (uncurry filePathCheck) $ filePathH $ zip docsExistSources (map (map snd) docSources)
   -- creates a list of SRSVariants, so a list of list of tuples.
   -- the outer list has an element for each example.
@@ -220,7 +262,9 @@ mkExampleCtx exampleDir srsDir doxDir =
       field "lang" (return . langName . snd . itemBody) <>
       field "doxPath" (return . (\x -> exDirPath exampleDir (name $ fst x) doxDir ++ doxPath (snd x)) . itemBody) <>
       -- PSEUDO: boolField "doxExist" ((\x -> langName (snd x) `elem` dox (fst x)) . itemBody)
-      boolField "doxExist" ((\x -> langName (snd x) == "Python") . itemBody)
+      -- needs lang to make sure language name styles match up.
+      boolField "doxExist" ((\x -> langName (snd x) `elem` (map lang (dox (fst x)))) . itemBody)
+      --boolField "doxExist" ((\x -> langName (snd x) == "Python") . itemBody)
       -- boolField "doxExist" (getBool . uncurry selectSrc . (\x -> (dox (fst x), langName (snd x))) . itemBody)
       -- Extract each source individually and rewrap as an item
       ) ((\(x,y) -> mapM (makeItem . (x,)) y) . itemBody)) 

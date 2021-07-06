@@ -15,13 +15,11 @@ module Language.Drasil (
   , dim, idx, int, dbl, exactDbl, frac, str, perc, completeCase, incompleteCase
   , sumAll, defsum, prodAll, defprod, defint, intAll
   , realInterval
-  , deriv, pderiv
   , sy -- old "Chunk" constructor C
   , apply, apply1, apply2, applyWithNamedArgs
   , cross, m2x2, vec2D, dgnl2x2
   -- DisplayExpr
   , DisplayExpr
-  , defines, spaceDE, isIn, andDEs, equivDEs
   -- all the stuff from Unicode
   , Special(..), RenderSpecial(..)
   -- UID
@@ -192,11 +190,10 @@ module Language.Drasil (
 ) where
 
 import Prelude hiding (log, sin, cos, tan, sqrt, id, return, print, break, exp, product)
-import Language.Drasil.DisplayExpr
 import Language.Drasil.Expr (Expr(..), UFunc(..), UFuncB, UFuncVV, UFuncVN,
           ArithBinOp, BoolBinOp, EqBinOp, LABinOp, OrdBinOp, VVVBinOp, VVNBinOp,
           AssocArithOper(..), AssocBoolOper(..), 
-          DerivType(..), Completeness(..), Relation,
+          Completeness(..), Relation,
           ($=), ($<), ($<=), ($>), ($>=), ($^), ($&&), ($||), ($=>), ($<=>), ($.),
           ($-), ($/), addI, addRe, mulI, mulRe)
 import Language.Drasil.Expr.Math (abs_, neg, negVec, log, ln, sin, cos, tan, sqrt, sec, 
@@ -207,9 +204,9 @@ import Language.Drasil.Expr.Math (abs_, neg, negVec, log, ln, sin, cos, tan, sqr
           sumAll, defsum, prodAll, defprod,
           realInterval,
           apply, apply1, apply2, applyWithNamedArgs,
-          sy, deriv, pderiv,
+          sy,
           cross, m2x2, vec2D, dgnl2x2, euclidean, defint, intAll)
-import Language.Drasil.Expr.Display
+import Language.Drasil.Display.Expr (DisplayExpr, DerivType(..))
 import Language.Drasil.Document (section, fig, figWithWidth
   , Section(..), SecCons(..) , llcc, ulcc, Document(..)
   , mkParagraph, mkFig, mkRawLC, extractSection

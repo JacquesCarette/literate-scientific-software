@@ -9,6 +9,7 @@ import Data.List (union)
 import qualified Data.List.NonEmpty as NE
 
 import Language.Drasil hiding (DefiningExpr)
+import qualified Language.Drasil.DisplayExpr as DE
 
 -- | 'DefiningExpr' are the data that make up a (quantity) definition, namely
 --   the description, the defining (rhs) expression and the context domain(s).
@@ -50,7 +51,7 @@ instance Definition    MultiDefn where defn     = rDesc
 -- | The complete Relation of a MultiDefn is defined as the quantity and the related expressions being equal
 --   e.g., `q $= a $= b $= ... $= z`
 instance Display       MultiDefn where
-  toDispExpr q = equivDEs $ sy q : NE.toList (NE.map (^. expr) (q ^. rvs))
+  toDispExpr q = DE.equiv $ sy q : NE.toList (NE.map (^. expr) (q ^. rvs))
 
 -- | Smart constructor for MultiDefns, does nothing special at the moment
 mkMultiDefn :: UID -> QuantityDict -> Sentence -> NE.NonEmpty DefiningExpr -> MultiDefn

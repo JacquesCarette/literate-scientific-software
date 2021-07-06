@@ -3,7 +3,7 @@ module Language.Drasil.Sentence.Extract(sdep, shortdep, lnames, lnames') where
 import Data.List (nub)
 import Language.Drasil.UID (UID)
 import Language.Drasil.Sentence(Sentence(..), SentenceStyle(..))
-import Language.Drasil.Expr.Extract (deNames)
+import Language.Drasil.Display.Extract (deDep)
 
 
 -- | Generic traverse of all positions that could lead to /symbolic/ 'UID's from 'Sentence's.
@@ -19,7 +19,7 @@ getUIDs (Ref {})            = []
 getUIDs Percent             = []
 getUIDs ((:+:) a b)         = getUIDs a ++ getUIDs b
 getUIDs (Quote a)           = getUIDs a
-getUIDs (E a)               = deNames a
+getUIDs (E a)               = deDep a
 getUIDs EmptyS              = []
 
 -- | Generic traverse of all positions that could lead to /symbolic/ and /abbreviated/ 'UID's from 'Sentence's

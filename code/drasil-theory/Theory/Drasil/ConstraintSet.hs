@@ -5,6 +5,7 @@ module Theory.Drasil.ConstraintSet (ConstraintSet, mkConstraintSet) where
 import Control.Lens ((^.), makeLenses)
 
 import Language.Drasil
+import qualified Language.Drasil.DisplayExpr as DE
 import qualified Data.List.NonEmpty as NE
 
 -- | 'ConstraintSet's are sets of invariants that always hold for underlying domains.
@@ -27,7 +28,7 @@ instance ConceptDomain ConstraintSet where cdom  = cdom . (^. con)
 -- | The complete DisplayExpr of a ConstraintSet is the logical conjunction of
 --   all the underlying relations (e.g., `a $&& b $&& ... $&& z`).
 instance Display       ConstraintSet where
-    toDispExpr = andDEs . map toDispExpr . NE.toList . (^. invs)
+    toDispExpr = DE.and . map toDispExpr . NE.toList . (^. invs)
 
 -- | Smart constructor for building ConstraintSets
 mkConstraintSet :: ConceptChunk -> NE.NonEmpty Relation -> ConstraintSet

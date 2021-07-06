@@ -11,7 +11,7 @@ import Language.Drasil.Classes (NamedIdea(term), Idea(getA),
   ConceptDomain(cdom), Display(toDispExpr))
 import Language.Drasil.Chunk.Quantity (QuantityDict, mkQuant, mkQuant', qw)
 
-import Language.Drasil.Expr.Display (defines)
+import Language.Drasil.DisplayExpr (defines)
 import Language.Drasil.Expr (Expr)
 import Language.Drasil.Expr.Math (sy)
 import Language.Drasil.NounPhrase (NP)

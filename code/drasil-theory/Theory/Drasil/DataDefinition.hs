@@ -3,6 +3,7 @@ module Theory.Drasil.DataDefinition where
 
 import Control.Lens (makeLenses, (^.), view)
 import Language.Drasil
+import qualified Language.Drasil.DisplayExpr as DE
 import Data.Drasil.TheoryConcepts (dataDefn)
 
 -- | A scope is an indirect reference to a 'UID'.
@@ -40,7 +41,7 @@ instance Quantity           DataDefinition where
 -- | Finds the defining expression of the 'QDefinition' used to make the 'DataDefinition'.
 instance DefiningExpr       DataDefinition where defnExpr = qd . defnExpr
 -- | Converts the defining expression of a 'DataDefinition' into the display language.
-instance Display            DataDefinition where toDispExpr d = defines (sy d) (d ^. defnExpr)
+instance Display            DataDefinition where toDispExpr d = DE.defines (sy d) (d ^. defnExpr)
 -- | Finds 'Reference's contained in the 'DataDefinition'.
 instance HasReference       DataDefinition where getReferences = rf
 -- | Equal if 'UID's are equal.

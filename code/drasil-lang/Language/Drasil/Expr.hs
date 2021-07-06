@@ -92,10 +92,6 @@ data Expr where
   AssocA   :: AssocArithOper -> [Expr] -> Expr
   -- | Takes an associative boolean operator with a list of expressions.
   AssocB   :: AssocBoolOper  -> [Expr] -> Expr
-  -- | Derivative syntax is:
-  --   Type ('Part'ial or 'Total') -> principal part of change -> with respect to
-  --   For example: Deriv Part y x1 would be (dy/dx1).
-  Deriv    :: DerivType -> Expr -> UID -> Expr
   -- | C stands for "Chunk", for referring to a chunk in an expression.
   --   Implicitly assumes that the chunk has a symbol.
   C        :: UID -> Expr
@@ -227,10 +223,6 @@ a $|| b = AssocB Or  [a, b]
 -- | The variable type is just a renamed 'String'.
 type Variable = String
 
--- | Determines the type of the derivative (either a partial derivative or a total derivative).
-data DerivType = Part | Total
-  deriving Eq
-
 -- instance Num Expr where
 --   (Int 0)        + b              = b
 --   a              + (Int 0)        = a
@@ -260,7 +252,6 @@ instance Eq Expr where
   Str a               == Str b               =   a == b
   AssocA o1 l1        == AssocA o2 l2        =  o1 == o2 && l1 == l2
   AssocB o1 l1        == AssocB o2 l2        =  o1 == o2 && l1 == l2
-  Deriv t1 a b        == Deriv t2 c d        =  t1 == t2 && a == c && b == d
   C a                 == C b                 =   a == b
   FCall a b c         == FCall d e f         =   a == d && b == e && c == f
   Case a b            == Case c d            =   a == c && b == d 

@@ -3,21 +3,13 @@ module Language.Drasil.Expr.Extract where
 import Data.List (nub)
 
 import Language.Drasil.Expr (Expr(..))
-import Language.Drasil.DisplayExpr
 import Language.Drasil.Space (RealInterval(..))
-
--- | Generic traverse of all display expressions that could lead to names.
-deNames :: DisplayExpr -> [String]
-deNames (AlgebraicExpr e)  = eNames e
-deNames (SpaceExpr _)      = []
-deNames (BinOp _ l r)      = deNames l ++ deNames r
-deNames (AssocBinOp _ des) = concatMap deNames des
 
 -- | Generic traverse of all expressions that could lead to names.
 eNames :: Expr -> [String]
 eNames (AssocA _ l)          = concatMap eNames l
 eNames (AssocB _ l)          = concatMap eNames l
-eNames (Deriv _ a b)         = b : eNames a
+-- eNames (Deriv _ a b)         = b : eNames a
 eNames (C c)                 = [c]
 eNames Int{}                 = []
 eNames Dbl{}                 = []
@@ -48,20 +40,12 @@ eNamesRI (Bounded (_, il) (_, iu)) = eNames il ++ eNames iu
 eNamesRI (UpTo (_, iu))            = eNames iu
 eNamesRI (UpFrom (_, il))          = eNames il
 
--- | Generic traverse of all display expressions that could lead to names (same as 'deNames').
-deNames' :: DisplayExpr -> [String]
-deNames' (AlgebraicExpr e)  = eNames e
-deNames' (SpaceExpr _)      = []
-deNames' (BinOp _ l r)      = deNames l ++ deNames r
-deNames' (AssocBinOp _ des) = concatMap deNames des
-
 -- | Generic traverse of all positions that could lead to 'eNames' without
 -- functions.  FIXME : this should really be done via post-facto filtering, but
 -- right now the information needed to do this is not available!
 eNames' :: Expr -> [String]
 eNames' (AssocA _ l)          = concatMap eNames' l
 eNames' (AssocB _ l)          = concatMap eNames' l
-eNames' (Deriv _ a b)         = b : eNames' a
 eNames' (C c)                 = [c]
 eNames' Int{}                 = []
 eNames' Dbl{}                 = []
@@ -99,10 +83,3 @@ eNamesRI' (UpFrom il)     = eNames' (snd il)
 -- | Get dependencies from an equation.  
 eDep :: Expr -> [String]
 eDep = nub . eNames
-
--- | Get dependencies from display expressions.
-deDep :: DisplayExpr -> [String]
-deDep (AlgebraicExpr e)  = eDep e
-deDep (SpaceExpr _)      = []
-deDep (BinOp _ l r)      = nub $ deDep l ++ deDep r
-deDep (AssocBinOp _ des) = nub $ concatMap deDep des 

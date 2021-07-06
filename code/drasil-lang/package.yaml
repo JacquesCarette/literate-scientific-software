@@ -25,6 +25,7 @@ library:
   - Language.Drasil
   - Language.Drasil.Development
   - Language.Drasil.Display
+  - Language.Drasil.DisplayExpr
   - Language.Drasil.ShortHands
   when:
   - condition: false

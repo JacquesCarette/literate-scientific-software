@@ -4,7 +4,7 @@ module Language.Drasil.Expr.Math where
 import Prelude hiding (sqrt)
 import Control.Lens ((^.))
 import Language.Drasil.Symbol (Symbol)
-import Language.Drasil.Expr (Expr(..), Relation, DerivType(..), ($^), ($/), AssocArithOper(..),
+import Language.Drasil.Expr (Expr(..), Relation, ($^), ($/), AssocArithOper(..),
   LABinOp(..), VVVBinOp(..), UFunc(..), UFuncB(..), UFuncVN(..), UFuncVV(..), Completeness(..), addRe)
 import Language.Drasil.Space (RTopology(..), DomainDesc(..), RealInterval)
 import Language.Drasil.Classes.Core (HasUID(uid), HasSymbol)
@@ -177,9 +177,11 @@ oneThird = frac 1 3
 -- | Matrix helper function.
 m2x2 :: Expr -> Expr -> Expr -> Expr -> Expr
 m2x2 a b c d = Matrix [[a,b],[c,d]]
+
 -- | Matrix helper function.
 vec2D :: Expr -> Expr -> Expr
 vec2D a b    = Matrix [[a],[b]]
+
 -- | Matrix helper function.
 dgnl2x2 :: Expr -> Expr -> Expr
 dgnl2x2 a  = m2x2 a (Int 0) (Int 0)
@@ -211,9 +213,3 @@ applyWithNamedArgs f ps ns = FCall (f ^. uid) ps (zip (map ((^. uid) . fst) ns)
 -- | Get an 'Expr' from a 'Symbol'.
 sy :: (HasUID c, HasSymbol c) => c -> Expr
 sy x = C (x ^. uid)
-
--- This also wants a symbol constraint.
--- | Gets the derivative of an 'Expr' with respect to a 'Symbol'.
-deriv, pderiv :: (HasUID c, HasSymbol c) => Expr -> c -> Expr
-deriv e c = Deriv Total e (c^.uid)
-pderiv e c = Deriv Part e (c^.uid)

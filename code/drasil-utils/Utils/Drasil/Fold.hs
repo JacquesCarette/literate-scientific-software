@@ -4,6 +4,7 @@ module Utils.Drasil.Fold (EnumType(..), WrapType(..), SepType(..), FoldType(..),
   foldlSent, foldlSent_, foldlSentCol, foldlsC, foldNums, numList) where
 
 import Language.Drasil
+import qualified Language.Drasil.DisplayExpr as DE
 import qualified Utils.Drasil.Sentence as S (and_, or_)
 
 -- | Fold helper function that applies f to all but the last element, applies g to
@@ -25,7 +26,7 @@ foldle1 f g (x:y:xs) = foldle f g (f x y) xs
 -- | Helper for formatting constraints.
 foldConstraints :: Quantity c => c -> [ConstraintE] -> Sentence
 foldConstraints _ [] = EmptyS
-foldConstraints c e  = E $ andDEs $ map constraintToExpr e
+foldConstraints c e  = E $ DE.and $ map constraintToExpr e
   where
     constraintToExpr (Range _ ri)         = toDispExpr $ realInterval c ri
 

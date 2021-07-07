@@ -13,7 +13,6 @@ import Data.List (nub)
 eNames :: CodeExpr -> [String]
 eNames (AssocA _ l)          = concatMap eNames l
 eNames (AssocB _ l)          = concatMap eNames l
-eNames (Deriv _ a b)         = b : eNames a
 eNames (C c)                 = [c]
 eNames Int{}                 = []
 eNames Dbl{}                 = []
@@ -55,7 +54,6 @@ eNamesRI (UpFrom (_, il))         = eNames il
 eNames' :: CodeExpr -> [String]
 eNames' (AssocA _ l)          = concatMap eNames' l
 eNames' (AssocB _ l)          = concatMap eNames' l
-eNames' (Deriv _ a b)         = b : eNames' a
 eNames' (C c)                 = [c]
 eNames' Int{}                 = []
 eNames' Dbl{}                 = []

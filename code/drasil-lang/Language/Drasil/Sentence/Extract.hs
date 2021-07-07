@@ -39,6 +39,7 @@ getUIDshort (Quote a)           = getUIDshort a
 getUIDshort (E _)               = []
 getUIDshort EmptyS              = []
 
+-- TODO: Should this be exported by the Language.Drasil file or the Language.Drasil.Display file?
 -----------------------------------------------------------------------------
 -- And now implement the exported traversals all in terms of the above
 -- | This is to collect /symbolic/ 'UID's that are printed out as a 'Symbol'.

@@ -292,6 +292,9 @@ sliceHghtRightDD = dd sliceHghtRightQD [ref fredlund1977] Nothing
 sliceHghtLeftDD = dd sliceHghtLeftQD [ref fredlund1977] Nothing
   "sliceHghtLeftDD" []--Notes
 
+-- TODO: These 4 below QDefinitions need to have their smart constructor changed to something else, or the `ec` smart constructor fixed.
+--       `ec` is noted as containing a hack right now.
+
 nrmForceSumQD :: QDefinition
 nrmForceSumQD = ec nrmForceSum (inxi intNormForce `addRe` inxiM1 intNormForce)
 

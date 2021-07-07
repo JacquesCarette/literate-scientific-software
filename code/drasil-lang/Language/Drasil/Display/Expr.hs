@@ -4,9 +4,6 @@ module Language.Drasil.Display.Expr (DisplayExpr(..),
   UOp(..), BinOp(..), AssocBinOp(..),
   DerivType(..)) where
 
-import Control.Lens ((^.))
-
-import Language.Drasil.Classes.Core (HasSymbol, HasUID(..))
 import Language.Drasil.Expr (Completeness(..))
 import Language.Drasil.Space (RealInterval, DomainDesc, Space)
 import Language.Drasil.UID (UID)
@@ -83,12 +80,3 @@ data DisplayExpr where
   --   Type ('Part'ial or 'Total') -> principal part of change -> with respect to
   --   For example: Deriv Part y x1 would be (dy/dx1).
   Deriv         :: DerivType -> DisplayExpr -> UID -> DisplayExpr
-
-
--- TODO: -- This also wants a symbol constraint.
--- TODO: -- | Gets the derivative of an 'Expr' with respect to a 'Symbol'.
--- TODO: deriv, pderiv :: (HasUID c, HasSymbol c) => DisplayExpr -> c -> DisplayExpr
--- TODO: deriv e c = Deriv Total e (c ^. uid)
--- TODO: pderiv e c = Deriv Part e (c ^. uid)
-
-

@@ -15,9 +15,9 @@ class Theory t where
   spaces        :: Lens' t [SpaceDefn]
   quantities    :: Lens' t [QuantityDict]
   operations    :: Lens' t [ConceptChunk] -- FIXME: Should not be Concept
-  defined_quant :: Lens' t [QDefinition]
+  defined_quant :: Lens' t [DQDefinition]
   invariants    :: Lens' t [DisplayExpr]  -- TODO: temporary hack until designed, previously `Lens' t [Relation]`
-  defined_fun   :: Lens' t [QDefinition]
+  defined_fun   :: Lens' t [DQDefinition]
 
 data SpaceDefn -- FIXME: This should be defined.
 
@@ -46,10 +46,10 @@ data TheoryModel = TM
   , _spc   :: [SpaceDefn]
   , _quan  :: [QuantityDict]
   , _ops   :: [ConceptChunk]
-  , _defq  :: [QDefinition]
+  , _defq  :: [DQDefinition]
   , _invs  :: [DisplayExpr]
-  , _dfun  :: [QDefinition]
-  , _rf   :: [Reference]
+  , _dfun  :: [DQDefinition]
+  , _rf    :: [Reference]
   ,  lb    :: ShortName
   ,  ra    :: String
   , _notes :: [Sentence]
@@ -103,21 +103,21 @@ instance Referable TheoryModel where
 -- have the same type!
 -- | Constructor for theory models.
 tm :: (Quantity q, MayHaveUnit q, Concept c) => ModelKinds ->
-    [q] -> [c] -> [QDefinition] ->
-    [DisplayExpr] -> [QDefinition] -> [Reference] ->
+    [q] -> [c] -> [DQDefinition] ->
+    [DisplayExpr] -> [DQDefinition] -> [Reference] ->
     String -> [Sentence] -> TheoryModel
 tm mk = tm' (mk ^. uid) mk
 
 -- | Constructor for theory models with no references. 
 tmNoRefs :: (Quantity q, MayHaveUnit q, Concept c) => ModelKinds ->
-    [q] -> [c] -> [QDefinition] -> [DisplayExpr] -> [QDefinition] -> 
+    [q] -> [c] -> [DQDefinition] -> [DisplayExpr] -> [DQDefinition] -> 
     String -> [Sentence] -> TheoryModel
 tmNoRefs mk = tmNoRefs' (mk ^. uid) mk
 
 -- | Constructor for theory models. Must have a source. Uses the shortname of the reference address.
 tm' :: (Quantity q, MayHaveUnit q, Concept c) => UID -> ModelKinds ->
-    [q] -> [c] -> [QDefinition] ->
-    [DisplayExpr] -> [QDefinition] -> [Reference] ->
+    [q] -> [c] -> [DQDefinition] ->
+    [DisplayExpr] -> [DQDefinition] -> [Reference] ->
     String -> [Sentence] -> TheoryModel
 tm' u _  _ _ _  _   _   [] _   = error $ "Source field of " ++ u ++ " is empty"
 tm' u mk q c dq inv dfn r  lbe = 
@@ -126,7 +126,7 @@ tm' u mk q c dq inv dfn r  lbe =
 
 -- | Constructor for theory models. Uses the shortname of the reference address.
 tmNoRefs' :: (Quantity q, MayHaveUnit q, Concept c) => UID -> ModelKinds ->
-    [q] -> [c] -> [QDefinition] -> [DisplayExpr] -> [QDefinition] -> 
+    [q] -> [c] -> [DQDefinition] -> [DisplayExpr] -> [DQDefinition] -> 
     String -> [Sentence] -> TheoryModel
 tmNoRefs' u mk q c dq inv dfn lbe = 
   TM u (cw mk) [] [] (map qw q) (map cw c) dq inv dfn [] (shortname' $ S lbe)

@@ -1,8 +1,23 @@
 {-# OPTIONS_GHC -fno-warn-redundant-constraints #-}
 
-module Language.Drasil.DisplayExpr where
+module Language.Drasil.DisplayExpr (
+    DisplayExpr
+  , deriv, pderiv
+  , space
+  , isIn
+  , and, equiv
+  , add, mul
+  , ($=), ($!=), ($<), ($>), ($<=), ($>=), ($.)
+  , ($-), ($/), ($^), ($=>), ($<=>), ($&&), ($||)
+  , abs_, neg, log, ln, sqrt, sin, cos, tan, sec, csc, cot, arcsin
+  , arccos, arctan, exp, dim, norm, not_, idx, int, dbl, exactDbl, recip_
+  , str, frac, perc, defint, defsum, defprod, intAll, sumAll, prodAll
+  , realInterval, euclidean, sum', cross, completeCase, incompleteCase
+  , square, half, oneHalf, oneThird, m2x2, vec2D, dgnl2x2
+  , apply, apply1, apply2, applyWithNamedArgs, sy, defines
+) where
 
-import Prelude hiding (sqrt)
+import Prelude hiding (sqrt, and, sin, cos, tan, log, exp)
 
 import Control.Lens ((^.))
 
@@ -15,6 +30,10 @@ import Language.Drasil.Classes.Core (HasUID(uid), HasSymbol)
 import Language.Drasil.Classes (IsArgumentName)
 
 
+-- | Gets the derivative of an 'Expr' with respect to a 'Symbol'.
+deriv, pderiv :: (HasUID c, HasSymbol c) => DisplayExpr -> c -> DisplayExpr
+deriv e c = Deriv Total e (c ^. uid)
+pderiv e c = Deriv Part e (c ^. uid)
 
 -- | One expression is "defined" by another.
 defines :: (Display a, Display b) => a -> b -> DisplayExpr
@@ -204,7 +223,7 @@ idx = BinaryOp Index
 -- | Smart constructor for integers.
 int :: Integer -> DisplayExpr
 int = Int
-
+ 
 -- | Smart constructor for doubles.
 dbl :: Double -> DisplayExpr
 dbl = Dbl

@@ -72,7 +72,10 @@ module Language.Drasil (
   , ConstrainedChunk(..), ConstrConcept(..)
   , cuc, cvc, constrained', cuc', cuc'', constrainedNRV'
   , cnstrw, cnstrw'
-  -- Chunk.Eq
+  -- Chunk.DQDefinition
+  , DQDefinition, fromEqnD, fromEqnD', fromEqnDSt
+  , fromEqnDSt', mkDQDefSt, mkDQuantDef, mkDQuantDef'
+  -- Chunk.QDefinition
   , QDefinition, fromEqn, fromEqn', fromEqnSt, fromEqnSt', equat
   , mkQDefSt, mkQuantDef, mkQuantDef', ec
   -- Chunk.Quantity
@@ -250,7 +253,9 @@ import Language.Drasil.Chunk.Constrained
 import Language.Drasil.Constraint (physc, sfwrc, isPhysC, isSfwrC,
   Constraint(..), ConstraintE, ConstraintReason(..))
 import Language.Drasil.Chunk.DefinedQuantity
-import Language.Drasil.Chunk.Eq (QDefinition, fromEqn, fromEqn', fromEqnSt, 
+import Language.Drasil.Chunk.DQDefinition (DQDefinition, fromEqnD, fromEqnD', fromEqnDSt,
+  fromEqnDSt', mkDQDefSt, mkDQuantDef, mkDQuantDef')
+import Language.Drasil.Chunk.QDefinition (QDefinition, fromEqn, fromEqn', fromEqnSt, 
   fromEqnSt', equat, mkQDefSt, mkQuantDef, mkQuantDef', ec)
 import Language.Drasil.Chunk.NamedArgument (NamedArgument, narg)
 import Language.Drasil.Chunk.NamedIdea

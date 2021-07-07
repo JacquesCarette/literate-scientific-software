@@ -2,7 +2,7 @@
 
 module Language.Drasil.Code.Expr where
 
-import Language.Drasil (UID, DomainDesc, Completeness, DerivType, RealInterval)
+import Language.Drasil (UID, DomainDesc, Completeness, RealInterval)
 
 -- Binary functions
 
@@ -76,10 +76,6 @@ data CodeExpr where
   AssocA   :: AssocArithOper -> [CodeExpr] -> CodeExpr
   -- | Takes an associative boolean operator with a list of expressions.
   AssocB   :: AssocBoolOper  -> [CodeExpr] -> CodeExpr
-  -- | Derivative syntax is:
-  --   Type ('Part'ial or 'Total') -> principal part of change -> with respect to
-  --   For example: Deriv Part y x1 would be (dy/dx1).
-  Deriv    :: DerivType -> CodeExpr -> UID -> CodeExpr
   -- | C stands for "Chunk", for referring to a chunk in an expression.
   --   Implicitly assumes that the chunk has a symbol.
   C        :: UID -> CodeExpr

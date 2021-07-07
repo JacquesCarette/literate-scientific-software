@@ -2,6 +2,6 @@
 module Language.Drasil.Display (
     -- Symbol
     Decoration(..), Symbol(..), compsy
-    ) where
+) where
 
 import Language.Drasil.Symbol (Decoration(..), Symbol(..), compsy)

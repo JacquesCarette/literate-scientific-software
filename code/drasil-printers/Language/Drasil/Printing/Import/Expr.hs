@@ -125,14 +125,6 @@ expr (AssocA AddI l)          sm = assocExpr P.Add (precA AddI) l sm
 expr (AssocA AddRe l)         sm = assocExpr P.Add (precA AddRe) l sm
 expr (AssocA MulI l)          sm = P.Row $ mulExpr l MulI sm
 expr (AssocA MulRe l)         sm = P.Row $ mulExpr l MulRe sm
-expr (Deriv Part a b)         sm =
-  P.Div (P.Row [P.Spc P.Thin, P.Spec Partial, expr a sm])
-        (P.Row [P.Spc P.Thin, P.Spec Partial,
-                symbol $ lookupC (sm ^. stg) (sm ^. ckdb) b])
-expr (Deriv Total a b)        sm =
-  P.Div (P.Row [P.Spc P.Thin, P.Ident "d", expr a sm])
-        (P.Row [P.Spc P.Thin, P.Ident "d",
-                symbol $ lookupC (sm ^. stg) (sm ^. ckdb) b])
 expr (C c)                    sm = symbol $ lookupC (sm ^. stg) (sm ^. ckdb) c
 expr (FCall f [x] [])         sm =
   P.Row [symbol $ lookupC (sm ^. stg) (sm ^. ckdb) f, parens $ expr x sm]

@@ -9,6 +9,7 @@ module Utils.Drasil.Misc (addPercent, bulletFlat, bulletNested, checkValidStr,
 
 import Language.Drasil
 import Language.Drasil.Display
+import qualified Language.Drasil.DisplayExpr as DE
 import Utils.Drasil.Fold (FoldType(List), SepType(Comma), foldlList, foldlSent)
 import qualified Utils.Drasil.Sentence as S (are, in_, is, toThe)
 
@@ -213,15 +214,16 @@ fromSources rs = sParen (S "from" +:+ foldlList Comma List (map refS rs))
 getTandS :: (Quantity a) => a -> Sentence
 getTandS a = phrase a +:+ ch a
 
+-- TODO: The below 2 functions should eventually creating Sets instead of discrete spaces
 -- | Produces a 'Sentence' that displays the constraints in a set {}.
 displayStrConstrntsAsSet :: Quantity a => a -> [String] -> Sentence
 displayStrConstrntsAsSet sym listOfVals = eS $ 
-  isIn (sy sym) (spaceDE $ DiscreteS listOfVals)
+  DE.isIn (DE.sy sym) (DE.space $ DiscreteS listOfVals)
 
 -- | Produces a 'Sentence' that displays the constraints in a set {}.
 displayDblConstrntsAsSet :: Quantity a => a -> [Double] -> Sentence
 displayDblConstrntsAsSet sym listOfVals = eS $ 
-  isIn (sy sym) (spaceDE $ DiscreteD listOfVals)
+  DE.isIn (DE.sy sym) (DE.space $ DiscreteD listOfVals)
 
 -- | Output is of the form "@reference - sentence@".
 chgsStart :: (HasShortName x, Referable x) => x -> Sentence -> Sentence

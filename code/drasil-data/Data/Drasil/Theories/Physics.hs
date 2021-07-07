@@ -16,7 +16,7 @@ import qualified Data.Drasil.Quantities.Physics as QP (acceleration, velocity, p
   angularAccel, speed)
 import Data.Drasil.Equations.Defining.Physics (newtonSLQD, newtonSLDesc, weightEqn,
   weightDerivAccelEqn, weightDerivNewtonEqn, weightDerivReplaceMassEqn, weightDerivSpecWeightEqn,
-  hsPressureEqn, accelerationQD, velocityQD, speedEqn)
+  hsPressureEqn, accelerationDQD, velocityDQD, speedEqn)
 
 physicsTMs :: [TheoryModel]
 physicsTMs = [newtonSL]
@@ -123,10 +123,10 @@ newtonSLR = tmNoRefs' "newtonSLR" (EquationalModel newtonSLRQD)
   [qw QP.torque, qw QP.momentOfInertia, qw QP.angularAccel] 
   ([] :: [ConceptChunk]) [newtonSLRQD] [] [] "NewtonSecLawRotMot" newtonSLRNotes
 
-newtonSLRQD :: QDefinition
-newtonSLRQD = mkQuantDef' QP.torque (nounPhraseSP "Newton's second law for rotational motion") newtonSLRExpr
+newtonSLRQD :: DQDefinition
+newtonSLRQD = mkDQuantDef' QP.torque (nounPhraseSP "Newton's second law for rotational motion") newtonSLRExpr
 
-newtonSLRExpr :: Expr
+newtonSLRExpr :: DisplayExpr
 newtonSLRExpr = sy QP.momentOfInertia `mulRe` sy QP.angularAccel
 
 newtonSLRNotes :: [Sentence]
@@ -138,13 +138,13 @@ newtonSLRNotes = map foldlSent [
 --
 
 accelerationTM :: TheoryModel
-accelerationTM = tm' "accelerationTM" (EquationalModel accelerationQD)
-  [qw QP.acceleration, qw QP.velocity, qw QP.time] ([] :: [ConceptChunk]) [accelerationQD] [] []
+accelerationTM = tm' "accelerationTM" (DEqModel accelerationDQD)
+  [qw QP.acceleration, qw QP.velocity, qw QP.time] ([] :: [ConceptChunk]) [accelerationDQD] [] []
   [ref accelerationWiki] "acceleration" []
 
 ----------
 
 velocityTM :: TheoryModel
-velocityTM = tm' "velocityTM" (EquationalModel velocityQD)
-  [qw QP.velocity, qw QP.position, qw QP.time] ([] :: [ConceptChunk]) [velocityQD] [] []
+velocityTM = tm' "velocityTM" (DEqModel velocityDQD)
+  [qw QP.velocity, qw QP.position, qw QP.time] ([] :: [ConceptChunk]) [velocityDQD] [] []
   [ref velocityWiki] "velocity" []

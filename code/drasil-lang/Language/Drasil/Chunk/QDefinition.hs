@@ -1,5 +1,6 @@
 {-# LANGUAGE TemplateHaskell #-}
-module Language.Drasil.Chunk.Eq (QDefinition, fromEqn, fromEqn', fromEqnSt,
+
+module Language.Drasil.Chunk.QDefinition (QDefinition, fromEqn, fromEqn', fromEqnSt,
   fromEqnSt', equat, mkQDefSt, mkQuantDef, mkQuantDef', ec) where
 
 import Control.Lens ((^.), makeLenses, view)
@@ -14,7 +15,7 @@ import Language.Drasil.Chunk.Quantity (QuantityDict, mkQuant, mkQuant', qw)
 import Language.Drasil.DisplayExpr (defines)
 import Language.Drasil.Expr (Expr)
 import Language.Drasil.Expr.Math (sy)
-import Language.Drasil.NounPhrase (NP)
+import Language.Drasil.NounPhrase.Core (NP)
 import Language.Drasil.Space (Space)
 import Language.Drasil.Sentence (Sentence(EmptyS))
 import Language.Drasil.Stages (Stage)

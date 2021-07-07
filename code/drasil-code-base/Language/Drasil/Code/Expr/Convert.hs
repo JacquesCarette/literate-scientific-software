@@ -18,7 +18,6 @@ expr (L.Str s) = Str s
 expr (L.Perc n d) = Perc n d
 expr (L.AssocA ao es) = AssocA (assocArithOp ao) $ map expr es
 expr (L.AssocB bo es) = AssocB (assocBoolOp bo) $ map expr es
-expr (L.Deriv dt e u) = Deriv dt (expr e) u
 expr (L.C u) = C u
 expr (L.FCall u es ns) = FCall u (map expr es) (map (second expr) ns)
 expr (L.Case c es) = Case c $ map (bimap expr expr) es

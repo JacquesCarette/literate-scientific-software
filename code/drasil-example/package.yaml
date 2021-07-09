@@ -65,7 +65,7 @@ executables:
     - Drasil.DblPendulum.IMods
     - Drasil.DblPendulum.Requirements
     - Drasil.DblPendulum.Unitals
-    - Drasil.Projectile.References
+    - Drasil.DblPendulum.References
 
   gamephysics:
     main: Drasil.GamePhysics.Main

@@ -2,7 +2,8 @@ module Data.Drasil.Citations where
 
 import Language.Drasil --(S,(:+:),(+:+),sC,phrase,F,Accent(..),Citation(..),CiteField(..))
 import Data.Drasil.People (dParnas, jRalyte, lLai, nKoothoor, nKraiem, 
-  pcClements, pjAgerfalk, spencerSmith, mCampidelli, dmWiess, rodPierce, wikiAuthors)
+  pcClements, pjAgerfalk, spencerSmith, mCampidelli, dmWiess, rodPierce, 
+  wikiAuthors, rcHibbeler)
 
 ---------------
 -- CITATIONS --
@@ -10,7 +11,8 @@ import Data.Drasil.People (dParnas, jRalyte, lLai, nKoothoor, nKraiem,
 
 -- Papers
 campidelli, koothoor2013, parnas1972, parnasClements1984,
-  parnasClements1986, smithLai2005, lineSource, pointSource :: Citation
+  parnasClements1986, smithLai2005, lineSource, pointSource,
+  hibbeler2004 :: Citation
 
 campidelli = cBooklet
   "Glass-BR Software for the design and risk assessment of glass facades subjected to blast loading"
@@ -61,6 +63,11 @@ pointSource = cMisc
   howPublishedU "https://www.mathsisfun.com/geometry/point.html",
   month May, year 2017]
   "pointSource"
+
+hibbeler2004 = cBookA [rcHibbeler]
+  "Engineering Mechanics: Dynamics"
+  "Pearson Prentice Hall"
+  2004 [] "hibbeler2004"
 
 -- Wikipedia
 dampingSource, accelerationWiki, velocityWiki, cartesianWiki, laplaceWiki, pidWiki :: Citation

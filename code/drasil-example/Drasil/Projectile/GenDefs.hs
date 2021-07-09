@@ -23,7 +23,7 @@ import Drasil.Projectile.Concepts (rectVel)
 import qualified Drasil.Projectile.Expressions as E (speed', rectVelDerivEqn1, rectVelDerivEqn2,
   scalarPos', rectPosDerivEqn1, rectPosDerivEqn2, rectPosDerivEqn3, velVecExpr, posVecExpr,
   positionXY, velocityXY, accelerationXY, constAccelXY)
-import Drasil.Projectile.References (hibbeler2004)
+import Data.Drasil.Citations (hibbeler2004)
 import Drasil.Projectile.Unitals (projSpeed)
 
 genDefns :: [GenDefn]

@@ -173,6 +173,12 @@ A pendulum consists of mass attached to the end of a rod and its moving curve is
 
 The following section provides an overview of the Software Requirements Specification (SRS) for Pendulum. This section explains the purpose of this document, the scope of the requirements, the characteristics of the intended reader, and the organization of the document.
 
+\subsection{Purpose of Document}
+\label{Sec:DocPurpose}
+The primary purpose of this document is to record the requirements of the Pendulum. Goals, assumptions, theoretical models, definitions, and other model derivation information are specified, allowing the reader to fully understand and verify the purpose and scientific basis of Pendulum. With the exception of \hyperref[Sec:SysConstraints]{system constraints}, this SRS will remain abstract, describing what problem is being solved, but not how to solve it.
+
+This document will be used as a starting point for subsequent development phases, including writing the design specification and the software verification and validation plan. The design document will show how the requirements are to be realized, including decisions on the numerical algorithms and programming environment. The verification and validation plan will show the steps that will be used to increase confidence in the software documentation and the implementation. Although the SRS fits in a series of documents that follow the so-called waterfall model, the actual development process is not constrained in any way. Even when the waterfall model is not followed, as Parnas and Clements point out \cite{parnasClements1986}, the most logical way to present the documentation is still to ``fake'' a rational design process.
+
 \subsection{Scope of Requirements}
 \label{Sec:ReqsScope}
 The scope of the requirements includes the analysis of a two-dimensional (2D) pendulum motion problem with various initial conditions..
@@ -1318,6 +1324,16 @@ author={Hibbeler, R. C.},
 title={Engineering Mechanics: Dynamics},
 publisher={Pearson Prentice Hall},
 year={2004}}
+@article{parnasClements1986,
+author={Parnas, David L. and Clements, P. C.},
+title={A rational design process: How and why to fake it},
+journal={IEEE Transactions on Software Engineering},
+year={1986},
+month=feb,
+volume={12},
+number={2},
+pages={251--257},
+address={Washington, USA}}
 @misc{accelerationWiki,
 author={Wikipedia Contributors},
 title={Acceleration},

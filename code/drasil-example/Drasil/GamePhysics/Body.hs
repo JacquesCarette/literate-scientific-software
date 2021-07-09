@@ -18,7 +18,7 @@ import Drasil.DocLang (DerivationDisplay(..), DocSection(..), Emphasis(..),
   OffShelfSolnsSec(..), GSDSec(..), GSDSub(..), TraceabilitySec(TraceabilityProg),
   ReqrmntSec(..), ReqsSub(..), AuxConstntSec(..), ProblemDescription(PDProg),
   PDSub(..), intro, mkDoc, tsymb, traceMatStandard, solutionLabel, purpDoc, getTraceConfigUID,
-  secRefs, fillTraceSI)
+  secRefs, fillTraceSI, traceyGraphGetRefs)
 import qualified Drasil.DocLang.SRS as SRS
 import Data.Drasil.Concepts.Computation (algorithm)
 import Data.Drasil.Concepts.Documentation as Doc (assumption, concept,
@@ -446,7 +446,7 @@ offShelfSols3DList = LlC $ enumBullet solutionLabel [
 
 -- References --
 bodyRefs :: [Reference]
-bodyRefs = ref sysCtxFig1: map ref concIns ++ map ref section ++ map (ref.makeTabRef.getTraceConfigUID) (traceMatStandard si)
+bodyRefs = ref sysCtxFig1: map ref concIns ++ map ref section ++ map (ref.makeTabRef.getTraceConfigUID) (traceMatStandard si) ++ traceyGraphGetRefs "GamePhysics"
 
 allRefs :: [Reference]
 allRefs = nub (assumpRefs ++ bodyRefs ++ chgRefs ++ goalRefs ++ dataDefRefs ++ genDefRefs

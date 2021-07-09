@@ -1,16 +1,40 @@
-module Drasil.DocumentLanguage.TraceabilityGraph (mkGraphInfo) where
+{-# LANGUAGE PostfixOperators #-}
+module Drasil.DocumentLanguage.TraceabilityGraph where
 
 import Language.Drasil
 import Database.Drasil hiding (cdb)
 import Control.Lens ((^.))
 import qualified Data.Map as Map
 import Drasil.DocumentLanguage.TraceabilityMatrix (TraceViewCat, traceMReferees, traceMReferrers,
-  traceMColumns, ensureItems, layoutUIDs)
+  traceMColumns, ensureItems, layoutUIDs, traceMIntro)
 import Drasil.Sections.TraceabilityMandGs (tvAssumps,
   tvDataDefns, tvGenDefns, tvTheoryModels, tvInsModels, tvGoals, tvReqs,
   tvChanges)
+import qualified Drasil.DocLang.SRS as SRS
 import Language.Drasil.Printers (GraphInfo(..), NodeFamily(..))
 import Data.Maybe (fromMaybe)
+import Data.Drasil.Concepts.Math (graph)
+import Data.Drasil.Concepts.Documentation (traceyGraph, component, dependency, reference, purpose)
+import Utils.Drasil
+import qualified Utils.Drasil.Sentence as S
+
+-- | Wrapper for 'traceMIntro' and 'traceGIntro'. Turns references ('LabelledContent's), trailing notes ('Sentence's), and any other needed contents to create a 'Section'.
+traceMGF :: [LabelledContent] -> [Sentence] -> [Contents] -> [Section] -> Section
+traceMGF refs trailing otherContents = SRS.traceyMandG (traceMIntro refs trailing : otherContents 
+  ++ map UlC (traceGIntro traceGUIDs (trailing ++ [allvsallDesc])) ++ [traceGCon])
+
+-- | Generalized traceability graph introduction: appends references to the traceability graphs in 'Sentence' form
+-- and wraps in 'Contents'. Usually references the five graphs as defined in 'GraphInfo'.
+traceGIntro :: [UID] -> [Sentence] -> [UnlabelledContent]
+traceGIntro refs trailings = map ulcc [Paragraph $ foldlSent
+        [phrase purpose `S.the_ofTheC` plural traceyGraph,
+        S "is also to provide easy", plural reference, S "on what has to be",
+        S "additionally modified if a certain", phrase component +:+. S "is changed", 
+        S "The arrows in the", plural graph, S "represent" +:+. plural dependency,
+        S "The", phrase component, S "at the tail of an arrow is depended on by the",
+        phrase component, S "at the head of that arrow. Therefore, if a", phrase component,
+        S "is changed, the", plural component, S "that it points to should also be changed"] +:+
+        foldlSent_ (zipWith graphShows refs trailings)]
 
 -- | Extracts traceability graph inforomation from filled-in 'SystemInformation'.
 mkGraphInfo :: SystemInformation -> GraphInfo
@@ -112,3 +136,40 @@ traceGHeader f c = map (`checkUID` c) $ f $ _sysinfodb c
 -- This is then used to create the graph edges.
 traceGRowHeader :: ([UID] -> [UID]) -> SystemInformation -> [UID]
 traceGRowHeader f = traceGHeader (traceMReferrers f)
+
+-- FIXME: Should take a Reference instead of just a Reference UID
+-- | Helper that makes references of the form "@reference@ shows the dependencies of @something@". Only takes a reference `UID` instead of a `Reference`.
+graphShows :: UID -> Sentence -> Sentence
+graphShows r end = Ref r EmptyS None +:+ S "shows the" +:+ plural dependency `S.of_` (end !.)
+
+-------- Creating the Tracey Graph Contents to display ------------
+
+-- | Description of the @AllvsAll@ traceability graph.
+allvsallDesc :: Sentence
+allvsallDesc = S "dependencies of assumptions, models, definitions, requirements, goals, and changes with each other"
+
+-- | Create a list of traceability graph references.
+traceGCon :: Contents
+traceGCon = UlC $ ulcc $ Enumeration $ Bullet $ zip folderList' $ repeat Nothing
+
+-- | Traceability graph file names.
+traceGFiles :: [String]
+-- | Traceabiliy graph reference 'UID's.
+traceGUIDs :: [UID]
+-- | Create reference paths to traceability graphs given an example name.
+traceyGraphPaths :: String -> [String]
+-- | Create references to traceability graphs given an example name.
+traceyGraphGetRefs :: String -> [Reference]
+
+traceGFiles = ["avsa", "avsall", "refvsref", "allvsr", "allvsall"]
+traceGUIDs = ["TraceGraphAvsA", "TraceGraphAvsAll", "TraceGraphRefvsRef", "TraceGraphAllvsR", "TraceGraphAllvsAll"]
+traceyGraphPaths ex = map (\x -> resourcePath ++ ex ++ "/" ++ x ++ ".pdf") traceGFiles
+traceyGraphGetRefs ex = zipWith (\x y -> Reference x (URI y) (shortname' $ S x) None) traceGUIDs $ traceyGraphPaths $ concat $ words ex
+
+-- | Traceability graphs reference path.
+resourcePath :: String
+resourcePath = "../../../traceygraphs/"
+
+-- | Helper to create a list of traceability graph references.
+folderList' :: [ItemType]
+folderList' = map (Flat . (\x -> Ref x EmptyS None)) traceGUIDs

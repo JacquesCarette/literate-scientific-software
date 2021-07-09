@@ -7,7 +7,7 @@ import Drasil.DocLang (DocSection(RefSec, SSDSec), Literature(Lit, Manual),
     intro, mkDoc, tsymb, InclUnits(IncludeUnits), Verbosity(Verbose),
     Field(DefiningEquation, Description, Label, Symbol, Units), SolChSpec(SCSProg), 
     SCSSub(DDs), DerivationDisplay(HideDerivation), SSDSub(SSDSolChSpec), 
-    SSDSec(SSDProg), traceMatStandard, getTraceConfigUID, secRefs, fillTraceSI)
+    SSDSec(SSDProg), traceMatStandard, getTraceConfigUID, secRefs, fillTraceSI, traceyGraphGetRefs)
 import Language.Drasil.Printers (PrintingInformation(..), defaultConfiguration)
 import Database.Drasil (Block, ChunkDB, SystemInformation(SI), cdb,
   rdb, refdb, _authors, _concepts, _constants, _constraints, _purpose,
@@ -75,7 +75,7 @@ usedDB = cdb ([] :: [QuantityDict]) (map nw symbols)
 
 -- References --
 bodyRefs :: [Reference]
-bodyRefs = map (ref.makeTabRef.getTraceConfigUID) (traceMatStandard si)
+bodyRefs = map (ref.makeTabRef.getTraceConfigUID) (traceMatStandard si) ++ traceyGraphGetRefs "HGHC"
 
 dataDefRefs :: [Reference]
 dataDefRefs = map ref [htTransCladCoolDD, htTransCladFuelDD]

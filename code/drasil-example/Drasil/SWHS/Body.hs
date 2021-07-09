@@ -24,7 +24,7 @@ import Drasil.DocLang (AuxConstntSec (AuxConsProg), DocSection (..),
   SSDSec(..), InclUnits(..), DerivationDisplay(..), SCSSub(..), Verbosity(..),
   TraceabilitySec(TraceabilityProg), GSDSec(..), GSDSub(..),
   ProblemDescription(PDProg), PDSub(..), intro, mkDoc, fillTraceSI, tsymb'', traceMatStandard, purpDoc, getTraceConfigUID,
-  secRefs)
+  secRefs, traceyGraphGetRefs)
 import qualified Drasil.DocLang.SRS as SRS (inModel)
 
 import qualified Data.Drasil.Concepts.Documentation as Doc (srs)
@@ -611,7 +611,7 @@ propCorSolDeriv5 eq pro rs = foldlSP [titleize' eq, S "(FIXME: Equation 7)"
 ----------------------------
 bodyRefs :: [Reference]
 bodyRefs = [ref sysCntxtFig, ref figTank]
-  ++ map ref concIns ++ map ref section ++ map (ref.makeTabRef.getTraceConfigUID) (traceMatStandard si)
+  ++ map ref concIns ++ map ref section ++ map (ref.makeTabRef.getTraceConfigUID) (traceMatStandard si) ++ traceyGraphGetRefs "SWHS"
 
 allRefs :: [Reference]
 allRefs = nub (assumpRefs ++ bodyRefs ++ chgRefs ++ goalRefs ++ dataDefRefs ++ genDefRefs

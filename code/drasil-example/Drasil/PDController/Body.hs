@@ -28,7 +28,7 @@ import Drasil.DocLang
         SRSDecl, SSDSec(..), SSDSub(SSDProblem, SSDSolChSpec),
         SolChSpec(SCSProg), TSIntro(..), TraceabilitySec(TraceabilityProg),
         Verbosity(Verbose), intro, mkDoc, traceMatStandard, tsymb, getTraceConfigUID,
-        secRefs, fillTraceSI)
+        secRefs, fillTraceSI, traceyGraphGetRefs)
 import qualified Drasil.DocLang.SRS as SRS (inModel)
 
 import Language.Drasil
@@ -181,7 +181,7 @@ stdFields
 
 -- References --
 bodyRefs :: [Reference]
-bodyRefs = map ref conceptInstances ++ map (ref.makeTabRef.getTraceConfigUID) (traceMatStandard si)
+bodyRefs = map ref conceptInstances ++ map (ref.makeTabRef.getTraceConfigUID) (traceMatStandard si) ++ traceyGraphGetRefs "PDController"
 
 allRefs :: [Reference]
 allRefs = nub (assumpRefs ++ bodyRefs ++ chgRefs ++ figRefs ++ sysDescRefs ++ dataDefRefs ++ genDefRefs

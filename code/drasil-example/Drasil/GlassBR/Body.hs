@@ -22,7 +22,7 @@ import Drasil.DocLang (AppndxSec(..), AuxConstntSec(..), DerivationDisplay(..),
   TraceabilitySec(TraceabilityProg), TSIntro(SymbOrder, TSPurpose),
   Verbosity(Verbose), auxSpecSent, characteristicsLabel, intro, mkDoc,
   termDefnF', tsymb, traceMatStandard, purpDoc, getTraceConfigUID,
-  secRefs, fillTraceSI)
+  secRefs, fillTraceSI, traceyGraphGetRefs)
 
 import qualified Drasil.DocLang.SRS as SRS (reference, assumpt, inModel)
 
@@ -386,7 +386,7 @@ blstRskInvWGlassSlab = phrase blastRisk +:+ S "involved with the" +:+
 bodyRefs :: [Reference]
 bodyRefs = map (ref.makeTabRef.getTraceConfigUID) (traceMatStandard si)
   ++ map ref [sysCtxFig, demandVsSDFig, dimlessloadVsARFig]
-  ++ map ref concIns ++ map ref section ++ map ref labCon
+  ++ map ref concIns ++ map ref section ++ map ref labCon ++ traceyGraphGetRefs "GlassBR"
 
 allRefs :: [Reference]
 allRefs = nub (assumpRefs ++ bodyRefs ++ chgRefs ++ figRefs ++ goalRefs ++ dataDefRefs

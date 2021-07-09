@@ -34,7 +34,7 @@ import Drasil.DocLang (AuxConstntSec(AuxConsProg),
   SSDSec(..), SSDSub(SSDProblem, SSDSolChSpec), SolChSpec(SCSProg),
   TConvention(..), TSIntro(..), TraceabilitySec(TraceabilityProg),
   Verbosity(Verbose), intro, mkDoc, traceMatStandard, tsymb, getTraceConfigUID,
-  secRefs, fillTraceSI)
+  secRefs, fillTraceSI, traceyGraphGetRefs)
 
 import Drasil.DblPendulum.Figures (figMotion, figRefs)
 import Data.Drasil.Concepts.Math (mathcon, cartesian)
@@ -196,7 +196,7 @@ tModRefs :: [Reference]
 tModRefs = map ref tMods
 
 bodyRefs :: [Reference]
-bodyRefs = map (ref.makeTabRef.getTraceConfigUID) (traceMatStandard si) ++ map ref concIns
+bodyRefs = map (ref.makeTabRef.getTraceConfigUID) (traceMatStandard si) ++ map ref concIns ++ traceyGraphGetRefs "DblPendulum"
 
 allRefs :: [Reference]
 allRefs = nub (assumpRefs ++ bodyRefs ++ figRefs ++ goalRefs ++ dataDefRefs ++ genDefRefs

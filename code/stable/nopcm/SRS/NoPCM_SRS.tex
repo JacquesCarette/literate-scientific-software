@@ -1015,7 +1015,7 @@ The purpose of the traceability matrices is to provide easy references on what h
 \hyperref[assumpVCN]{A:Volume-Coil-Negligible} &  &  &  &  &  &  &  &  &  &  &  &  &  & 
 \\
 \bottomrule
-\caption{Traceability Matrix Showing the Connections Between Assumptions dependence of each other.}
+\caption{Traceability Matrix Showing the Connections Between Assumptions and Other Assumptions}
 \label{Table:TraceMatAvsA}
 \end{longtable}
 \begin{longtable}{l l l l l l l l l l l l l l l}
@@ -1152,6 +1152,15 @@ The purpose of the traceability matrices is to provide easy references on what h
 \caption{Traceability Matrix Showing the Connections Between Requirements, Goal Statements and Other Items}
 \label{Table:TraceMatAllvsR}
 \end{longtable}
+The purpose of the traceability graphs is also to provide easy references on what has to be additionally modified if a certain component is changed. The arrows in the graphs represent dependencies. The component at the tail of an arrow is depended on by the component at the head of that arrow. Therefore, if a component is changed, the components that it points to should also be changed. \hyperref{../../../traceygraphs/NoPCM/avsa.pdf}{}{}{TraceGraphAvsA} shows the dependencies of assumptions on the assumptions. \hyperref{../../../traceygraphs/NoPCM/avsall.pdf}{}{}{TraceGraphAvsAll} shows the dependencies of data definitions, theoretical models, general definitions, instance models, requirements, likely changes, and unlikely changes on the assumptions. \hyperref{../../../traceygraphs/NoPCM/refvsref.pdf}{}{}{TraceGraphRefvsRef} shows the dependencies of data definitions, theoretical models, general definitions, and instance models with each other. \hyperref{../../../traceygraphs/NoPCM/allvsr.pdf}{}{}{TraceGraphAllvsR} shows the dependencies of requirements, goal statements on the data definitions, theoretical models, general definitions, and instance models. \hyperref{../../../traceygraphs/NoPCM/allvsall.pdf}{}{}{TraceGraphAllvsAll} shows the dependencies of dependencies of assumptions, models, definitions, requirements, goals, and changes with each other.
+
+\begin{itemize}
+\item{\hyperref{../../../traceygraphs/NoPCM/avsa.pdf}{}{}{TraceGraphAvsA}}
+\item{\hyperref{../../../traceygraphs/NoPCM/avsall.pdf}{}{}{TraceGraphAvsAll}}
+\item{\hyperref{../../../traceygraphs/NoPCM/refvsref.pdf}{}{}{TraceGraphRefvsRef}}
+\item{\hyperref{../../../traceygraphs/NoPCM/allvsr.pdf}{}{}{TraceGraphAllvsR}}
+\item{\hyperref{../../../traceygraphs/NoPCM/allvsall.pdf}{}{}{TraceGraphAllvsAll}}
+\end{itemize}
 \section{Values of Auxiliary Constants}
 \label{Sec:AuxConstants}
 This section contains the standard values that are used for calculations in SWHS.

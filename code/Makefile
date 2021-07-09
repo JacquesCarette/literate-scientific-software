@@ -110,6 +110,8 @@ DOCS_FOLDER_NAME = docs
 DOCS_FOLDER = $(DOCS_FOLDER_NAME)/
 TRACEY_GRAPH_FOLDER_NAME = TraceyGraph
 TRACEY_GRAPH_FOLDER = $(TRACEY_GRAPH_FOLDER_NAME)/
+TRACEY_GRAPHS_FOLDER_NAME = traceygraphs
+TRACEY_GRAPHS_FOLDER = $(TRACEY_GRAPHS_FOLDER_NAME)/
 TRACEY_GRAPH_NAMES = allvsall allvsr avsa avsall refvsref
 # make command line options
 #  GHC debug options
@@ -197,16 +199,19 @@ graphs: $(GRAPH_PACKAGES)
 ###
 
 traceygraph: graphmod $(TEST_EXAMPLES)
-	@cd $(BUILD_FOLDER) && for dir in $(EXAMPLE_DIRS); do \
-		if [ -d $$dir/$(TRACEY_GRAPH_FOLDER) ]; then \
-			cd $$dir/$(TRACEY_GRAPH_FOLDER) && for graph in $(TRACEY_GRAPH_NAMES); do \
-				dot -Tpdf $$graph.dot > "./$$graph.pdf" ; \
+	@echo Creating traceability graphs
+	@rm -rf "$(TRACEY_GRAPHS_FOLDER)"
+	@mkdir -p "$(TRACEY_GRAPHS_FOLDER)"
+	@for dir in $(EXAMPLE_DIRS); do \
+		if [ -d "$(BUILD_FOLDER)$$dir/$(TRACEY_GRAPH_FOLDER)" ]; then \
+			mkdir -p "$(TRACEY_GRAPHS_FOLDER)$$dir" ; \
+			cd "$(BUILD_FOLDER)$$dir/$(TRACEY_GRAPH_FOLDER)" && for graph in $(TRACEY_GRAPH_NAMES); do \
+				dot -Tpdf $$graph.dot > "../../../$(TRACEY_GRAPHS_FOLDER)$$dir/$$graph.pdf" ; \
 			done ; \
-			cd .. ; \
-			cd .. ; \
+			cd "../../.." ; \
 		fi ; \
 	done
-	@echo Created traceability graphs
+	@echo Done
 
 analysis: graphmod
 	- rm -rf "$(ANALYSIS_FOLDER)"

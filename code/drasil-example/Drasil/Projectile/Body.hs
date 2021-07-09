@@ -21,7 +21,7 @@ import Drasil.DocLang (AuxConstntSec(AuxConsProg),
   SSDSec(..), SSDSub(SSDProblem, SSDSolChSpec), SolChSpec(SCSProg),
   TConvention(..), TSIntro(..), TraceabilitySec(TraceabilityProg),
   Verbosity(Verbose), intro, mkDoc, traceMatStandard, tsymb, getTraceConfigUID,
-  secRefs, fillTraceSI)
+  secRefs, fillTraceSI, traceyGraphGetRefs)
 
 import Data.Drasil.Concepts.Computation (inValue)
 import Data.Drasil.Concepts.Documentation (analysis, doccon, doccon', physics,
@@ -227,7 +227,7 @@ acronyms = [oneD, twoD, assumption, dataDefn, genDefn, goalStmt, inModel,
 
 -- References --
 bodyRefs :: [Reference]
-bodyRefs = map ref tMods ++ map ref concIns ++ map (ref.makeTabRef.getTraceConfigUID) (traceMatStandard si)
+bodyRefs = map ref tMods ++ map ref concIns ++ map (ref.makeTabRef.getTraceConfigUID) (traceMatStandard si) ++ traceyGraphGetRefs "Projectile"
 
 allRefs :: [Reference]
 allRefs = nub (assumpRefs ++ bodyRefs ++ figRefs ++ goalRefs ++ dataDefRefs ++ genDefRefs

@@ -52,7 +52,7 @@ import Drasil.DocLang (AuxConstntSec(AuxConsProg), DerivationDisplay(..),
   ReqrmntSec(..), ReqsSub(..), SCSSub(..), SolChSpec(..), SRSDecl, SSDSec(..),
   SSDSub(..), TraceabilitySec(TraceabilityProg), Verbosity(Verbose),
   TSIntro(SymbOrder, SymbConvention, TSPurpose, VectorUnits), intro, mkDoc,
-  tsymb, traceMatStandard, purpDoc, getTraceConfigUID, secRefs, fillTraceSI)
+  tsymb, traceMatStandard, purpDoc, getTraceConfigUID, secRefs, fillTraceSI, traceyGraphGetRefs)
 
 -- Since NoPCM is a simplified version of SWHS, the file is to be built off
 -- of the SWHS libraries.  If the source for something cannot be found in
@@ -375,6 +375,7 @@ bodyRefs = ref figTank: ref sysCntxtFig:
   map ref concIns ++ map ref section ++ map ref labCon 
   ++ map ref tMods ++ concatMap (^. getReferences) tMods --needs the references hidden in the tmodel.
   ++ map (ref.makeTabRef.getTraceConfigUID) (traceMatStandard si)
+  ++ traceyGraphGetRefs "NoPCM"
 
 allRefs :: [Reference]
 allRefs = nub (assumpRefs ++ bodyRefs ++ chgRefs ++ dataDefRefs ++ genDefRefs++ goalRefs

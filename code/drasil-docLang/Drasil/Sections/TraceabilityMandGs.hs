@@ -51,21 +51,21 @@ tvChanges = traceViewCC chgProbDom
 -- | Assumptions on the assumptions of a traceabiliy matrix.
 traceMatAssumpAssump :: TraceConfig
 traceMatAssumpAssump = TraceConfig "TraceMatAvsA" [plural assumption +:+
-  S "on the" +:+. plural assumption] (titleize' assumption +:+.
-  S "dependence of each other") [tvAssumps] [tvAssumps]
+  S "on the" +:+ plural assumption] (titleize' assumption +:+
+  S "and Other" +:+ titleize' assumption ) [tvAssumps] [tvAssumps]
 
 -- | Other assumptions of the traceability matrix
 traceMatAssumpOther :: TraceConfig
 traceMatAssumpOther = TraceConfig "TraceMatAvsAll" [plural Doc.dataDefn,
   plural Doc.thModel, plural Doc.genDefn, plural Doc.inModel, plural requirement,
-  plural likelyChg, plural unlikelyChg +:+ S "on the" +:+. plural assumption]
+  plural likelyChg, plural unlikelyChg +:+ S "on the" +:+ plural assumption]
   (titleize' assumption +:+ S "and Other" +:+ titleize' item) [tvAssumps]
   [tvDataDefns, tvTheoryModels, tvGenDefns, tvInsModels, tvReqs, tvChanges]
 
 -- | Refinement of the traceability matrix.
 traceMatRefinement :: TraceConfig
 traceMatRefinement = TraceConfig "TraceMatRefvsRef" [plural Doc.dataDefn,
-  plural Doc.thModel, plural Doc.genDefn, plural Doc.inModel +:+.
+  plural Doc.thModel, plural Doc.genDefn, plural Doc.inModel +:+
   S "with each other"] (titleize' item +:+ S "and Other" +:+ titleize' section_)
   [tvDataDefns, tvTheoryModels, tvGenDefns, tvInsModels]
   [tvDataDefns, tvTheoryModels, tvGenDefns, tvInsModels]

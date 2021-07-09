@@ -45,8 +45,9 @@ import qualified Drasil.Sections.SpecificSystemDescription as SSD (assumpF,
   propCorSolF, solutionCharSpecIntro, specSysDescr, termDefnF, thModF)
 import qualified Drasil.Sections.Stakeholders as Stk (stakeholderIntro,
   tClientF, tCustomerF)
-import qualified Drasil.DocumentLanguage.TraceabilityMatrix as TM (traceMGF,
+import qualified Drasil.DocumentLanguage.TraceabilityMatrix as TM (
   generateTraceTableView)
+import qualified Drasil.DocumentLanguage.TraceabilityGraph as TG (traceMGF)
 
 import Data.Drasil.Concepts.Documentation (likelyChg, refmat, section_,
   software, unlikelyChg)
@@ -60,10 +61,10 @@ import qualified Data.Map as Map (elems, toList)
 mkDoc :: SRSDecl -> (IdeaDict -> IdeaDict -> Sentence) -> SystemInformation -> Document
 mkDoc dd comb si@SI {_sys = sys, _kind = kind, _authors = authors} =
   Document (nw kind `comb` nw sys) (foldlList Comma List $ map (S . name) authors) $
-  mkSections (fillTraceMaps l (fillReqs l si)) l where
+  mkSections (fillTraceSI dd si) l where
     l = mkDocDesc si dd
 
--- Helper, testing needed for .dot graphs?
+-- | Helper for filling in the traceability matrix and graph information into the system.
 fillTraceSI :: SRSDecl -> SystemInformation -> SystemInformation
 fillTraceSI dd si = fillTraceMaps l $ fillReqs l si
   where
@@ -347,9 +348,10 @@ mkUCsSec (UCsProg c) = SRS.unlikeChg (intro : mkEnumSimpleD c) []
 
 -- | Helper for making the Traceability Matrices and Graphs section.
 mkTraceabilitySec :: TraceabilitySec -> SystemInformation -> Section
-mkTraceabilitySec (TraceabilityProg progs) si = TM.traceMGF trace
+mkTraceabilitySec (TraceabilityProg progs) si = TG.traceMGF trace
   (map (\(TraceConfig _ pre _ _ _) -> foldlList Comma List pre) progs)
-  (map LlC trace) [] where
+  (map LlC trace) []
+  where
   trace = map (\(TraceConfig u _ desc rows cols) -> TM.generateTraceTableView
     u desc rows cols si) progs
 

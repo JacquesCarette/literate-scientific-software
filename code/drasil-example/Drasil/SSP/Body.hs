@@ -23,7 +23,7 @@ import Drasil.DocLang (DocSection(..), IntroSec(..), IntroSub(..),
   SCSSub(..), GSDSec(..), GSDSub(..), TraceabilitySec(TraceabilityProg),
   ReqrmntSec(..), ReqsSub(..), AuxConstntSec(..), ProblemDescription(PDProg),
   PDSub(..), intro, mkDoc, tsymb'', traceMatStandard, purpDoc, getTraceConfigUID,
-  secRefs, fillTraceSI)
+  secRefs, fillTraceSI, traceyGraphGetRefs)
 
 import qualified Drasil.DocLang.SRS as SRS (inModel, assumpt,
   genDefn, dataDefn, datCon)
@@ -450,7 +450,7 @@ slopeVert = verticesConst $ phrase slope
 
 -- References --
 bodyRefs :: [Reference]
-bodyRefs = ref sysCtxFig1: map ref concIns ++ map ref section ++ map ref labCon ++ map (ref.makeTabRef.getTraceConfigUID) (traceMatStandard si)
+bodyRefs = ref sysCtxFig1: map ref concIns ++ map ref section ++ map ref labCon ++ map (ref.makeTabRef.getTraceConfigUID) (traceMatStandard si) ++ traceyGraphGetRefs "SSP"
 
 allRefs :: [Reference]
 allRefs = nub (assumpRefs ++ bodyRefs ++ chgRefs ++ figRefs ++ goalRefs ++ SSP.dataDefRefs ++ genDefRefs

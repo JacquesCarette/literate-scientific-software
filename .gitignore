@@ -36,6 +36,7 @@ code/build
 code/docs
 code/deploy
 code/graphs
+code/traceygraphs
 code/logs
 code/stable/*/src/*/html
 code/stable/*/src/*/latex

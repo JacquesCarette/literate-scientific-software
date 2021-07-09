@@ -32,10 +32,10 @@ exampleList repoPth exPth = Bullet $ zip (zipWith4 (mkExampleListFunc exPth) exa
 -- Organize the examples into a bulleted list.
 mkExampleListFunc :: FilePath -> String -> String -> [(String, [(Sentence, Reference)])] -> [(String, [(Sentence, Reference)])] -> ItemType
 mkExampleListFunc path exmpl desc codePth doxPth
-  | map (map snd . snd) codePth == [[]] && map (map snd . snd) doxPth == [[]] = Nested (S exmpl +:+ S desc) $ Bullet [(Flat (S (exmpl ++ "SRS") +:+ namedRef (getHTMLRef path exmpl) (S "[HTML]") +:+ namedRef (getPDFRef path exmpl) (S "[PDF]")), Nothing)]
-  | map (map snd . snd) doxPth == [[]]                            = Nested (S exmpl +:+ S desc) $ Bullet $ zip [Flat $ S (exmpl ++ "SRS") +:+ namedRef (getHTMLRef path exmpl) (S "[HTML]") +:+ namedRef (getPDFRef path exmpl) (S "[PDF]"),
+  | map (map snd . snd) codePth == [[]] && map (map snd . snd) doxPth == [[]] = Nested (S exmpl +:+ S desc) $ Bullet [(Flat (S (exmpl ++ "_SRS") +:+ namedRef (getHTMLRef path exmpl) (S "[HTML]") +:+ namedRef (getPDFRef path exmpl) (S "[PDF]")), Nothing)]
+  | map (map snd . snd) doxPth == [[]]                            = Nested (S exmpl +:+ S desc) $ Bullet $ zip [Flat $ S (exmpl ++ "_SRS") +:+ namedRef (getHTMLRef path exmpl) (S "[HTML]") +:+ namedRef (getPDFRef path exmpl) (S "[PDF]"),
                                                                        Nested (S generatedCodeTitle) $ Bullet $ mkCodeList codePth] $ repeat Nothing
-  | otherwise                                         = Nested (S exmpl +:+ S desc) $ Bullet $ zip [Flat $ S (exmpl ++ "SRS") +:+ namedRef (getHTMLRef path exmpl) (S "[HTML]") +:+ namedRef (getPDFRef path exmpl) (S "[PDF]"),
+  | otherwise                                         = Nested (S exmpl +:+ S desc) $ Bullet $ zip [Flat $ S (exmpl ++ "_SRS") +:+ namedRef (getHTMLRef path exmpl) (S "[HTML]") +:+ namedRef (getPDFRef path exmpl) (S "[PDF]"),
                                                                        Nested (S generatedCodeTitle) $ Bullet $ mkCodeList codePth,
                                                                        Nested (S generatedCodeDocsTitle) $ Bullet $ mkCodeList doxPth] $ repeat Nothing
 

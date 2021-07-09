@@ -8,7 +8,7 @@ import Utils.Drasil.Concepts
 import Data.Drasil.SI_Units(kilogram, metre, m_2, newton, second)
 import qualified Data.Drasil.Concepts.Physics as CP (rigidBody)
 import qualified Data.Drasil.Quantities.Physics as QP (acceleration, angularAccel,
-  angularDisplacement, angularVelocity, chgInVelocity, displacement, distance,
+  angularDisplacement, angularVelocity, chgInVelocity, chgMomentum, displacement, distance,
   final, force, gravitationalAccel, gravitationalConst, gravitationalConstValue,
   height, impulseS, impulseV, initial, kEnergy, linearAccel, linearDisplacement,
   linearVelocity, momentOfInertia, position, potEnergy, restitutionCoef, time,
@@ -55,7 +55,7 @@ inputSymbols = map qw [QP.position, QP.velocity, QP.force, QM.orientation,
   [qw QP.restitutionCoef]
 
 outputSymbols = map qw [QP.position, QP.velocity, QM.orientation, 
-  QP.angularVelocity]
+  QP.angularVelocity, QP.chgMomentum, QP.chgInVelocity]
 
 
 unitalChunks :: [UnitalChunk]
@@ -68,7 +68,8 @@ unitalChunks = [QP.acceleration, QP.angularAccel, QP.gravitationalAccel,
   dispNorm, sqrDist, velO, rOB, massIRigidBody, contDispA, contDispB, 
   momtInertA, momtInertB, timeT, inittime, momtInertK, pointOfCollision, 
   contDispK, collisionImpulse, QP.kEnergy, finRelVel, velAP, velBP, time_1, time_2, velo_1, velo_2,
-  QP.chgInVelocity, QP.potEnergy, QP.height, rRot, mLarger, QP.fOfGravity, QP.positionVec, distMass, dVect]
+  QP.chgInVelocity, QP.potEnergy, QP.height, rRot, mLarger, QP.fOfGravity, QP.positionVec, distMass, 
+  dVect, QP.chgMomentum,QP.chgInVelocity, time_1, time_2, velo_1, velo_2]
 
 -----------------------
 -- PARAMETRIZED HACK --

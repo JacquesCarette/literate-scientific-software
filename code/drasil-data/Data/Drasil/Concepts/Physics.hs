@@ -24,7 +24,7 @@ physicCon = [acceleration, angAccel, angDisp, angVelo, angFreq, angular, chgInVe
   momentOfInertia, position, potEnergy, pressure, restitutionCoef, rectilinear,
   rigidBody, scalarAccel, scalarPos, shm, space, speed, stiffCoeff, strain, stress, tension,
   time, torque, velocity, weight, xAccel, xConstAccel, xDist, xPos, xVel,
-  yAccel, yConstAccel, yDist, yPos, yVel, momentum, moment, fOfGravity, positionVec,
+  yAccel, yConstAccel, yDist, yPos, yVel, momentum, chgMomentum, moment, fOfGravity, positionVec,
   pendulum, body, kinematics, frequency, period, motion]
 
 physicCon' :: [CI]
@@ -40,7 +40,7 @@ acceleration, angAccel, angDisp, angVelo, angFreq, angular, chgInVelocity, cohes
   space, speed, stiffCoeff, strain, stress, tension, time, torque, velocity, weight,
   xAccel, xConstAccel, xDist, xPos, xVel, yAccel, yConstAccel, yDist,
   yPos, yVel, momentum, moment, fOfGravity, positionVec, pendulum, body,
-  kinematics, frequency, period, motion :: ConceptChunk
+  kinematics, frequency, period, motion, chgMomentum :: ConceptChunk
 
 oneD, twoD, threeD :: CI
 oneD   = commonIdeaWithDict "oneD"   (cn "one-dimensional")   "1D" [mathematics, physics]
@@ -55,6 +55,8 @@ body = dccWDS "body" (cnIES "body")
   (S "an object with" +:+ phrase QPP.mass)
 chgInVelocity = dccWDS "chgInVelocity" (cn "change in velocity")
   (S "the" +:+ phrase chgInVelocity `S.of_` S "a" +:+ phrase rigidBody)
+chgMomentum = dccWDS "chgMomentum" (cn' "change in momentum")
+  (S "The rate of change of a body's" +:+ phrase impulseV)  
 collision = dcc "collision" (cn' "collision")
   "an encounter between particles resulting in an exchange or transformation of energy"
 cohesion = dccWDS "cohesion" (cn "cohesion")

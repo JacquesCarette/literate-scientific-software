@@ -14,7 +14,8 @@ import Drasil.GamePhysics.Assumptions (assumpOT, assumpOD, assumpAD, assumpCT, a
 import Drasil.GamePhysics.References (chaslesWiki)
 import Drasil.GamePhysics.Unitals (initRelVel, massj, mTot, normalVect,
   posCM, posj, velB, velO, rOB, finRelVel,
-  velAP, velBP, rRot, velo_1, velo_2, timeT, time_1, time_2)
+  velAP, velBP, rRot, velo_1, velo_2, timeT, time_1, time_2, massj,
+   mTot, normalVect, velo_1, velo_2)
 
 import Data.Drasil.Concepts.Math (rightHand)
 import Data.Drasil.Concepts.Physics (rigidBody, twoD)

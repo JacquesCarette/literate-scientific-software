@@ -4,6 +4,7 @@ import Language.Drasil
 import Database.Drasil(ChunkDB, SystemInformation, UMap, _sysinfodb, asOrderedList,
   conceptinsTable, defResolve, refbyTable, traceTable, traceLookup)
 import Utils.Drasil
+import Utils.Drasil.Concepts
 import qualified Utils.Drasil.Sentence as S
 
 import Data.Drasil.Concepts.Documentation (purpose, component, dependency,
@@ -43,7 +44,7 @@ traceGIntro refs trailings = map ulcc [Paragraph $ foldlSent
         S "is also to provide easy", plural reference, S "on what has to be",
         S "additionally modified if a certain", phrase component +:+. S "is changed", 
         S "The arrows in the", plural graph, S "represent" +:+. plural dependency,
-        S "The", phrase component, S "at the tail of an arrow is depended on by the",
+        atStartNP (the component), S "at the tail of an arrow is depended on by the",
         phrase component, S "at the head of that arrow. Therefore, if a", phrase component,
         S "is changed, the", plural component, S "that it points to should also be changed"] +:+
         foldlSent (zipWith tableShows refs trailings)]

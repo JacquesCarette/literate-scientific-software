@@ -1,7 +1,7 @@
 {-#LANGUAGE PostfixOperators#-}
 module Drasil.PDController.Requirements where
 
-import Data.Drasil.Concepts.Documentation (funcReqDom, nonFuncReqDom)
+import Data.Drasil.Concepts.Documentation (funcReqDom, nonFuncReqDom, datumConstraint)
 
 import Drasil.DocLang (inReq)
 import Drasil.DocLang.SRS (datCon)
@@ -27,8 +27,8 @@ verifyInputsDesc, calculateValuesDesc, outputValuesDesc :: Sentence
 verifyInputsDesc
   = foldlSent_
       [S "Ensure that the input values are within the",
-         S "limits specified in"
-         +:+. refS (datCon ([] :: [Contents]) ([] :: [Section]))]
+         S "limits specified in the"
+         +:+. namedRef (datCon [] []) (plural datumConstraint)]
 
 calculateValuesDesc
   = foldlSent

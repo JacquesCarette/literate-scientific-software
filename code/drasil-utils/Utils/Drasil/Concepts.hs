@@ -1,5 +1,5 @@
 module Utils.Drasil.Concepts (and_, and_PS, and_PP, and_TGen, and_Gen, andIts, andThe, with, of_, of_NINP, of_PSNPNI, of_PS, ofA,
-ofAPS, ofThe, ofThePS, the_ofThe, the_ofThePS, onThe, onThePS, inThe, inThePS, isThe, toThe, for, forTGen, in_, in_PS, inA, is, the, theGen, a_, a_Gen,
+ofAPS, ofThe, ofThePS, the_ofThe, the_ofThePS, onThe, onThePS, onThePP, inThe, inThePS, inThePP, isThe, toThe, for, forTGen, in_, in_PS, inA, is, the, theGen, a_, a_Gen,
 compoundNC, compoundNCPP, compoundNCGen, compoundNCPS, compoundNCPSPP, compoundNCGenP, combineNINP, combineNPNI, combineNINI) where
 
 import Language.Drasil
@@ -178,6 +178,14 @@ onThePS t1 t2 = nounPhrase''
   CapFirst
   CapWords
 
+-- | Same as 'onThe', except plural case is (plural t1) S.onThe (plural t2)
+onThePP :: (NamedIdea c, NamedIdea d) => c -> d -> NP
+onThePP t1 t2 = nounPhrase'' 
+  (phrase t1 `S.onThe` phrase t2)
+  (plural t1 `S.onThe` plural t2)
+  CapFirst
+  CapWords
+
 -- | Creates a 'NP' by combining two 'NamedIdea's with the words "in the" between
 -- their terms. Plural case is @(phrase t1) "in the" (plural t2)@.
 inThe :: (NamedIdea c, NamedIdea d) => c -> d -> NP
@@ -193,6 +201,15 @@ inThePS :: (NamedIdea c, NamedIdea d) => c -> d -> NP
 inThePS t1 t2 = nounPhrase'' 
   (phrase t1 `S.inThe` phrase t2) 
   (plural t1 `S.inThe` phrase t2)
+  CapFirst
+  CapWords
+
+-- | Creates a 'NP' by combining two 'NamedIdea's with the words "in the" between
+-- their terms. Plural case is @(plural t1) "in the" (plural t2)@.
+inThePP :: (NamedIdea c, NamedIdea d) => c -> d -> NP
+inThePP t1 t2 = nounPhrase'' 
+  (phrase t1 `S.inThe` phrase t2)
+  (plural t1 `S.inThe` plural t2)
   CapFirst
   CapWords
 

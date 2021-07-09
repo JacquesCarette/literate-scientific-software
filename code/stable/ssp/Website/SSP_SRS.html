@@ -27,7 +27,7 @@
           <div class="subsection">
             <h2>Table of Units</h2>
             <p class="paragraph">
-              The unit system used throughout is SI (Système International d'Unités). In addition to the basic units, several derived units are also used. For each unit, <a href=#Table:ToU>Tab:ToU</a> lists the symbol, a description and the SI name.
+              The unit system used throughout is SI (Système International d'Unités). In addition to the basic units, several derived units are also used. For each unit, the <a href=#Table:ToU>Table of Units</a> lists the symbol, a description and the SI name.
             </p>
             <div id="Table:ToU">
               <table class="table">
@@ -75,7 +75,7 @@
           <div class="subsection">
             <h2>Table of Symbols</h2>
             <p class="paragraph">
-              The symbols used in this document are summarized in <a href=#Table:ToS>Tab:ToS</a> along with their units. Throughout the document, a subscript <em>i</em> indicates that the value will be taken at, and analyzed at, a slice or slice interface composing the total slip mass. For vector quantities, the units shown are for each component of the vector.
+              The symbols used in this document are summarized in the <a href=#Table:ToS>Table of Symbols</a> along with their units. Throughout the document, a subscript <em>i</em> indicates that the value will be taken at, and analyzed at, a slice or slice interface composing the total slip mass. For vector quantities, the units shown are for each component of the vector.
             </p>
             <div id="Table:ToS">
               <table class="table">
@@ -887,7 +887,7 @@
                   </li>
                   <li>Ensure that consistent units are used for input variables</li>
                   <li>
-                    Ensure required software assumptions (<a href=#Sec:Assumps>Sec:Assumptions</a>) are appropriate for the problem to which the user is applying the software
+                    Ensure required <a href=#Sec:Assumps>software assumptions</a> are appropriate for the problem to which the user is applying the software
                   </li>
                 </ul>
               </li>
@@ -898,7 +898,7 @@
                     Detect data type mismatch, such as a string of characters input instead of a floating point number
                   </li>
                   <li>
-                    Verify that the inputs satisfy the required physical and other data constraints (<a href=#Sec:DataConstraints>Sec:Data Constraints</a>)
+                    Verify that the inputs satisfy the required physical and other <a href=#Sec:DataConstraints>data constraints</a>
                   </li>
                   <li>
                     Identify the critical slip surface within the possible input range
@@ -998,7 +998,7 @@
               <div class="subsubsection">
                 <h3>Physical System Description</h3>
                 <p class="paragraph">
-                  The physical system of SSP, as shown in <a href=#Figure:PhysicalSystem>Fig:PhysicalSystem</a>, includes the following elements:
+                  The physical system of SSP, as shown in the <a href=#Figure:PhysicalSystem>Fig:PhysicalSystem</a> below, includes the following elements:
                 </p>
                 <div class="list">
                   <p>PS1: A slope comprised of one soil layer.</p>
@@ -1067,7 +1067,7 @@
           <div class="subsection">
             <h2>Solution Characteristics Specification</h2>
             <p class="paragraph">
-              The instance models that govern SSP are presented in <a href=#Sec:IMs>Sec:Instance Models</a>. The information to understand the meaning of the instance models and their derivation is also presented, so that the instance models can be verified.
+              The instance models that govern SSP are presented in the <a href=#Sec:IMs>Instance Model Section</a>. The information to understand the meaning of the instance models and their derivation is also presented, so that the instance models can be verified.
             </p>
             <div id="Sec:Assumps">
               <div class="subsubsection">
@@ -3627,7 +3627,7 @@
               <div class="subsubsection">
                 <h3>Instance Models</h3>
                 <p class="paragraph">
-                  This section transforms the problem defined in <a href=#Sec:ProbDesc>Sec:Problem Description</a> into one which is expressed in mathematical terms. It uses concrete symbols defined in <a href=#Sec:DDs>Sec:Data Definitions</a> to replace the abstract symbols in the models identified in <a href=#Sec:TMs>Sec:Theoretical Models</a> and <a href=#Sec:GDs>Sec:General Definitions</a>.
+                  This section transforms the problem defined in the <a href=#Sec:ProbDesc>problem description</a> into one which is expressed in mathematical terms. It uses concrete symbols defined in the <a href=#Sec:DDs>data definitions</a> to replace the abstract symbols in the models identified in <a href=#Sec:TMs>theoretical models</a> and <a href=#Sec:GDs>general definitions</a>.
                 </p>
                 <p class="paragraph">
                   The goals <a href=#identifyCritAndFS>GS:Identify-Crit-and-FS</a>, <a href=#determineNormalF>GS:Determine-Normal-Forces</a>, and <a href=#determineShearF>GS:Determine-Shear-Forces</a> are met by the simultaneous solution of <a href=#IM:fctSfty>IM:fctSfty</a>, <a href=#IM:nrmShrFor>IM:nrmShrFor</a>, and <a href=#IM:intsliceFs>IM:intsliceFs</a>. The goal <a href=#identifyCritAndFS>GS:Identify-Crit-and-FS</a> is also contributed to by <a href=#IM:crtSlpId>IM:crtSlpId</a>.
@@ -4323,7 +4323,7 @@
               <div class="subsubsection">
                 <h3>Data Constraints</h3>
                 <p class="paragraph">
-                  <a href=#Table:InDataConstraints>Tab:InDataConstraints</a> shows the data constraints on the input variables. The column for physical constraints gives the physical limitations on the range of values that can be taken by the variable. The uncertainty column provides an estimate of the confidence with which the physical quantities can be measured. This information would be part of the input if one were performing an uncertainty quantification exercise. The constraints are conservative, to give the user of the model the flexibility to experiment with unusual situations. The column of typical values is intended to provide a feel for a common scenario.
+                  The <a href=#Table:InDataConstraints>Data Constraints Table</a> shows the data constraints on the input variables. The column for physical constraints gives the physical limitations on the range of values that can be taken by the variable. The uncertainty column provides an estimate of the confidence with which the physical quantities can be measured. This information would be part of the input if one were performing an uncertainty quantification exercise. The constraints are conservative, to give the user of the model the flexibility to experiment with unusual situations. The column of typical values is intended to provide a feel for a common scenario.
                 </p>
                 <div id="Table:InDataConstraints">
                   <table class="table">
@@ -4434,7 +4434,7 @@
               <div class="subsubsection">
                 <h3>Properties of a Correct Solution</h3>
                 <p class="paragraph">
-                  <a href=#Table:OutDataConstraints>Tab:OutDataConstraints</a> shows the data constraints on the output variables. The column for physical constraints gives the physical limitations on the range of values that can be taken by the variable.
+                  The <a href=#Table:OutDataConstraints>Data Constraints Table</a> shows the data constraints on the output variables. The column for physical constraints gives the physical limitations on the range of values that can be taken by the variable.
                 </p>
                 <div id="Table:OutDataConstraints">
                   <table class="table">
@@ -4474,12 +4474,12 @@
             <div class="list">
               <p>
                 <div id="readAndStore">
-                  Read-and-Store: Read the inputs, shown in <a href=#Table:ReqInputs>Tab:ReqInputs</a>, and store the data.
+                  Read-and-Store: Read the inputs, shown in the table <a href=#Table:ReqInputs>Required Inputs</a>, and store the data.
                 </div>
               </p>
               <p>
                 <div id="verifyInput">
-                  Verify-Input: Verify that the input data lie within the physical constraints shown in <a href=#Sec:DataConstraints>Sec:Data Constraints</a>.
+                  Verify-Input: Verify that the input data lie within the <a href=#Sec:DataConstraints>physical constraints</a>.
                 </div>
               </p>
               <p>
@@ -4489,7 +4489,7 @@
               </p>
               <p>
                 <div id="verifyOutput">
-                  Verify-Output: Verify that the minimum factor of safety and critical slip surface satisfy the physical constraints shown in <a href=#Sec:CorSolProps>Sec:Properties of a Correct Solution</a>.
+                  Verify-Output: Verify that the minimum factor of safety and critical slip surface satisfy the physical constraints shown in <a href=#Sec:CorSolProps>Properties of a Correct Solution</a>.
                 </div>
               </p>
               <p>

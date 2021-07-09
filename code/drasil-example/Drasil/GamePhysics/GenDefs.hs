@@ -92,7 +92,7 @@ accelGravityDerivSentences = map foldlSentCol [accelGravityDerivSentence1,
  accelGravityDerivSentence5]
 
 accelGravityDerivSentence1 :: [Sentence]
-accelGravityDerivSentence1 = [S "From Newton's law of universal gravitation", sParen(refS newtonLUG), S "we have"]
+accelGravityDerivSentence1 = [S "From", namedRef newtonLUG (S "Newton's law of universal gravitation") `sC` S "we have"]
 
 
 accelGravityDerivSentence2 :: [Sentence]

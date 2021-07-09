@@ -11,7 +11,7 @@ import qualified Utils.Drasil.Sentence as S
 
 import qualified Drasil.DocLang.SRS as SRS (valsOfAuxCons)
 
-import Data.Drasil.Concepts.Documentation (assumpDom, value)
+import Data.Drasil.Concepts.Documentation (assumpDom, value, consVals)
 import Data.Drasil.Concepts.Math (cartesian, xAxis, xDir, yAxis, yDir, direction, positive)
 import Data.Drasil.Concepts.PhysicalProperties (mass)
 import Data.Drasil.Concepts.Physics (acceleration, collision, distance, gravity, time, twoD)
@@ -93,7 +93,7 @@ timeStartZeroDesc = atStart time +:+. S "starts at zero"
 gravAccelValueDesc :: Sentence
 gravAccelValueDesc = atStartNP (the acceleration) +:+ S "due to" +:+
   phrase gravity +:+ S "is assumed to have the" +:+ phrase value +:+ 
-  S "provided in" +:+. refS (SRS.valsOfAuxCons ([]::[Contents]) ([]::[Section]))
+  S "provided in the section for" +:+. namedRef (SRS.valsOfAuxCons [] []) (titleize consVals)
 
 -- References --
 assumpRefs :: [Reference]

@@ -10,7 +10,7 @@ import Drasil.DocLang (inReq)
 import Data.Drasil.Concepts.Computation (inValue)
 import Data.Drasil.Concepts.Documentation (assumption, code, datumConstraint,
   environment, funcReqDom, likelyChg, mg, mis, module_, nonFuncReqDom, output_,
-  property, requirement, srs, traceyMatrix, unlikelyChg, value, vavPlan)
+  property, requirement, srs, traceyMatrix, unlikelyChg, value, vavPlan, propOfCorSol)
 import Data.Drasil.Concepts.Math (calculation)
 import Data.Drasil.Concepts.Software (errMsg)
 import Data.Drasil.TheoryConcepts (dataDefn, genDefn, inModel, thModel)
@@ -31,8 +31,7 @@ outputValues = cic "outputValues" outputValuesDesc "Output-Values"       funcReq
 
 verifyParamsDesc, calcValuesDesc, outputValuesDesc :: Sentence
 verifyParamsDesc = foldlSent [S "Check the entered", plural inValue,
-  S "to ensure that they do not exceed the", plural datumConstraint,
-  S "mentioned in" +:+. refS (datCon ([]::[Contents]) ([]::[Section])), 
+  S "to ensure that they do not exceed the" +:+. namedRef (datCon [] []) (plural datumConstraint),
   S "If any of the", plural inValue, S "are out of bounds" `sC`
   S "an", phrase errMsg, S "is displayed" `S.andThe` plural calculation, S "stop"]
 calcValuesDesc = foldlSent [S "Calculate the following" +: plural value,
@@ -53,7 +52,7 @@ nonfuncReqs = [correct, verifiable, understandable, reusable, maintainable, port
 correct :: ConceptInstance
 correct = cic "correct" (foldlSent [
   atStartNP' (output_ `the_ofThePS` code), S "have the",
-  plural property, S "described in", refS (propCorSol [] [])
+  plural property, S "described in", namedRef (propCorSol [] []) (titleize' propOfCorSol)
   ]) "Correct" nonFuncReqDom
  
 verifiable :: ConceptInstance

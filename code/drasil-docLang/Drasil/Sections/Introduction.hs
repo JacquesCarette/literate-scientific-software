@@ -1,3 +1,4 @@
+{-# LANGUAGE PostfixOperators #-}
 module Drasil.Sections.Introduction (orgSec, introductionSection, purposeOfDoc, scopeOfRequirements, 
   charIntRdrF, purpDoc) where
 
@@ -6,6 +7,7 @@ import qualified Drasil.DocLang.SRS as SRS (intro, prpsOfDoc, scpOfReq,
   charOfIR, orgOfDoc, goalStmt, thModel, inModel, sysCon)
 import Drasil.DocumentLanguage.Definitions(Verbosity(..))
 import Utils.Drasil
+import Utils.Drasil.Concepts
 import qualified Utils.Drasil.Sentence as S
 
 import Data.Drasil.Concepts.Computation (algorithm)
@@ -26,13 +28,13 @@ import Data.Drasil.Citations (parnasClements1986)
 developmentProcessParagraph :: Sentence
 developmentProcessParagraph = foldlSent [S "This", phrase document, 
   S "will be used as a starting point for subsequent development", 
-  S "phases, including writing the", phrase desSpec, S "and the", 
-  phrase softwareVAV, S "plan. The", phrase designDoc, S "will show how the", 
+  S "phases, including writing the", phraseNP (desSpec `andThe` softwareVAV) +:+.
+  S "plan", atStartNP (the designDoc), S "will show how the", 
   plural requirement, S "are to be realized, including", plural decision, 
   S "on the numerical", plural algorithm, S "and programming" +:+. 
   phrase environment, S "The", phrase vavPlan, 
   S "will show the steps that will be used to increase confidence in the",
-  phrase softwareDoc, S "and the" +:+. phrase implementation, S "Although",
+  (phraseNP (softwareDoc `andThe` implementation) !.), S "Although",
   S "the", short srs, S "fits in a series of", plural document, 
   S "that follow the so-called waterfall", phrase model `sC` 
   S "the actual development process is not constrained", 
@@ -128,8 +130,8 @@ intReaderIntro :: (Idea a) => a -> [Sentence] -> [Sentence] -> [Sentence] ->
 intReaderIntro progName assumed topic asset sectionRef = 
   [foldlSP [S "Reviewers of this", phrase documentation,
   S "should have an understanding of" +:+.
-  foldlList Comma List (assumed ++ topic), assetSent, S "The",
-  plural user `S.of_` short progName, S "can have a lower level" `S.of_`
+  foldlList Comma List (assumed ++ topic), assetSent,
+  atStartNP' (the user) `S.of_` short progName, S "can have a lower level" `S.of_`
   S "expertise, as explained" `S.in_` refS sectionRef]]
   where
     assetSent = case asset of

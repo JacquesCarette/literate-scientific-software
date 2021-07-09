@@ -9,7 +9,7 @@ import qualified Utils.Drasil.Sentence as S
 
 import Data.Drasil.Concepts.Computation (inValue)
 import Data.Drasil.Concepts.Documentation (datumConstraint, funcReqDom,
-        output_, value,  nonFuncReqDom, code, property, environment)
+        output_, value,  nonFuncReqDom, code, environment, propOfCorSol)
 --  likelyChg, mg, mis, module_, nonFuncReqDom,
 --   requirement, srs, traceyMatrix, unlikelyChg, value, vavPlan)
 import Data.Drasil.Concepts.Math (calculation)
@@ -32,8 +32,7 @@ outputValues = cic "outputValues" outputValuesDesc "Output-Values" funcReqDom
 verifyInptValsDesc, calcAngPosDesc, outputValuesDesc :: Sentence
 
 verifyInptValsDesc = foldlSent [S "Check the entered", plural inValue,
-  S "to ensure that they do not exceed the", plural datumConstraint,
-  S "mentioned in" +:+. refS (datCon ([]::[Contents]) ([]::[Section])), 
+  S "to ensure that they do not exceed the" +:+. namedRef (datCon ([]::[Contents]) ([]::[Section])) (plural datumConstraint),
   S "If any of the", plural inValue, S "are out of bounds" `sC`
   S "an", phrase errMsg, S "is displayed" `S.andThe` plural calculation, S "stop"]
 
@@ -56,7 +55,7 @@ nonFuncReqs = [correct, portable]
 correct :: ConceptInstance
 correct = cic "correct" (foldlSent [
  atStartNP' (output_ `the_ofThePS` code), S "have the",
- plural property, S "described in", refS (propCorSol [] [])
+ namedRef (propCorSol [] []) (plural propOfCorSol)
  ]) "Correct" nonFuncReqDom
 
 portable :: ConceptInstance

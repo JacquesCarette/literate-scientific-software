@@ -29,11 +29,11 @@ import qualified Drasil.DocLang.SRS as SRS (inModel, assumpt,
   genDefn, dataDefn, datCon)
 
 import Data.Drasil.Concepts.Documentation as Doc (analysis, assumption,
-  constant, constraint, document, effect, endUser, environment,
+  constant, document, effect, endUser, environment,
   input_, interest, loss, method_, organization,
   physical, physics, problem, software,
   softwareSys, srsDomains, symbol_, sysCont, system,
-  template, type_, user, value, variable, doccon, doccon')
+  template, type_, user, value, variable, doccon, doccon', datumConstraint)
 import qualified Data.Drasil.Concepts.Documentation as Doc (srs)
 import Data.Drasil.TheoryConcepts as Doc (inModel)
 import Data.Drasil.Concepts.Education (solidMechanics, undergraduate, educon)
@@ -277,9 +277,8 @@ sysCtxUsrResp = [S "Provide" +:+ phraseNP (the input_) +:+ S "data related to" +
   S "ensuring conformation to" +:+ phrase input_ +:+ S "data format" +:+
   S "required by" +:+ short ssp,
   S "Ensure that consistent units are used for" +:+ pluralNP (combineNINI input_ variable),
-  S "Ensure required" +:+ pluralNP (combineNINI software assumption) +:+ sParen ( 
-  refS $ SRS.assumpt ([]::[Contents]) ([]::[Section])) +:+ S "are" +:+ 
-  S "appropriate for the" +:+ phrase problem +:+ S "to which the" +:+ 
+  S "Ensure required" +:+ namedRef (SRS.assumpt [] []) (pluralNP (combineNINI software assumption)) 
+  +:+ S "are" +:+ S "appropriate for the" +:+ phrase problem +:+ S "to which the" +:+ 
   phrase user +:+ S "is applying the" +:+ phrase software]
   
 sysCtxSysResp :: [Sentence]
@@ -287,7 +286,7 @@ sysCtxSysResp = [S "Detect data" +:+ phrase type_ +:+ S "mismatch, such as" +:+
   S "a string of characters" +:+ phrase input_ +:+ S "instead of a floating" +:+
   S "point" +:+ phrase number,
   S "Verify that the" +:+ plural input_ +:+ S "satisfy the required" +:+
-  phrase physical `S.and_` S "other data" +:+ plural constraint +:+ sParen (refS $ SRS.datCon ([]::[Contents]) ([]::[Section])),
+  phrase physical `S.and_` S "other" +:+ namedRef (SRS.datCon [] []) (plural datumConstraint),
   S "Identify the" +:+ phrase crtSlpSrf +:+ S "within the possible" +:+
   phrase input_ +:+ S "range",
   S "Find the" +:+ phrase fsConcept +:+ S "for the" +:+ phrase slope,

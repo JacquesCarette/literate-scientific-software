@@ -237,13 +237,13 @@ periodPendDerivSents :: [Sentence]
 periodPendDerivSents = [periodPendDerivSent1, periodPendDerivSent2]
 
 periodPendDerivSent1, periodPendDerivSent2 :: Sentence
-periodPendDerivSent1 = atStartNP (period `the_ofThe` pendulum) +:+ S "can be defined from" +:+
-                refS angFrequencyGD +:+ phrase equation
-periodPendDerivSent2 =  S "Therefore from the" +:+ phrase equation +:+ refS angFrequencyDD `sC` S "we have"
+periodPendDerivSent1 = atStartNP (period `the_ofThe` pendulum) +:+ S "can be defined from the general definition for the" +:+ phrase equation `S.of_`
+                namedRef angFrequencyGD (phrase angFrequencyDD)
+periodPendDerivSent2 =  S "Therefore from the data definition of the" +:+ phrase equation `S.for` namedRef angFrequencyDD (phrase angFrequencyDD) `sC` S "we have"
 
 periodPendNotes :: Sentence
-periodPendNotes = atStartNP (NP.the (frequency `and_` period)) +:+ S "are defined in" +:+ refS frequencyDD +:+
-        refS periodSHMDD +:+ S "respectively"
+periodPendNotes = atStartNP (NP.the (frequency `and_` period)) +:+ S "are defined in the data definitions for" +:+ namedRef frequencyDD (phrase frequencyDD) `S.and_`
+        namedRef periodSHMDD (phrase periodSHMDD) +:+ S "respectively"
 
 -- References --
 genDefRefs :: [Reference]

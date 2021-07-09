@@ -35,7 +35,7 @@ This section records information for easy reference.
 
 \subsection{Table of Units}
 \label{Sec:ToU}
-The unit system used throughout is SI (Système International d'Unités). In addition to the basic units, several derived units are also used. For each unit, \hyperref[Table:ToU]{Tab:ToU} lists the symbol, a description and the SI name.
+The unit system used throughout is SI (Système International d'Unités). In addition to the basic units, several derived units are also used. For each unit, the \hyperref[Table:ToU]{Table of Units} lists the symbol, a description and the SI name.
 
 \begin{longtable}{l l l}
 \toprule
@@ -63,7 +63,7 @@ ${\text{s}}$ & time & second
 \end{longtable}
 \subsection{Table of Symbols}
 \label{Sec:ToS}
-The symbols used in this document are summarized in \hyperref[Table:ToS]{Tab:ToS} along with their units. Throughout the document, symbols in bold will represent vectors, and scalars otherwise. The symbols are listed in alphabetical order. For vector quantities, the units shown are for each component of the vector.
+The symbols used in this document are summarized in the \hyperref[Table:ToS]{Table of Symbols} along with their units. Throughout the document, symbols in bold will represent vectors, and scalars otherwise. The symbols are listed in alphabetical order. For vector quantities, the units shown are for each component of the vector.
 
 \begin{longtable}{l l l}
 \toprule
@@ -195,7 +195,7 @@ This subsection provides a list of terms that are used in the subsequent section
 \end{itemize}
 \subsubsection{Physical System Description}
 \label{Sec:PhysSyst}
-The physical system of Pendulum, as shown in \hyperref[Figure:pendulum]{Fig:pendulum}, includes the following elements:
+The physical system of Pendulum, as shown in the \hyperref[Figure:pendulum]{Fig:pendulum} below, includes the following elements:
 
 \begin{itemize}
 \item[PS1:]{The rod.}
@@ -217,7 +217,7 @@ Given the mass and length of the rod, initial angle of the mass and the gravitat
 \end{itemize}
 \subsection{Solution Characteristics Specification}
 \label{Sec:SolCharSpec}
-The instance models that govern Pendulum are presented in \hyperref[Sec:IMs]{Sec:Instance Models}. The information to understand the meaning of the instance models and their derivation is also presented, so that the instance models can be verified.
+The instance models that govern Pendulum are presented in the \hyperref[Sec:IMs]{Instance Model Section}. The information to understand the meaning of the instance models and their derivation is also presented, so that the instance models can be verified.
 
 \subsubsection{Assumptions}
 \label{Sec:Assumps}
@@ -771,7 +771,7 @@ Description & \begin{symbDescription}
               \item{$\mathbf{g}$ is the gravitational acceleration ($\frac{\text{m}}{\text{s}^{2}}$)}
               \end{symbDescription}
 \\ \midrule \\
-Notes & The frequency and period are defined in \hyperref[DD:frequencyDD]{DD:frequencyDD} \hyperref[DD:periodSHMDD]{DD:periodSHMDD} respectively
+Notes & The frequency and period are defined in the data definitions for \hyperref[DD:frequencyDD]{frequency} and \hyperref[DD:periodSHMDD]{period} respectively
         
 \\ \midrule \\
 Source & --
@@ -783,12 +783,12 @@ RefBy &
 \end{minipage}
 \paragraph{Detailed derivation of the period of the pendulum:}
 \label{GD:periodPendDeriv}
-The period of the pendulum can be defined from \hyperref[GD:angFrequencyGD]{GD:angFrequencyGD} equation
+The period of the pendulum can be defined from the general definition for the equation of \hyperref[GD:angFrequencyGD]{angular frequency}
 
 \begin{displaymath}
 Ω=\sqrt{\frac{\mathbf{g}}{{L_{\text{rod}}}}}
 \end{displaymath}
-Therefore from the equation \hyperref[DD:angFrequencyDD]{DD:angFrequencyDD}, we have
+Therefore from the data definition of the equation for \hyperref[DD:angFrequencyDD]{angular frequency}, we have
 
 \begin{displaymath}
 T=2 π \sqrt{\frac{{L_{\text{rod}}}}{\mathbf{g}}}
@@ -994,7 +994,7 @@ RefBy & \hyperref[GD:periodPend]{GD:periodPend} and \hyperref[DD:angFrequencyDD]
 
 \subsubsection{Instance Models}
 \label{Sec:IMs}
-This section transforms the problem defined in \hyperref[Sec:ProbDesc]{Sec:Problem Description} into one which is expressed in mathematical terms. It uses concrete symbols defined in \hyperref[Sec:DDs]{Sec:Data Definitions} to replace the abstract symbols in the models identified in \hyperref[Sec:TMs]{Sec:Theoretical Models} and \hyperref[Sec:GDs]{Sec:General Definitions}.
+This section transforms the problem defined in the \hyperref[Sec:ProbDesc]{problem description} into one which is expressed in mathematical terms. It uses concrete symbols defined in the \hyperref[Sec:DDs]{data definitions} to replace the abstract symbols in the models identified in \hyperref[Sec:TMs]{theoretical models} and \hyperref[Sec:GDs]{general definitions}.
 
 \vspace{\baselineskip}
 \noindent
@@ -1051,7 +1051,7 @@ RefBy & \hyperref[outputValues]{FR:Output-Values} and \hyperref[calcAngPos]{FR:C
 \end{minipage}
 \paragraph{Detailed derivation of angular displacement:}
 \label{IM:calOfAngularDisplacementDeriv}
-When the pendulum is displaced to an initial angle and released, the pendulum swings back and forth with periodic motion. By applying Newton's second law for rotational motion in \hyperref[TM:NewtonSecLawRotMot]{TM:NewtonSecLawRotMot}, the equation of motion for the pendulum may be obtained:
+When the pendulum is displaced to an initial angle and released, the pendulum swings back and forth with periodic motion. By applying \hyperref[TM:NewtonSecLawRotMot]{Newton's second law for rotational motion}, the equation of motion for the pendulum may be obtained:
 
 \begin{displaymath}
 \mathbf{τ}=\mathbf{I} α
@@ -1078,7 +1078,7 @@ Thus the simple harmonic motion is:
 \end{displaymath}
 \subsubsection{Data Constraints}
 \label{Sec:DataConstraints}
-\hyperref[Table:InDataConstraints]{Tab:InDataConstraints} shows the data constraints on the input variables. The column for physical constraints gives the physical limitations on the range of values that can be taken by the variable. The uncertainty column provides an estimate of the confidence with which the physical quantities can be measured. This information would be part of the input if one were performing an uncertainty quantification exercise. The constraints are conservative, to give the user of the model the flexibility to experiment with unusual situations. The column of typical values is intended to provide a feel for a common scenario.
+The \hyperref[Table:InDataConstraints]{Data Constraints Table} shows the data constraints on the input variables. The column for physical constraints gives the physical limitations on the range of values that can be taken by the variable. The uncertainty column provides an estimate of the confidence with which the physical quantities can be measured. This information would be part of the input if one were performing an uncertainty quantification exercise. The constraints are conservative, to give the user of the model the flexibility to experiment with unusual situations. The column of typical values is intended to provide a feel for a common scenario.
 
 \begin{longtable}{l l l l}
 \toprule
@@ -1096,7 +1096,7 @@ ${θ_{i}}$ & ${θ_{i}}\gt{}0$ & $2.1$ ${\text{rad}}$ & 10$\%$
 \end{longtable}
 \subsubsection{Properties of a Correct Solution}
 \label{Sec:CorSolProps}
-\hyperref[Table:OutDataConstraints]{Tab:OutDataConstraints} shows the data constraints on the output variables. The column for physical constraints gives the physical limitations on the range of values that can be taken by the variable.
+The \hyperref[Table:OutDataConstraints]{Data Constraints Table} shows the data constraints on the output variables. The column for physical constraints gives the physical limitations on the range of values that can be taken by the variable.
 
 \begin{longtable}{l l}
 \toprule
@@ -1122,7 +1122,7 @@ This section provides the functional requirements, the tasks and behaviours that
 
 \begin{itemize}
 \item[Input-Values:\phantomsection\label{inputValues}]{Input the values from \hyperref[Table:ReqInputs]{Tab:ReqInputs}.}
-\item[Verify-Input-Values:\phantomsection\label{verifyInptVals}]{Check the entered input values to ensure that they do not exceed the data constraints mentioned in \hyperref[Sec:DataConstraints]{Sec:Data Constraints}. If any of the input values are out of bounds, an error message is displayed and the calculations stop.}
+\item[Verify-Input-Values:\phantomsection\label{verifyInptVals}]{Check the entered input values to ensure that they do not exceed the \hyperref[Sec:DataConstraints]{data constraints}. If any of the input values are out of bounds, an error message is displayed and the calculations stop.}
 \item[Calculate-Angular-Position-Of-Mass:\phantomsection\label{calcAngPos}]{Calculate the following values: $θ$ (from \hyperref[IM:calOfAngularDisplacement]{IM:calOfAngularDisplacement}) and ${θ_{p}}$ (from \hyperref[IM:calOfAngularDisplacement]{IM:calOfAngularDisplacement}).}
 \item[Output-Values:\phantomsection\label{outputValues}]{Output ${L_{\text{rod}}}$ (from \hyperref[IM:calOfAngularDisplacement]{IM:calOfAngularDisplacement}) and ${L_{\text{rod}}}$ (from \hyperref[IM:calOfAngularDisplacement]{IM:calOfAngularDisplacement}).}
 \end{itemize}
@@ -1151,7 +1151,7 @@ ${θ_{p}}$ & Displacement angle of the pendulum & ${{}^{\circ}}$
 This section provides the non-functional requirements, the qualities that the software is expected to exhibit.
 
 \begin{itemize}
-\item[Correct:\phantomsection\label{correct}]{The outputs of the code have the properties described in \hyperref[Sec:CorSolProps]{Sec:Properties of a Correct Solution}.}
+\item[Correct:\phantomsection\label{correct}]{The outputs of the code have the \hyperref[Sec:CorSolProps]{properties of a correct solution}.}
 \item[Portable:\phantomsection\label{portable}]{The code is able to be run in different environments.}
 \end{itemize}
 \section{Traceability Matrices and Graphs}

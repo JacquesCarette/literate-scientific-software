@@ -55,7 +55,7 @@ inReqDesc = foldlList Comma List [pluralNP (NP.the (combineNINI glass dimension)
   phraseNP (type_ `of_` glass), phrase pbTolfail, pluralNP (characteristic `the_ofThePS` blast)]
 
 sysSetValsFollowingAssumpsDesc = foldlSent [atStartNP (the system), S "shall set the known",
-    plural value, S "as described in", refS sysSetValsFollowingAssumpsTable]
+    plural value, S "as described in the table for", namedRef sysSetValsFollowingAssumpsTable (S "Required Assignments")]
 
 sysSetValsFollowingAssumpsTable :: LabelledContent
 sysSetValsFollowingAssumpsTable = mkValsSourceTable (mkQRTupleRef r2AQs r2ARs ++ mkQRTuple r2DDs) "ReqAssignments"
@@ -69,8 +69,7 @@ sysSetValsFollowingAssumpsTable = mkValsSourceTable (mkQRTupleRef r2AQs r2ARs ++
 -- the assumption(s) that're being followed? (Issue #349)
 
 checkInputWithDataConsDesc = foldlSent [atStartNP (the system), S "shall check the entered",
-  plural inValue, S "to ensure that they do not exceed the", plural datumConstraint,
-  S "mentioned in" +:+. refS (datCon ([]::[Contents]) ([]::[Section])), 
+  plural inValue, S "to ensure that they do not exceed the" +:+. namedRef (datCon [] []) (plural datumConstraint), 
   S "If any" `S.ofThe` plural inValue, S "are out" `S.of_` S "bounds" `sC`
   S "an", phrase errMsg, S "is displayed" `S.andThe` plural calculation, S "stop"]
 
@@ -85,7 +84,7 @@ checkGlassSafetyDesc = foldlSent_ [S "If", eS (sy isSafePb $&& sy isSafeLR),
   phraseNP (the message), Quote (notSafe ^. defn)]
 
 outputValuesDesc :: Sentence
-outputValuesDesc = foldlSent [titleize output_, pluralNP (the value), S "from", refS outputValuesTable]
+outputValuesDesc = foldlSent [titleize output_, pluralNP (the value), S "from the table for", namedRef outputValuesTable (S "Required Outputs")]
 
 outputValuesTable :: LabelledContent
 outputValuesTable = mkValsSourceTable (mkQRTuple iMods ++ mkQRTuple r6DDs) "ReqOutputs"

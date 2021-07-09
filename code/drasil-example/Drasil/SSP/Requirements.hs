@@ -12,7 +12,7 @@ import Data.Drasil.Concepts.Computation (inDatum)
 import Data.Drasil.Concepts.Documentation (assumption, code,
   datum, funcReqDom, input_, likelyChg, mg, mis, module_, name_, nonFuncReqDom,
   output_, physicalConstraint, property, requirement, srs, symbol_,
-  traceyMatrix, unlikelyChg, user, value)
+  traceyMatrix, unlikelyChg, user, value, propOfCorSol)
 import Data.Drasil.Concepts.Physics (twoD)
 import Data.Drasil.TheoryConcepts (dataDefn, genDefn, inModel, thModel)
 
@@ -37,13 +37,13 @@ readAndStore, verifyInput, determineCritSlip, verifyOutput, displayInput,
   writeToFile :: ConceptInstance
 
 readAndStore = cic "readAndStore" ( foldlSent [
-  S "Read the", plural input_ `sC` S "shown in", 
-  refS inputDataTable `sC` S "and store the", plural datum]) 
+  S "Read the", plural input_ `sC` S "shown in the table", 
+  namedRef inputDataTable (S "Required Inputs") `sC` S "and store the", plural datum]) 
   "Read-and-Store" funcReqDom
 
 verifyInput = cic "verifyInput" ( foldlSent [
   S "Verify that the", plural inDatum, S "lie within the",
-  plural physicalConstraint, S "shown in", refS (datCon [] [])])
+  namedRef (datCon [] []) (plural physicalConstraint)])
   "Verify-Input" funcReqDom
 
 determineCritSlip = cic "determineCritSlip" ( foldlSent [
@@ -56,7 +56,7 @@ determineCritSlip = cic "determineCritSlip" ( foldlSent [
 
 verifyOutput = cic "verifyOutput" ( foldlSent [
   S "Verify that the", phrase fsMin `S.and_` phrase crtSlpSrf, S "satisfy the",
-  plural physicalConstraint, S "shown in", refS (propCorSol [] [])])
+  plural physicalConstraint, S "shown in", namedRef (propCorSol [] []) (titleize' propOfCorSol)])
   "Verify-Output" funcReqDom
 
 displayInput = cic "displayInput" ( foldlSent [

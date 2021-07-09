@@ -9,7 +9,7 @@ import qualified Utils.Drasil.Sentence as S
 import Drasil.DocLang (inReq)
 import qualified Drasil.DocLang.SRS as SRS (solCharSpec)
 import Data.Drasil.Concepts.Documentation as Doc (body, funcReqDom, input_, 
-  nonFuncReqDom, output_, physicalConstraint, physicalSim, property)
+  nonFuncReqDom, output_, physicalConstraint, physicalSim, property, solutionCharSpec)
 
 import qualified Data.Drasil.Concepts.Physics as CP (collision, elasticity, 
   friction, rigidBody, space)
@@ -69,8 +69,8 @@ inputSurfacePropsDesc = foldlSent [S "Input", pluralNP (combineNINI CM.surface
   phrase CP.elasticity]
 
 verifyPhysConsDesc = foldlSent [S "Verify that the", plural input_,
-  S "satisfy the required", plural physicalConstraint, S "from", 
-  refS (SRS.solCharSpec [] [])]
+  S "satisfy the required", plural physicalConstraint, S "from the", 
+  namedRef (SRS.solCharSpec [] []) (phrase solutionCharSpec)]
 
 calcTransOverTimeDesc = requirementS QP.position QP.velocity 
   (S "acted upon by a" +:+ phrase QP.force)
@@ -78,7 +78,7 @@ calcTransOverTimeDesc = requirementS QP.position QP.velocity
 calcRotOverTimeDesc = requirementS' QM.orientation QP.angularVelocity
 
 deterCollsDesc = foldlSent [S "Determine if any of the", 
-  plural CP.rigidBody, S "in the", phrase CP.space, 
+  pluralNP (CP.rigidBody `inThePS` CP.space), 
   S "have collided"]
 
 deterCollRespOverTimeDesc = requirementS QP.position QP.velocity 

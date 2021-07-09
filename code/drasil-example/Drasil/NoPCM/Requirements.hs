@@ -28,8 +28,8 @@ import Drasil.NoPCM.Unitals (inputs)
 --
 inputInitVals :: ConceptInstance
 inputInitVals = cic "inputInitVals" (foldlSent [
-  titleize input_, S "the following", plural value, S "described in",
-  refS inputInitValsTable `sC` S "which define", inReqDesc])
+  titleize input_, S "the following", plural value, S "described in the table for",
+  namedRef inputInitValsTable (S "Required Inputs")`sC` S "which define", inReqDesc])
   "Input-Initial-Values" funcReqDom
 
 --

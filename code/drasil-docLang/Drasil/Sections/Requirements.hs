@@ -3,6 +3,7 @@ module Drasil.Sections.Requirements (fReqF, fullReqs, fullTables, inReq, inTable
 
 import Language.Drasil
 import Utils.Drasil
+import Utils.Drasil.Concepts
 import qualified Utils.Drasil.Sentence as S
 
 import Data.Drasil.Concepts.Documentation (description, funcReqDom,
@@ -62,12 +63,12 @@ reqIntroStart = foldlSent_ [S "This", phrase section_, S "provides"]
 
 -- | General 'Sentence' for use in the Functional Requirements subsection introduction.
 frReqIntroBody :: Sentence
-frReqIntroBody = foldlSent_ [S "the", plural functionalRequirement `sC`
+frReqIntroBody = foldlSent_ [pluralNP (the functionalRequirement) `sC`
   S "the tasks and behaviours that the", phrase software, S "is expected to complete"]
 
 -- | General 'Sentence' for use in the Non-Functional Requirements subsection introduction.
 nfrReqIntroBody :: Sentence
-nfrReqIntroBody = foldlSent_ [S "the", plural nonfunctionalRequirement `sC`
+nfrReqIntroBody = foldlSent_ [pluralNP (the nonfunctionalRequirement) `sC`
   S "the qualities that the", phrase software, S "is expected to exhibit"]
 
 -- | Generalized Requirements section introduction.

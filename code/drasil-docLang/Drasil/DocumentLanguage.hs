@@ -49,7 +49,8 @@ import qualified Drasil.DocumentLanguage.TraceabilityMatrix as TM (traceMGF,
   generateTraceTableView)
 
 import Data.Drasil.Concepts.Documentation (likelyChg, refmat, section_,
-  software, unlikelyChg)
+  software, unlikelyChg) 
+import qualified Data.Drasil.Concepts.Documentation as Doc (tOfSymb, tOfUnit)
 
 import Control.Lens ((^.), over, set)
 import Data.Function (on)
@@ -182,8 +183,8 @@ tsI :: TSIntro -> Sentence
 tsI (TypogConvention ts) = typogConvention ts
 tsI SymbOrder = S "The symbols are listed in alphabetical order."
 tsI (SymbConvention ls) = symbConvention ls
-tsI TSPurpose = S "The symbols used in this document are summarized in" +:+
-  refS symbTableRef +:+. S "along with their units"
+tsI TSPurpose = S "The symbols used in this document are summarized in the" +:+
+  namedRef symbTableRef (titleize' Doc.tOfSymb) +:+. S "along with their units"
 tsI VectorUnits = S "For vector quantities, the units shown are for each component of the vector."
 
 -- | Typographic convention writer. Translates a list of typographic conventions ('TConvention's)
@@ -216,7 +217,7 @@ tuI :: TUIntro -> Sentence
 tuI System  = 
   S "The unit system used throughout is SI (Système International d'Unités)."
 tuI TUPurpose = 
-  S "For each unit" `sC` refS unitTableRef +:+. S "lists the symbol, a description and the SI name"
+  S "For each unit" `sC` S "the" +:+ namedRef unitTableRef (titleize' Doc.tOfUnit) +:+. S "lists the symbol, a description and the SI name"
 tuI Derived = 
   S "In addition to the basic units, several derived units are also used."
 

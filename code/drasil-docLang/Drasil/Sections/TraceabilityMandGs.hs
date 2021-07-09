@@ -1,3 +1,4 @@
+{-# LANGUAGE PostfixOperators #-}
 module Drasil.Sections.TraceabilityMandGs (generateTraceTable,tvAssumps,
   tvDataDefns, tvGenDefns, tvTheoryModels, tvInsModels, tvGoals, tvReqs,
   tvChanges, traceMatAssumpAssump, traceMatAssumpOther, traceMatRefinement, traceMatOtherReq,
@@ -14,6 +15,7 @@ import qualified Data.Drasil.TheoryConcepts as Doc (genDefn, dataDefn, inModel, 
 import Database.Drasil(SystemInformation, _sysinfodb, gendefTable, dataDefnTable,
   insmodelTable, theoryModelTable)
 import Language.Drasil
+import Utils.Drasil.Concepts
 
 -- | Makes a Traceability Table/Matrix that contains Items of Different Sections.
 generateTraceTable :: SystemInformation -> LabelledContent
@@ -50,15 +52,15 @@ tvChanges = traceViewCC chgProbDom
 
 -- | Assumptions on the assumptions of a traceabiliy matrix.
 traceMatAssumpAssump :: TraceConfig
-traceMatAssumpAssump = TraceConfig "TraceMatAvsA" [plural assumption +:+
-  S "on the" +:+. plural assumption] (titleize' assumption +:+.
+traceMatAssumpAssump = TraceConfig "TraceMatAvsA" [(pluralNP (assumption
+  `onThePP` assumption) !.)] (titleize' assumption +:+.
   S "dependence of each other") [tvAssumps] [tvAssumps]
 
 -- | Other assumptions of the traceability matrix
 traceMatAssumpOther :: TraceConfig
 traceMatAssumpOther = TraceConfig "TraceMatAvsAll" [plural Doc.dataDefn,
   plural Doc.thModel, plural Doc.genDefn, plural Doc.inModel, plural requirement,
-  plural likelyChg, plural unlikelyChg +:+ S "on the" +:+. plural assumption]
+  plural likelyChg, (pluralNP (unlikelyChg `onThePP` assumption) !.)]
   (titleize' assumption +:+ S "and Other" +:+ titleize' item) [tvAssumps]
   [tvDataDefns, tvTheoryModels, tvGenDefns, tvInsModels, tvReqs, tvChanges]
 

@@ -279,8 +279,8 @@ sysCtxUsrResp = [S "Provide the" +:+ plural inDatum +:+ S "related to the" +:+
   phraseNP (glaSlab `and_` blastTy) `sC` S "ensuring no errors in the" +:+
   plural datum +:+. S "entry",
   S "Ensure that consistent units are used for" +:+. pluralNP (combineNINI input_ variable),
-  S "Ensure required" +:+ pluralNP (combineNINI software assumption) +:+
-    sParen (refS $ SRS.assumpt ([]::[Contents]) ([]::[Section]))
+  S "Ensure required" +:+ 
+  namedRef (SRS.assumpt [] []) (pluralNP (combineNINI software assumption))
     +:+ S "are appropriate for any particular" +:+
     phrase problem +:+ S "input to the" +:+. phrase software]
 

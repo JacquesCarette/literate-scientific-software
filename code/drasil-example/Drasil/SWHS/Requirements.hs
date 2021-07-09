@@ -13,7 +13,7 @@ import Data.Drasil.Concepts.Computation (inValue)
 import Data.Drasil.Concepts.Documentation (assumption, code, condition,
   funcReqDom, input_, likelyChg, mg, mis, module_, nonFuncReqDom, output_,
   physicalConstraint, property, requirement, simulation, srs, traceyMatrix,
-  unlikelyChg, value, vavPlan)
+  unlikelyChg, value, vavPlan, propOfCorSol)
 import Data.Drasil.Concepts.Math (parameter)
 import Data.Drasil.Concepts.PhysicalProperties (materialProprty)
 import Data.Drasil.Concepts.Thermodynamics as CT (lawConsEnergy, melting)
@@ -69,7 +69,7 @@ findMassConstruct fr m ims ddefs = cic "findMass" (foldlSent [
 --
 checkWithPhysConsts = cic "checkWithPhysConsts" (foldlSent [
   S "Verify that", pluralNP (the input_), S "satisfy the required",
-  plural physicalConstraint, S "shown in", refS (datCon ([]::[Contents]) ([]::[Section]))])
+  namedRef (datCon [] []) (plural physicalConstraint)])
   "Check-Input-with-Physical_Constraints" funcReqDom
 --
 outputInputDerivVals = oIDQConstruct oIDQVals
@@ -119,7 +119,7 @@ verifyEnergyOutput = cic "verifyEnergyOutput" (foldlSent [
   S "Verify that the", phrase energy, plural output_,
   sParen (ch watE :+: sParen (ch time) `S.and_` ch pcmE :+:
   sParen (ch time)), S "follow the", phrase CT.lawConsEnergy `sC`
-  S "as outlined in", refS (propCorSol [] []) `sC`
+  S "as outlined in", namedRef (propCorSol [] []) (titleize' propOfCorSol) `sC`
   S "with relative error no greater than", ch consTol])
   "Verify-Energy-Output-Follow-Conservation-of-Energy" funcReqDom
 --
@@ -150,7 +150,7 @@ nfRequirements = [correct, verifiable, understandable, reusable, maintainable]
 correct :: ConceptInstance
 correct = cic "correct" (foldlSent [atStartNP'
   (output_ `the_ofThePS` code), S "have the",
-  plural property, S "described in", refS (propCorSol [] [])
+  plural property, S "described in", namedRef (propCorSol [] []) (titleize' propOfCorSol)
   ]) "Correct" nonFuncReqDom
  
 verifiable :: ConceptInstance

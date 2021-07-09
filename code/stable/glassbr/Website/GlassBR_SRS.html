@@ -23,7 +23,7 @@
           <div class="subsection">
             <h2>Table of Units</h2>
             <p class="paragraph">
-              The unit system used throughout is SI (Système International d'Unités). In addition to the basic units, several derived units are also used. For each unit, <a href=#Table:ToU>Tab:ToU</a> lists the symbol, a description and the SI name.
+              The unit system used throughout is SI (Système International d'Unités). In addition to the basic units, several derived units are also used. For each unit, the <a href=#Table:ToU>Table of Units</a> lists the symbol, a description and the SI name.
             </p>
             <div id="Table:ToU">
               <table class="table">
@@ -66,7 +66,7 @@
           <div class="subsection">
             <h2>Table of Symbols</h2>
             <p class="paragraph">
-              The symbols used in this document are summarized in <a href=#Table:ToS>Tab:ToS</a> along with their units. The symbols are listed in alphabetical order.
+              The symbols used in this document are summarized in the <a href=#Table:ToS>Table of Symbols</a> along with their units. The symbols are listed in alphabetical order.
             </p>
             <div id="Table:ToS">
               <table class="table">
@@ -536,7 +536,7 @@
                   </li>
                   <li>Ensure that consistent units are used for input variables.</li>
                   <li>
-                    Ensure required software assumptions (<a href=#Sec:Assumps>Sec:Assumptions</a>) are appropriate for any particular problem input to the software.
+                    Ensure required <a href=#Sec:Assumps>software assumptions</a> are appropriate for any particular problem input to the software.
                   </li>
                 </ul>
               </li>
@@ -671,7 +671,7 @@
               <div class="subsubsection">
                 <h3>Physical System Description</h3>
                 <p class="paragraph">
-                  The physical system of GlassBR, as shown in <a href=#Figure:physSystImage>Fig:physSystImage</a>, includes the following elements:
+                  The physical system of GlassBR, as shown in the <a href=#Figure:physSystImage>Fig:physSystImage</a> below, includes the following elements:
                 </p>
                 <div class="list">
                   <p>PS1: The glass slab.</p>
@@ -708,7 +708,7 @@
           <div class="subsection">
             <h2>Solution Characteristics Specification</h2>
             <p class="paragraph">
-              The instance models that govern GlassBR are presented in <a href=#Sec:IMs>Sec:Instance Models</a>. The information to understand the meaning of the instance models and their derivation is also presented, so that the instance models can be verified.
+              The instance models that govern GlassBR are presented in the <a href=#Sec:IMs>Instance Model Section</a>. The information to understand the meaning of the instance models and their derivation is also presented, so that the instance models can be verified.
             </p>
             <div id="Sec:Assumps">
               <div class="subsubsection">
@@ -1884,7 +1884,7 @@
               <div class="subsubsection">
                 <h3>Instance Models</h3>
                 <p class="paragraph">
-                  This section transforms the problem defined in <a href=#Sec:ProbDesc>Sec:Problem Description</a> into one which is expressed in mathematical terms. It uses concrete symbols defined in <a href=#Sec:DDs>Sec:Data Definitions</a> to replace the abstract symbols in the models identified in <a href=#Sec:TMs>Sec:Theoretical Models</a> and <a href=#Sec:GDs>Sec:General Definitions</a>.
+                  This section transforms the problem defined in the <a href=#Sec:ProbDesc>problem description</a> into one which is expressed in mathematical terms. It uses concrete symbols defined in the <a href=#Sec:DDs>data definitions</a> to replace the abstract symbols in the models identified in <a href=#Sec:TMs>theoretical models</a> and <a href=#Sec:GDs>general definitions</a>.
                 </p>
                 <p class="paragraph">
                   The goal <a href=#willBreakGS>GS:Predict-Glass-Withstands-Explosion</a> is met by <a href=#IM:isSafePb>IM:isSafePb</a>, <a href=#IM:isSafeLR>IM:isSafeLR</a>.
@@ -2045,7 +2045,7 @@
               <div class="subsubsection">
                 <h3>Data Constraints</h3>
                 <p class="paragraph">
-                  <a href=#Table:InDataConstraints>Tab:InDataConstraints</a> shows the data constraints on the input variables. The column for physical constraints gives the physical limitations on the range of values that can be taken by the variable. The uncertainty column provides an estimate of the confidence with which the physical quantities can be measured. This information would be part of the input if one were performing an uncertainty quantification exercise. The constraints are conservative, to give the user of the model the flexibility to experiment with unusual situations. The column of typical values is intended to provide a feel for a common scenario. <a href=#Sec:AuxConstants>Sec:Values of Auxiliary Constants</a> gives the values of the specification parameters used in <a href=#Table:InDataConstraints>Tab:InDataConstraints</a>.
+                  The <a href=#Table:InDataConstraints>Data Constraints Table</a> shows the data constraints on the input variables. The column for physical constraints gives the physical limitations on the range of values that can be taken by the variable. The uncertainty column provides an estimate of the confidence with which the physical quantities can be measured. This information would be part of the input if one were performing an uncertainty quantification exercise. The constraints are conservative, to give the user of the model the flexibility to experiment with unusual situations. The column of typical values is intended to provide a feel for a common scenario. The <a href=#Sec:AuxConstants>auxiliary constants</a> give the values of the specification parameters used in the <a href=#Table:InDataConstraints>Data Constraints Table</a>.
                 </p>
                 <div id="Table:InDataConstraints">
                   <table class="table">
@@ -2126,7 +2126,7 @@
               <div class="subsubsection">
                 <h3>Properties of a Correct Solution</h3>
                 <p class="paragraph">
-                  <a href=#Table:OutDataConstraints>Tab:OutDataConstraints</a> shows the data constraints on the output variables. The column for physical constraints gives the physical limitations on the range of values that can be taken by the variable.
+                  The <a href=#Table:OutDataConstraints>Data Constraints Table</a> shows the data constraints on the output variables. The column for physical constraints gives the physical limitations on the range of values that can be taken by the variable.
                 </p>
                 <div id="Table:OutDataConstraints">
                   <table class="table">
@@ -2175,12 +2175,12 @@
               </p>
               <p>
                 <div id="sysSetValsFollowingAssumps">
-                  System-Set-Values-Following-Assumptions: The system shall set the known values as described in <a href=#Table:ReqAssignments>Tab:ReqAssignments</a>.
+                  System-Set-Values-Following-Assumptions: The system shall set the known values as described in the table for <a href=#Table:ReqAssignments>Required Assignments</a>.
                 </div>
               </p>
               <p>
                 <div id="checkInputWithDataCons">
-                  Check-Input-with-Data_Constraints: The system shall check the entered input values to ensure that they do not exceed the data constraints mentioned in <a href=#Sec:DataConstraints>Sec:Data Constraints</a>. If any of the input values are out of bounds, an error message is displayed and the calculations stop.
+                  Check-Input-with-Data_Constraints: The system shall check the entered input values to ensure that they do not exceed the <a href=#Sec:DataConstraints>data constraints</a>. If any of the input values are out of bounds, an error message is displayed and the calculations stop.
                 </div>
               </p>
               <p>
@@ -2195,7 +2195,7 @@
               </p>
               <p>
                 <div id="outputValues">
-                  Output-Values: Output the values from <a href=#Table:ReqOutputs>Tab:ReqOutputs</a>.
+                  Output-Values: Output the values from the table for <a href=#Table:ReqOutputs>Required Outputs</a>.
                 </div>
               </p>
             </div>

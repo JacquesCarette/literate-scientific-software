@@ -1,7 +1,7 @@
 module Drasil.NoPCM.GenDefs (rocTempSimp, genDefs, genDefRefs) where
 
 import Language.Drasil
-import Theory.Drasil (GenDefn, gdNoRefs, ModelKinds (OthModel))
+import Theory.Drasil (GenDefn, gdNoRefs, othModel')
 
 import Drasil.NoPCM.Assumptions (assumpDWCoW, assumpSHECoW)
 import Drasil.SWHS.Assumptions (assumpCWTAT)
@@ -11,7 +11,7 @@ genDefs :: [GenDefn]
 genDefs = [rocTempSimp, htFluxWaterFromCoil] 
 
 rocTempSimp :: GenDefn
-rocTempSimp = gdNoRefs (OthModel rocTempSimpRC) (Nothing :: Maybe UnitDefn)
+rocTempSimp = gdNoRefs (othModel' rocTempSimpRC) (Nothing :: Maybe UnitDefn)
   (Just $ rocTempSimpDeriv EmptyS [assumpCWTAT, assumpDWCoW, assumpSHECoW])
   "rocTempSimp" [{-Notes-}]
 

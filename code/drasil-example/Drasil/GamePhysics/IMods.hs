@@ -34,7 +34,7 @@ iMods = [transMot, rotMot, col2D]
 
 {-- Force on the translational motion  --}
 transMot :: InstanceModel
-transMot = imNoRefs (EquationalModel transMotQD) 
+transMot = imNoRefs (equationalModel' transMotQD) 
   [ qwC velj               $ UpFrom (Exc, exactDbl 0)
   , qwC time               $ UpFrom (Exc, exactDbl 0)
   , qwC gravitationalAccel $ UpFrom (Exc, exactDbl 0)
@@ -83,7 +83,7 @@ transMotDerivEqns = map eS [transMotExprDeriv1, toDispExpr transMotQD]
 {-- Rotational Motion --}
 
 rotMot :: InstanceModel
-rotMot = imNoRefs (EquationalModel rotMotQD) 
+rotMot = imNoRefs (equationalModel' rotMotQD) 
   [ qwC angularVelocity $ UpFrom (Exc, exactDbl 0)
   , qwC time            $ UpFrom (Exc, exactDbl 0)
   , qwC torquej         $ UpFrom (Exc, exactDbl 0)
@@ -123,7 +123,7 @@ rotMotDerivEqns = map eS [rotMotExprDeriv1, toDispExpr rotMotQD]
 {-- 2D Collision --}
 
 col2D :: InstanceModel
-col2D = imNoDerivNoRefs (OthModel col2DRC)
+col2D = imNoDerivNoRefs (othModel' col2DRC)
   [qwC time $ UpFrom (Exc, exactDbl 0)
   ,qwC impulseS $ UpFrom (Exc, exactDbl 0)
   ,qwC massA $ UpFrom (Exc, exactDbl 0)

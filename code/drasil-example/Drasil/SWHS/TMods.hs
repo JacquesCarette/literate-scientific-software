@@ -6,9 +6,8 @@ import qualified Data.List.NonEmpty as NE
 
 import Language.Drasil
 import Control.Lens ((^.))
-import Theory.Drasil (TheoryModel, tm, 
-  ModelKinds(OthModel, EquationalModel, EquationalConstraints),
-  ConstraintSet, mkConstraintSet)
+import Theory.Drasil (TheoryModel, tm, othModel', equationalModel',
+  equationalConstraints', ConstraintSet, mkConstraintSet)
 import Utils.Drasil
 import Utils.Drasil.Concepts
 import qualified Utils.Drasil.Sentence as S
@@ -39,7 +38,7 @@ tMods = [consThermE, sensHtE, latentHtE, nwtnCooling]
 -- Theoretical Model 1 --
 -------------------------
 consThermE :: TheoryModel
-consThermE = tm (EquationalConstraints consThermECS)
+consThermE = tm (equationalConstraints' consThermECS)
   [qw thFluxVect, qw gradient, qw volHtGen,
     qw density, qw heatCapSpec, qw temp, qw time] ([] :: [ConceptChunk])
   [] [toDispExpr consThermERel] [] [consThemESrc] "consThermE" consThermENotes
@@ -78,7 +77,7 @@ data PhaseChange = AllPhases
                  | Liquid
 
 sensHtETemplate :: PhaseChange -> Sentence -> TheoryModel
-sensHtETemplate pc desc = tm (EquationalModel qd)
+sensHtETemplate pc desc = tm (equationalModel' qd)
   [qw sensHeat, qw htCapS, qw mass,
     qw deltaT, qw meltPt, qw temp, qw htCapL, qw boilPt, qw htCapV] ([] :: [ConceptChunk])
   [qd] [] [] [sensHtESrc] "sensHtE" [desc]
@@ -130,7 +129,7 @@ sensHtEdesc = foldlSent [
 -- Theoretical Model 3 --
 -------------------------
 latentHtE :: TheoryModel
-latentHtE = tm (OthModel latentHtERC)
+latentHtE = tm (othModel' latentHtERC)
   [qw latentHeat, qw time, qw tau] ([] :: [ConceptChunk])
   [] [toDispExpr latHtEEqn] [] [latHtESrc] "latentHtE" latentHtENotes
 
@@ -164,7 +163,7 @@ latentHtENotes = map foldlSent [
 -- Theoretical Model 4 --
 -------------------------
 nwtnCooling :: TheoryModel
-nwtnCooling = tm (OthModel nwtnCoolingRC)
+nwtnCooling = tm (othModel' nwtnCoolingRC)
   [qw latentHeat, qw time, qw htTransCoeff, qw deltaT] ([] :: [ConceptChunk])
   [] [toDispExpr nwtnCoolingEqn] [] [refInfo incroperaEtAl2007 $ Page [8]]
   "nwtnCooling" nwtnCoolingNotes

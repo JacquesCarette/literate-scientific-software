@@ -2,7 +2,7 @@ module Drasil.SWHS.GenDefs (genDefs, htFluxWaterFromCoil, htFluxPCMFromWater,
   rocTempSimp, rocTempSimpDeriv, rocTempSimpRC, genDefRefs) where
 
 import Language.Drasil
-import Theory.Drasil (GenDefn, gd, gdNoRefs, ModelKinds (DEModel, EquationalModel))
+import Theory.Drasil (GenDefn, gd, gdNoRefs, deModel', equationalModel')
 import Utils.Drasil
 import Utils.Drasil.Concepts
 import qualified Utils.Drasil.Sentence as S
@@ -35,7 +35,7 @@ genDefs :: [GenDefn]
 genDefs = [rocTempSimp, htFluxWaterFromCoil, htFluxPCMFromWater] 
 
 rocTempSimp :: GenDefn
-rocTempSimp = gdNoRefs (DEModel rocTempSimpRC) (Nothing :: Maybe UnitDefn)
+rocTempSimp = gdNoRefs (deModel' rocTempSimpRC) (Nothing :: Maybe UnitDefn)
   (Just $ rocTempSimpDeriv rocTempDerivConsFlxSWHS
    [assumpCWTAT, assumpTPCAV, assumpDWPCoV, assumpSHECoV])
   "rocTempSimp" [{-Notes-}]
@@ -52,7 +52,7 @@ rocTempSimpRel = sy QPP.mass `mulRe` sy QT.heatCapSpec `mulRe`
 ----
 
 htFluxWaterFromCoil :: GenDefn
-htFluxWaterFromCoil = gd (EquationalModel htFluxWaterFromCoilQD) (getUnit htFluxC) Nothing
+htFluxWaterFromCoil = gd (equationalModel' htFluxWaterFromCoilQD) (getUnit htFluxC) Nothing
   [ref koothoor2013] "htFluxWaterFromCoil"
   [newtonLawNote htFluxC assumpLCCCW coil, refS assumpTHCCoT]
 
@@ -66,7 +66,7 @@ htFluxWaterFromCoilExpr = sy coilHTC `mulRe` (sy tempC $- apply1 tempW time)
 ----
 
 htFluxPCMFromWater :: GenDefn
-htFluxPCMFromWater = gd (EquationalModel htFluxPCMFromWaterQD) (getUnit htFluxP) Nothing
+htFluxPCMFromWater = gd (equationalModel' htFluxPCMFromWaterQD) (getUnit htFluxP) Nothing
   [ref koothoor2013] "htFluxPCMFromWater"
   [newtonLawNote htFluxP assumpLCCWP phaseChangeMaterial]
 

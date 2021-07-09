@@ -9,7 +9,7 @@ import Drasil.PDController.GenDefs
 import Drasil.PDController.References
 import Drasil.PDController.TModel
 import Language.Drasil
-import Theory.Drasil (InstanceModel, im, qwC, ModelKinds (DEModel))
+import Theory.Drasil (InstanceModel, im, qwC, deModel')
 import Utils.Drasil
 import Utils.Drasil.Concepts
 import qualified Utils.Drasil.Sentence as S
@@ -22,7 +22,7 @@ instanceModels = [imPD]
 
 imPD :: InstanceModel
 imPD
-  = im (DEModel imPDRC)
+  = im (deModel' imPDRC)
       [qwC qdSetPointTD $ UpFrom (Exc, exactDbl 0), qwC qdPropGain $ UpFrom (Exc, exactDbl 0),
        qwC qdDerivGain $ UpFrom (Exc, exactDbl 0)]
       (qw qdProcessVariableTD)

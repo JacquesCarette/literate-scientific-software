@@ -102,51 +102,51 @@ digraph allvsall {
 	FS -> mobShearWO;
 	FS -> X_i;
 	FS -> FS;
-	FS -> nrmShrForRC;
+	FS -> nrmShrForIM;
 	FS -> intsliceFsRC;
-	nrmShrForRC -> assumpINSFL;
-	nrmShrForRC -> assumpES;
-	nrmShrForRC -> assumpSF;
-	nrmShrForRC -> assumpSL;
-	nrmShrForRC -> X_i;
-	nrmShrForRC -> momentEql;
-	nrmShrForRC -> FS;
-	nrmShrForRC -> nrmShrForRC;
-	nrmShrForRC -> nrmShrForNumRC;
-	nrmShrForRC -> nrmShrForDenRC;
-	nrmShrForRC -> intsliceFsRC;
+	nrmShrForIM -> assumpINSFL;
+	nrmShrForIM -> assumpES;
+	nrmShrForIM -> assumpSF;
+	nrmShrForIM -> assumpSL;
+	nrmShrForIM -> X_i;
+	nrmShrForIM -> momentEql;
+	nrmShrForIM -> FS;
+	nrmShrForIM -> nrmShrForIM;
+	nrmShrForIM -> nrmShrForNumRC;
+	nrmShrForIM -> nrmShrForDenRC;
+	nrmShrForIM -> intsliceFsRC;
 	nrmShrForNumRC -> H_i;
 	nrmShrForNumRC -> alpha_i;
 	nrmShrForNumRC -> beta_i;
 	nrmShrForNumRC -> b_i;
 	nrmShrForNumRC -> h_i;
 	nrmShrForNumRC -> srfWtrF;
-	nrmShrForNumRC -> nrmShrForRC;
+	nrmShrForNumRC -> nrmShrForIM;
 	nrmShrForDenRC -> b_i;
 	nrmShrForDenRC -> f_i;
-	nrmShrForDenRC -> nrmShrForRC;
+	nrmShrForDenRC -> nrmShrForIM;
 	intsliceFsRC -> assumpES;
 	intsliceFsRC -> Phi;
 	intsliceFsRC -> Psi;
 	intsliceFsRC -> resShearWO;
 	intsliceFsRC -> mobShearWO;
 	intsliceFsRC -> FS;
-	intsliceFsRC -> nrmShrForRC;
+	intsliceFsRC -> nrmShrForIM;
 	intsliceFsRC -> intsliceFsRC;
-	crtSlpIdRC -> assumpSSC;
+	crtSlpIdIM -> assumpSSC;
 	determineCritSlip -> FS;
-	determineCritSlip -> nrmShrForRC;
+	determineCritSlip -> nrmShrForIM;
 	determineCritSlip -> intsliceFsRC;
-	determineCritSlip -> crtSlpIdRC;
-	displayGraph -> crtSlpIdRC;
+	determineCritSlip -> crtSlpIdIM;
+	displayGraph -> crtSlpIdIM;
 	displayFS -> FS;
-	displayFS -> nrmShrForRC;
+	displayFS -> nrmShrForIM;
 	displayFS -> intsliceFsRC;
 	displayNormal -> FS;
-	displayNormal -> nrmShrForRC;
+	displayNormal -> nrmShrForIM;
 	displayNormal -> intsliceFsRC;
 	displayShear -> FS;
-	displayShear -> nrmShrForRC;
+	displayShear -> nrmShrForIM;
 	displayShear -> intsliceFsRC;
 	writeToFile -> displayInput;
 	writeToFile -> displayGraph;
@@ -237,15 +237,15 @@ digraph allvsall {
 	}
 
 	FS	[shape=box, color=black, style=filled, fillcolor=khaki1, label="IM:fctSfty"];
-	nrmShrForRC	[shape=box, color=black, style=filled, fillcolor=khaki1, label="IM:nrmShrFor"];
+	nrmShrForIM	[shape=box, color=black, style=filled, fillcolor=khaki1, label="IM:nrmShrFor"];
 	nrmShrForNumRC	[shape=box, color=black, style=filled, fillcolor=khaki1, label="IM:nrmShrForNum"];
 	nrmShrForDenRC	[shape=box, color=black, style=filled, fillcolor=khaki1, label="IM:nrmShrForDen"];
 	intsliceFsRC	[shape=box, color=black, style=filled, fillcolor=khaki1, label="IM:intsliceFs"];
-	crtSlpIdRC	[shape=box, color=black, style=filled, fillcolor=khaki1, label="IM:crtSlpId"];
+	crtSlpIdIM	[shape=box, color=black, style=filled, fillcolor=khaki1, label="IM:crtSlpId"];
 
 	subgraph IM {
 	rank="same"
-	{FS, nrmShrForRC, nrmShrForNumRC, nrmShrForDenRC, intsliceFsRC, crtSlpIdRC}
+	{FS, nrmShrForIM, nrmShrForNumRC, nrmShrForDenRC, intsliceFsRC, crtSlpIdIM}
 	}
 
 	readAndStore	[shape=box, color=black, style=filled, fillcolor=ivory, label="FR:readAndStore"];

@@ -8,7 +8,7 @@ import Control.Lens ((^.))
 import Prelude hiding (sin, cos, tan)
 import qualified Data.List.NonEmpty as NE
 import Language.Drasil
-import Theory.Drasil (GenDefn, gd, ModelKinds(EquationalConstraints, OthModel, EquationalModel), mkConstraintSet, )
+import Theory.Drasil
 import Utils.Drasil
 import Utils.Drasil.Concepts
 import qualified Utils.Drasil.NounPhrase as NP
@@ -56,29 +56,29 @@ generalDefinitions = [normForcEqGD, bsShrFEqGD, resShrGD, mobShrGD,
 normForcEqGD, bsShrFEqGD, resShrGD, mobShrGD, effNormFGD, resShearWOGD,
   mobShearWOGD, normShrRGD, momentEqlGD, sliceWghtGD, baseWtrFGD,
   srfWtrFGD :: GenDefn
-normForcEqGD = gd (OthModel normForcEq) (getUnit totNrmForce)   (Just nmFEqDeriv)
+normForcEqGD = gd (othModel' normForcEq) (getUnit totNrmForce)   (Just nmFEqDeriv)
   [ref chen2005]                      "normForcEq"  [nmFEqDesc]
-bsShrFEqGD   = gd (OthModel bsShrFEq)   (getUnit mobShrI)       (Just bShFEqDeriv)
+bsShrFEqGD   = gd (othModel' bsShrFEq)   (getUnit mobShrI)       (Just bShFEqDeriv)
   [ref chen2005]                      "bsShrFEq"    [bShFEqDesc]
-resShrGD     = gd (OthModel resShr)     (getUnit shrResI)       (Just resShrDeriv)
+resShrGD     = gd (othModel' resShr)     (getUnit shrResI)       (Just resShrDeriv)
   [ref chen2005]                      "resShr"      [resShrDesc]
-mobShrGD     = gd (OthModel mobShr)     (getUnit mobShrI)       (Just mobShrDeriv)
+mobShrGD     = gd (othModel' mobShr)     (getUnit mobShrI)       (Just mobShrDeriv)
   [ref chen2005]                      "mobShr"      [mobShrDesc]
-effNormFGD   = gd (OthModel effNormF)   (getUnit nrmFSubWat)    (Just effNormFDeriv)
+effNormFGD   = gd (othModel' effNormF)   (getUnit nrmFSubWat)    (Just effNormFDeriv)
   [ref chen2005]                      "effNormF"    [effNormFDesc]
-resShearWOGD = gd (OthModel resShearWO) (getUnit shearRNoIntsl) Nothing
+resShearWOGD = gd (othModel' resShearWO) (getUnit shearRNoIntsl) Nothing
   (map ref[chen2005, karchewski2012]) "resShearWO"  [resShearWODesc]
-mobShearWOGD = gd (OthModel mobShearWO) (getUnit shearFNoIntsl) Nothing
+mobShearWOGD = gd (othModel' mobShearWO) (getUnit shearFNoIntsl) Nothing
   (map ref[chen2005, karchewski2012]) "mobShearWO"  [mobShearWODesc]
-normShrRGD   = gd (EquationalModel normShrR)   (getUnit intShrForce)   Nothing
+normShrRGD   = gd (equationalModel' normShrR)   (getUnit intShrForce)   Nothing
   [ref chen2005]                      "normShrR"    [nmShrRDesc]
 momentEqlGD  = gd momentEqlModel        (Just newton)            (Just momEqlDeriv)
   [ref chen2005]                      "momentEql"   [momEqlDesc]
-sliceWghtGD  = gd (OthModel sliceWght)  (getUnit slcWght)       (Just sliceWghtDeriv)
+sliceWghtGD  = gd (othModel' sliceWght)  (getUnit slcWght)       (Just sliceWghtDeriv)
   [ref fredlund1977]                  "sliceWght"   [sliceWghtNotes]
-baseWtrFGD   = gd (OthModel baseWtrF)   (getUnit baseHydroForce) (Just bsWtrFDeriv)
+baseWtrFGD   = gd (othModel' baseWtrF)   (getUnit baseHydroForce) (Just bsWtrFDeriv)
   [ref fredlund1977]                  "baseWtrF"    [bsWtrFNotes]
-srfWtrFGD    = gd (OthModel srfWtrF)    (getUnit surfHydroForce) (Just srfWtrFDeriv)
+srfWtrFGD    = gd (othModel' srfWtrF)    (getUnit surfHydroForce) (Just srfWtrFDeriv)
   [ref fredlund1977]                  "srfWtrF"     [srfWtrFNotes]
 --
 normForcEq :: RelationConcept
@@ -245,8 +245,8 @@ mobShearWODesc = (foldlList Comma List [slcWght `definedIn'''` sliceWghtGD,
 
 --
 
-momentEqlModel :: ModelKinds
-momentEqlModel = EquationalConstraints $
+momentEqlModel :: ModelKind
+momentEqlModel = equationalConstraints' $
   mkConstraintSet (dccWDS "momentEql" (nounPhraseSP "moment equilibrium") momEqlDesc) $
   NE.fromList [momEqlRel]
 

@@ -7,8 +7,8 @@ import Prelude hiding (cos, sin, sqrt)
 import qualified Data.List.NonEmpty as NE
 
 import Language.Drasil
-import Theory.Drasil (GenDefn, gdNoRefs, gdNoRefs',
-    ModelKinds (EquationalModel, EquationalRealm),
+import Theory.Drasil (GenDefn, gdNoRefs,
+    equationalModel', equationalModelU, equationalRealmU,
     MultiDefn, mkDefiningExpr, mkMultiDefnForQuant)
 import Utils.Drasil
 import Utils.Drasil.Concepts
@@ -38,7 +38,7 @@ genDefns = [velocityIXGD, velocityIYGD, accelerationIXGD, accelerationIYGD,
 
 ---------------------
 velocityIXGD :: GenDefn
-velocityIXGD = gdNoRefs (EquationalModel velocityIXQD) (getUnit velocity)
+velocityIXGD = gdNoRefs (equationalModel' velocityIXQD) (getUnit velocity)
            (Just velocityIXDeriv) "velocityIX" [{-Notes-}]
 
 velocityIXQD :: QDefinition
@@ -68,7 +68,7 @@ velocityIXDerivSent5 = S "Therefore, using the chain rule,"
 
 ---------------------
 velocityIYGD :: GenDefn
-velocityIYGD = gdNoRefs (EquationalModel velocityIYQD) (getUnit velocity)
+velocityIYGD = gdNoRefs (equationalModel' velocityIYQD) (getUnit velocity)
            (Just velocityIYDeriv) "velocityIY" [{-Notes-}]
 
 velocityIYQD :: QDefinition
@@ -94,7 +94,7 @@ velocityIYDerivSent5 = S "Therefore, using the chain rule,"
 
 -----------------------
 accelerationIXGD :: GenDefn
-accelerationIXGD = gdNoRefs (EquationalModel accelerationIXQD) (getUnit acceleration)
+accelerationIXGD = gdNoRefs (equationalModel' accelerationIXQD) (getUnit acceleration)
            (Just accelerationIXDeriv) "accelerationIX" [{-Notes-}]
 
 accelerationIXQD :: QDefinition
@@ -123,7 +123,7 @@ accelerationIXDerivSent5 = S "Simplifying,"
 
 -----------------------
 accelerationIYGD :: GenDefn
-accelerationIYGD = gdNoRefs (EquationalModel accelerationIYQD) (getUnit acceleration)
+accelerationIYGD = gdNoRefs (equationalModel' accelerationIYQD) (getUnit acceleration)
            (Just accelerationIYDeriv) "accelerationIY" [{-Notes-}]
 
 accelerationIYQD :: QDefinition
@@ -149,7 +149,7 @@ accelerationIYDerivSent5 = S "Simplifying,"
 
 -------------------------------------Horizontal force acting on the pendulum 
 hForceOnPendulumGD :: GenDefn
-hForceOnPendulumGD = gdNoRefs' "hForceOnPendulum" (EquationalRealm hForceOnPendulumMD)
+hForceOnPendulumGD = gdNoRefs (equationalRealmU "hForceOnPendulum" hForceOnPendulumMD)
         (getUnit force) (Just hForceOnPendulumDeriv) "hForceOnPendulum" [{-Notes-}]
 
 hForceOnPendulumMD :: MultiDefn
@@ -168,7 +168,7 @@ hForceOnPendulumDeriv = mkDerivName (phraseNP (force `onThe` pendulum)) [eS hFor
 
 ----------------------------------------Vertical force acting on the pendulum 
 vForceOnPendulumGD :: GenDefn
-vForceOnPendulumGD = gdNoRefs' "vForceOnPendulum" (EquationalRealm vForceOnPendulumMD)
+vForceOnPendulumGD = gdNoRefs (equationalRealmU "vForceOnPendulum" vForceOnPendulumMD)
         (getUnit force) (Just vForceOnPendulumDeriv) "vForceOnPendulum" [{-Notes-}]
 
 vForceOnPendulumMD :: MultiDefn
@@ -188,7 +188,7 @@ vForceOnPendulumDeriv = mkDerivName (phraseNP (force `onThe` pendulum)) [eS vFor
 --------------------------------------Angular Frequency Of Pendulum
 
 angFrequencyGD :: GenDefn
-angFrequencyGD = gdNoRefs' "angFrequencyGD" (EquationalModel angFrequencyQD) (getUnit angularFrequency)
+angFrequencyGD = gdNoRefs (equationalModelU "angFrequencyGD" angFrequencyQD) (getUnit angularFrequency)
            (Just angFrequencyDeriv) "angFrequencyGD" [angFrequencyGDNotes]
 
 angFrequencyQD :: QDefinition
@@ -224,7 +224,7 @@ angFrequencyGDNotes = S "The" +:+ phrase torque `S.is` definedIn'' newtonSLR  `S
  -------------------------------- Period of Pendulum Motion 
 
 periodPend :: GenDefn
-periodPend = gdNoRefs' "periodPendGD" (EquationalModel periodPendQD) (getUnit period)
+periodPend = gdNoRefs (equationalModelU "periodPendGD" periodPendQD) (getUnit period)
            (Just periodPendDeriv) "periodPend" [periodPendNotes]
 
 periodPendQD :: QDefinition

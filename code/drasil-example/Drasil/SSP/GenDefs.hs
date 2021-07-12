@@ -57,29 +57,29 @@ normForcEqGD, bsShrFEqGD, resShrGD, mobShrGD, effNormFGD, resShearWOGD,
   mobShearWOGD, normShrRGD, momentEqlGD, sliceWghtGD, baseWtrFGD,
   srfWtrFGD :: GenDefn
 normForcEqGD = gd (OthModel normForcEq) (getUnit totNrmForce)   (Just nmFEqDeriv)
-  [ref chen2005]                      "normForcEq"  [nmFEqDesc]
+  [dRef chen2005]                      "normForcEq"  [nmFEqDesc]
 bsShrFEqGD   = gd (OthModel bsShrFEq)   (getUnit mobShrI)       (Just bShFEqDeriv)
-  [ref chen2005]                      "bsShrFEq"    [bShFEqDesc]
+  [dRef chen2005]                      "bsShrFEq"    [bShFEqDesc]
 resShrGD     = gd (OthModel resShr)     (getUnit shrResI)       (Just resShrDeriv)
-  [ref chen2005]                      "resShr"      [resShrDesc]
+  [dRef chen2005]                      "resShr"      [resShrDesc]
 mobShrGD     = gd (OthModel mobShr)     (getUnit mobShrI)       (Just mobShrDeriv)
-  [ref chen2005]                      "mobShr"      [mobShrDesc]
+  [dRef chen2005]                      "mobShr"      [mobShrDesc]
 effNormFGD   = gd (OthModel effNormF)   (getUnit nrmFSubWat)    (Just effNormFDeriv)
-  [ref chen2005]                      "effNormF"    [effNormFDesc]
+  [dRef chen2005]                      "effNormF"    [effNormFDesc]
 resShearWOGD = gd (OthModel resShearWO) (getUnit shearRNoIntsl) Nothing
-  (map ref[chen2005, karchewski2012]) "resShearWO"  [resShearWODesc]
+  (map dRef [chen2005, karchewski2012]) "resShearWO"  [resShearWODesc]
 mobShearWOGD = gd (OthModel mobShearWO) (getUnit shearFNoIntsl) Nothing
-  (map ref[chen2005, karchewski2012]) "mobShearWO"  [mobShearWODesc]
+  (map dRef [chen2005, karchewski2012]) "mobShearWO"  [mobShearWODesc]
 normShrRGD   = gd (EquationalModel normShrR)   (getUnit intShrForce)   Nothing
-  [ref chen2005]                      "normShrR"    [nmShrRDesc]
+  [dRef chen2005]                      "normShrR"    [nmShrRDesc]
 momentEqlGD  = gd momentEqlModel        (Just newton)            (Just momEqlDeriv)
-  [ref chen2005]                      "momentEql"   [momEqlDesc]
+  [dRef chen2005]                      "momentEql"   [momEqlDesc]
 sliceWghtGD  = gd (OthModel sliceWght)  (getUnit slcWght)       (Just sliceWghtDeriv)
-  [ref fredlund1977]                  "sliceWght"   [sliceWghtNotes]
+  [dRef fredlund1977]                  "sliceWght"   [sliceWghtNotes]
 baseWtrFGD   = gd (OthModel baseWtrF)   (getUnit baseHydroForce) (Just bsWtrFDeriv)
-  [ref fredlund1977]                  "baseWtrF"    [bsWtrFNotes]
+  [dRef fredlund1977]                  "baseWtrF"    [bsWtrFNotes]
 srfWtrFGD    = gd (OthModel srfWtrF)    (getUnit surfHydroForce) (Just srfWtrFDeriv)
-  [ref fredlund1977]                  "srfWtrF"     [srfWtrFNotes]
+  [dRef fredlund1977]                  "srfWtrF"     [srfWtrFNotes]
 --
 normForcEq :: RelationConcept
 normForcEq = makeRC "normForcEq" (nounPhraseSP "normal force equilibrium")
@@ -751,4 +751,4 @@ srfWtrFDerivSliceEqn = inxi surfHydroForce $= inxi surfLngth `mulRe` sy waterWei
 
 -- References --
 genDefRefs :: [Reference]
-genDefRefs = map ref generalDefinitions ++ concatMap (^. getReferences) generalDefinitions 
+genDefRefs = map ref generalDefinitions ++ concatMap (\x -> map ref $ x ^. getDecRefs) generalDefinitions 

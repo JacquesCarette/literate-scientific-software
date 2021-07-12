@@ -42,7 +42,7 @@ consThermE :: TheoryModel
 consThermE = tm (EquationalConstraints consThermECS)
   [qw thFluxVect, qw gradient, qw volHtGen,
     qw density, qw heatCapSpec, qw temp, qw time] ([] :: [ConceptChunk])
-  [] [toDispExpr consThermERel] [] [consThemESrc] "consThermE" consThermENotes
+  [] [toDispExpr consThermERel] [] [dRef consThemESrc] "consThermE" consThermENotes
 
 consThermECS :: ConstraintSet
 consThermECS = mkConstraintSet consCC rels
@@ -81,7 +81,7 @@ sensHtETemplate :: PhaseChange -> Sentence -> TheoryModel
 sensHtETemplate pc desc = tm (EquationalModel qd)
   [qw sensHeat, qw htCapS, qw mass,
     qw deltaT, qw meltPt, qw temp, qw htCapL, qw boilPt, qw htCapV] ([] :: [ConceptChunk])
-  [qd] [] [] [sensHtESrc] "sensHtE" [desc]
+  [qd] [] [] [dRef sensHtESrc] "sensHtE" [desc]
     where
       qd = sensHtEQD pc eqn desc
       eqn = sensHtEEqn pc
@@ -132,7 +132,7 @@ sensHtEdesc = foldlSent [
 latentHtE :: TheoryModel
 latentHtE = tm (OthModel latentHtERC)
   [qw latentHeat, qw time, qw tau] ([] :: [ConceptChunk])
-  [] [toDispExpr latHtEEqn] [] [latHtESrc] "latentHtE" latentHtENotes
+  [] [toDispExpr latHtEEqn] [] [dRef latHtESrc] "latentHtE" latentHtENotes
 
 latentHtERC :: RelationConcept
 latentHtERC = makeRC "latentHtERC"
@@ -166,7 +166,7 @@ latentHtENotes = map foldlSent [
 nwtnCooling :: TheoryModel
 nwtnCooling = tm (OthModel nwtnCoolingRC)
   [qw latentHeat, qw time, qw htTransCoeff, qw deltaT] ([] :: [ConceptChunk])
-  [] [toDispExpr nwtnCoolingEqn] [] [refInfo incroperaEtAl2007 $ Page [8]]
+  [] [toDispExpr nwtnCoolingEqn] [] [dRefInfo incroperaEtAl2007 $ Page [8]]
   "nwtnCooling" nwtnCoolingNotes
 
 nwtnCoolingRC :: RelationConcept

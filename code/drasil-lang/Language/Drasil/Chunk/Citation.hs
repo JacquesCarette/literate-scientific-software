@@ -49,9 +49,9 @@ instance HasFields    Citation where getFields = fields
 -- | Gets the reference information of a 'Citation'.
 instance Referable    Citation where
   refAdd    c = c ^. citeID -- Citation UID should be unique as a reference address.
-  renderRef c = Citation $ refAdd c -- Get the alternate form of reference address.
+  renderRef   = Citation . refAdd -- Get the alternate form of reference address.
 -- | Gets the reference address of a 'Citation'.
-instance HasRefAddress Citation where getRefAdd c= c ^. citeID
+instance HasRefAddress Citation where getRefAdd c = Citation $ c ^. citeID
 
 -- | Smart constructor which implicitly uses EntryID as chunk id.
 cite :: CitationKind -> [CiteField] -> String -> Citation

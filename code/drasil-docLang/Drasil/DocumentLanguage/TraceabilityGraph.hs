@@ -90,12 +90,12 @@ checkUIDAbbrev si t
 -- | Similar to 'checkUID' but gets reference addresses for display.
 checkUIDRefAdd :: SystemInformation -> UID -> String
 checkUIDRefAdd si t
-  | Just (x, _) <- Map.lookup t (s ^. dataDefnTable)        = getRefAdd x
-  | Just (x, _) <- Map.lookup t (s ^. insmodelTable)        = getRefAdd x
-  | Just (x, _) <- Map.lookup t (s ^. gendefTable)          = getRefAdd x
-  | Just (x, _) <- Map.lookup t (s ^. theoryModelTable)     = getRefAdd x
+  | Just (x, _) <- Map.lookup t (s ^. dataDefnTable)        = getAdd $ getRefAdd x
+  | Just (x, _) <- Map.lookup t (s ^. insmodelTable)        = getAdd $ getRefAdd x
+  | Just (x, _) <- Map.lookup t (s ^. gendefTable)          = getAdd $ getRefAdd x
+  | Just (x, _) <- Map.lookup t (s ^. theoryModelTable)     = getAdd $ getRefAdd x
   -- Concept instances can range from likely changes to non-functional requirements, so use domain abbreviations for labelling in addition to the reference address.
-  | Just (x, _) <- Map.lookup t (s ^. conceptinsTable)      = fromMaybe "" (getA $ defResolve s $ sDom $ cdom x) ++ ":" ++ getRefAdd x
+  | Just (x, _) <- Map.lookup t (s ^. conceptinsTable)      = fromMaybe "" (getA $ defResolve s $ sDom $ cdom x) ++ ":" ++ getAdd (getRefAdd x)
   | Just _ <- Map.lookup t (s ^. sectionTable)         = t -- shouldn't really reach these cases
   | Just _ <- Map.lookup t (s ^. labelledcontentTable) = t
   | t `elem` map  (^. uid) (citeDB si) = ""

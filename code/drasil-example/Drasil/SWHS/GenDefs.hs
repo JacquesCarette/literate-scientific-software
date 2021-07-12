@@ -53,7 +53,7 @@ rocTempSimpRel = sy QPP.mass `mulRe` sy QT.heatCapSpec `mulRe`
 
 htFluxWaterFromCoil :: GenDefn
 htFluxWaterFromCoil = gd (EquationalModel htFluxWaterFromCoilQD) (getUnit htFluxC) Nothing
-  [ref koothoor2013] "htFluxWaterFromCoil"
+  [dRef koothoor2013] "htFluxWaterFromCoil"
   [newtonLawNote htFluxC assumpLCCCW coil, refS assumpTHCCoT]
 
 htFluxWaterFromCoilQD :: QDefinition
@@ -67,7 +67,7 @@ htFluxWaterFromCoilExpr = sy coilHTC `mulRe` (sy tempC $- apply1 tempW time)
 
 htFluxPCMFromWater :: GenDefn
 htFluxPCMFromWater = gd (EquationalModel htFluxPCMFromWaterQD) (getUnit htFluxP) Nothing
-  [ref koothoor2013] "htFluxPCMFromWater"
+  [dRef koothoor2013] "htFluxPCMFromWater"
   [newtonLawNote htFluxP assumpLCCWP phaseChangeMaterial]
 
 htFluxPCMFromWaterQD :: QDefinition

@@ -98,7 +98,7 @@ mkTMField t _ l@DefiningEquation fs = (show l, map unlbldExpr $ tmDispExprs t) :
 mkTMField t m l@(Description v u) fs = (show l,
   foldr ((\x -> buildDescription v u x m) . toDispExpr) [] $ tmDispExprs t) : fs
 mkTMField t m l@RefBy fs = (show l, [mkParagraph $ helperRefs t m]) : fs --FIXME: fill this in
-mkTMField t _ l@Source fs = (show l, helperSources $ t ^. getReferences) : fs
+mkTMField t _ l@Source fs = (show l, helperSources $ t ^. getDecRefs) : fs
 mkTMField t _ l@Notes fs =
   nonEmpty fs (\ss -> (show l, map mkParagraph ss) : fs) (t ^. getNotes)
 mkTMField _ _ l _ = error $ "Label " ++ show l ++ " not supported " ++
@@ -124,10 +124,9 @@ helpToRefField t si
   where s = _sysinfodb si
 
 -- | Helper that makes a list of 'Reference's into a 'Sentence'. Then wraps into 'Contents'.
-helperSources :: [Reference] -> [Contents]
+helperSources :: [DecRef] -> [Contents]
 helperSources [] = [mkParagraph $ S "--"]
-helperSources xs  = [mkParagraph $ foldlList Comma List $ map (\x -> Ref (x ^. uid) EmptyS (getInfo x)) xs]
-  where getInfo (Reference _ _ _ i) = i
+helperSources rs  = [mkParagraph $ foldlList Comma List $ map (\r -> Ref (r ^. uid) EmptyS $ refInfo r) rs]
 
 -- | Creates the fields for a definition from a 'QDefinition' (used by 'ddefn').
 mkDDField :: DataDefinition -> SystemInformation -> Field -> ModRow -> ModRow
@@ -137,7 +136,7 @@ mkDDField d _ l@Units fs = (show l, [mkParagraph $ toSentenceUnitless d]) : fs
 mkDDField d _ l@DefiningEquation fs = (show l, [unlbldExpr d]) : fs
 mkDDField d m l@(Description v u) fs = (show l, buildDDescription' v u d m) : fs
 mkDDField t m l@RefBy fs = (show l, [mkParagraph $ helperRefs t m]) : fs --FIXME: fill this in
-mkDDField d _ l@Source fs = (show l, helperSources $ d ^. getReferences) : fs
+mkDDField d _ l@Source fs = (show l, helperSources $ d ^. getDecRefs) : fs
 mkDDField d _ l@Notes fs = nonEmpty fs (\ss -> (show l, map mkParagraph ss) : fs) (d ^. getNotes)
 mkDDField _ _ l _ = error $ "Label " ++ show l ++ " not supported " ++
   "for data definitions"
@@ -167,7 +166,7 @@ mkGDField g _ l@DefiningEquation fs = (show l, [unlbldExpr g]) : fs
 mkGDField g m l@(Description v u) fs = (show l,
   buildDescription v u (toDispExpr g) m []) : fs
 mkGDField g m l@RefBy fs = (show l, [mkParagraph $ helperRefs g m]) : fs --FIXME: fill this in
-mkGDField g _ l@Source fs = (show l, helperSources $ g ^. getReferences) : fs
+mkGDField g _ l@Source fs = (show l, helperSources $ g ^. getDecRefs) : fs
 mkGDField g _ l@Notes fs = nonEmpty fs (\ss -> (show l, map mkParagraph ss) : fs) (g ^. getNotes)
 mkGDField _ _ l _ = error $ "Label " ++ show l ++ " not supported for gen defs"
 
@@ -178,7 +177,7 @@ mkIMField i _ l@DefiningEquation fs = (show l, [unlbldExpr i]) : fs
 mkIMField i m l@(Description v u) fs = (show l,
   foldr (\x -> buildDescription v u x m) [] [toDispExpr i]) : fs
 mkIMField i m l@RefBy fs = (show l, [mkParagraph $ helperRefs i m]) : fs --FIXME: fill this in
-mkIMField i _ l@Source fs = (show l, helperSources $ i ^. getReferences) : fs
+mkIMField i _ l@Source fs = (show l, helperSources $ i ^. getDecRefs) : fs
 mkIMField i _ l@Output fs = (show l, [mkParagraph x]) : fs
   where x = P . eqSymb $ i ^. output
 mkIMField i _ l@Input fs =

@@ -20,12 +20,12 @@ type Output = QuantityDict
 type OutputConstraints = [RealInterval Expr Expr]
 
 -- | An instance model is a ModelKind that may have specific inputs, outputs, and output
--- constraints. It also has attributes like references, derivation, labels ('ShortName'), reference address, and notes.
+-- constraints. It also has attributes like references (as 'DecRef's), derivation, labels ('ShortName'), reference address, and notes.
 data InstanceModel = IM { _mk       :: ModelKinds
                         , _imTerm   :: NP
                         , _imInputs :: Inputs
                         , _imOutput :: (Output, OutputConstraints)
-                        , _rf      :: [Reference]
+                        , _rf       :: [DecRef]
                         , _deri     :: Maybe Derivation
                         ,  lb       :: ShortName
                         ,  ra       :: String
@@ -47,12 +47,14 @@ instance ConceptDomain      InstanceModel where cdom = cdom . (^. mk)
 instance Display            InstanceModel where toDispExpr = toDispExpr . (^. mk)
 -- | Finds the derivation of the 'InstanceModel'. May contain Nothing.
 instance HasDerivation      InstanceModel where derivations = deri
--- | Finds 'Reference's contained in the 'InstanceModel'.
-instance HasReference       InstanceModel where getReferences = rf
+{--- | Finds 'Reference's contained in the 'InstanceModel'.
+instance HasReference       InstanceModel where getReferences = rf-}
+-- | Finds 'DecRef's contained in the 'InstanceModel'.
+instance HasDecRef          InstanceModel where getDecRefs = rf
 -- | Finds the 'ShortName' of the 'InstanceModel'.
 instance HasShortName       InstanceModel where shortname = lb
 -- | Finds the reference address of the 'InstanceModel'.
-instance HasRefAddress      InstanceModel where getRefAdd = ra
+instance HasRefAddress      InstanceModel where getRefAdd l = RP (prepend $ abrv l) (ra l)
 -- | Finds any additional notes for the 'InstanceModel'.
 instance HasAdditionalNotes InstanceModel where getNotes = notes
 -- | 'InstanceModel's have an 'Quantity'.
@@ -61,8 +63,8 @@ instance Quantity           InstanceModel where
 instance CommonIdea         InstanceModel where abrv _ = abrv inModel
 -- | Finds the reference address of an 'InstanceModel'.
 instance Referable          InstanceModel where
-  refAdd      = getRefAdd
-  renderRef l = RP (prepend $ abrv l) (getRefAdd l)
+  refAdd      = ra
+  renderRef l = RP (prepend $ abrv l) (refAdd l)
 -- | Finds the inputs of an 'InstanceModel'.
 instance HasInputs          InstanceModel where
   inputs          = imInputs
@@ -79,12 +81,12 @@ instance MayHaveUnit        InstanceModel where getUnit = getUnit . view output
 
 -- | Smart constructor for instance models with everything defined.
 im :: ModelKinds -> Inputs -> Output -> 
-  OutputConstraints -> [Reference] -> Maybe Derivation -> String -> [Sentence] -> InstanceModel
+  OutputConstraints -> [DecRef] -> Maybe Derivation -> String -> [Sentence] -> InstanceModel
 im mkind = im' mkind (mkind ^. term)
 
 -- | Smart constructor for instance models with no derivation.
 imNoDeriv :: ModelKinds -> Inputs -> Output -> 
-  OutputConstraints -> [Reference] -> String -> [Sentence] -> InstanceModel
+  OutputConstraints -> [DecRef] -> String -> [Sentence] -> InstanceModel
 imNoDeriv mkind = imNoDeriv' mkind (mkind ^. term)
 
 -- | Smart constructor for instance models with no references.
@@ -99,14 +101,14 @@ imNoDerivNoRefs mkind = imNoDerivNoRefs' mkind (mkind ^. term)
 
 -- | Smart constructor for instance models with everything defined.
 im' :: ModelKinds -> NP -> Inputs -> Output -> 
-  OutputConstraints -> [Reference] -> Maybe Derivation -> String -> [Sentence] -> InstanceModel
+  OutputConstraints -> [DecRef] -> Maybe Derivation -> String -> [Sentence] -> InstanceModel
 im' mkind _ _  _ _  [] _  _  = error $ "Source field of " ++ mkind ^. uid ++ " is empty"
 im' mkind n i o oc r der sn = 
   IM mkind n i (o, oc) r der (shortname' $ S sn) (prependAbrv inModel sn)
 
 -- | Smart constructor for instance models with a custom term, and no derivation.
 imNoDeriv' :: ModelKinds -> NP -> Inputs -> Output -> 
-  OutputConstraints -> [Reference] -> String -> [Sentence] -> InstanceModel
+  OutputConstraints -> [DecRef] -> String -> [Sentence] -> InstanceModel
 imNoDeriv' mkind _ _  _ _ [] _  = error $ "Source field of " ++ mkind ^. uid ++ " is empty"
 imNoDeriv' mkind n i o oc r sn =
   IM mkind n i (o, oc) r Nothing (shortname' $ S sn) (prependAbrv inModel sn)

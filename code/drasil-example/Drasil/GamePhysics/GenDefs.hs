@@ -63,7 +63,7 @@ conservationOfMomentDeriv = foldlSent [S "When bodies collide, they exert",
 --------------------------Acceleration due to gravity----------------------------
 accelGravityGD :: GenDefn
 accelGravityGD = gd (EquationalModel accelGravityQD) (getUnit QP.acceleration) (Just accelGravityDeriv)
-   [accelGravitySrc] "accelGravity" [accelGravityDesc]
+   [dRef accelGravitySrc] "accelGravity" [accelGravityDesc]
 
 accelGravityQD :: QDefinition
 accelGravityQD = mkQuantDef' QP.gravitationalAccel (nounPhraseSP "Acceleration due to gravity") accelGravityExpr
@@ -147,7 +147,7 @@ accelGravityDerivEqns = [accelGravityDerivEqn1, accelGravityDerivEqn2, accelGrav
 
 impulseGD :: GenDefn
 impulseGD = gd (EquationalModel impulseQD) (getUnit QP.impulseS) Nothing
-  [impulseSrc] "impulse" [rigidTwoDAssump, rightHandAssump, collisionAssump]
+  [dRef impulseSrc] "impulse" [rigidTwoDAssump, rightHandAssump, collisionAssump]
 
 impulseQD :: QDefinition
 impulseQD = mkQuantDef' QP.impulseS (nounPhraseSP "Impulse for Collision") impulseExpr

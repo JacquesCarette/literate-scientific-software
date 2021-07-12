@@ -373,7 +373,7 @@ dataConstListOut = [tempW, watE]
 bodyRefs :: [Reference]
 bodyRefs = ref figTank: ref sysCntxtFig:
   map ref concIns ++ map ref section ++ map ref labCon 
-  ++ map ref tMods ++ concatMap (^. getReferences) tMods --needs the references hidden in the tmodel.
+  ++ map ref tMods ++ concatMap (\x -> map ref $ x ^. getDecRefs) tMods --needs the references hidden in the tmodels.
   ++ map (ref.makeTabRef.getTraceConfigUID) (traceMatStandard si)
 
 allRefs :: [Reference]

@@ -7,7 +7,7 @@ import Language.Drasil.Classes.Core (HasUID(uid), HasRefAddress(getRefAdd),
   Referable(refAdd, renderRef))
 import Language.Drasil.Classes.Core2 (HasShortName(shortname))
 import Language.Drasil.DisplayExpr (DisplayExpr)
-import Language.Drasil.Label.Type (LblType(RP), IRefProg, prepend)
+import Language.Drasil.Label.Type (LblType(RP), IRefProg, prepend, getAdd)
 import Language.Drasil.Reference (Reference)
 import Language.Drasil.Sentence (Sentence)
 
@@ -92,7 +92,7 @@ class HasContents c where
 -- | Finds 'UID' of the 'LabelledContent'.
 instance HasUID        LabelledContent where uid = ref . uid  
 -- | Finds the reference address contained in the 'Reference' of 'LabelledContent'.
-instance HasRefAddress LabelledContent where getRefAdd = getRefAdd . view ref
+instance HasRefAddress LabelledContent where getRefAdd (LblC lb c) = RP (prependLabel c) $ getAdd $ getRefAdd lb
 -- | Access the 'RawContent' within the 'LabelledContent'.
 instance HasContents   LabelledContent where accessContents = ctype
 -- | Find the shortname of the reference address used for the 'LabelledContent'.
@@ -108,8 +108,8 @@ instance HasContents Contents where
 
 -- | Finds the reference information of 'LabelledContent'.
 instance Referable LabelledContent where
-  refAdd     (LblC lb _) = getRefAdd lb
-  renderRef  (LblC lb c) = RP (prependLabel c) (getRefAdd lb)
+  refAdd       = getAdd . getRefAdd
+  renderRef   = getRefAdd
 
 -- | Helper to prepend labels to 'LabelledContent' when referencing.
 prependLabel :: RawContent -> IRefProg

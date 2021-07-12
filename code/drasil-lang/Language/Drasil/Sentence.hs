@@ -1,14 +1,13 @@
 {-# LANGUAGE GADTs, PostfixOperators #-}
 {-# OPTIONS_GHC -Wno-redundant-constraints #-}
 -- | Contains Sentences and helpers
-module Language.Drasil.Sentence (Sentence(..), SentenceStyle(..), (+:+),
+module Language.Drasil.Sentence (Sentence(..), SentenceStyle(..), RefInfo(..), (+:+),
   (+:+.), (+:), (!.), capSent, ch, eS, sC, sDash, sentencePlural, sentenceShort,
   sentenceSymb, sentenceTerm, sParen, TermCapitalization(..)) where
 
 import Language.Drasil.Classes.Core (HasUID(uid), HasSymbol)
 import Language.Drasil.DisplayExpr (DisplayExpr(..))
 import Language.Drasil.DisplayClasses (Display(toDispExpr))
-import Language.Drasil.RefProg (RefInfo)
 import Language.Drasil.Symbol (Symbol)
 import Language.Drasil.UnitLang (USymb)
 import Language.Drasil.UID (UID)
@@ -28,6 +27,12 @@ data SentenceStyle = PluralTerm
 -- CapW is for capitalizing all words from the 'UID' of the given term.
 -- Mirrors 'CapFirst' and 'CapWords' from 'CapitalizationRule'.
 data TermCapitalization = CapF | CapW | NoCap
+
+-- | Holds any extra information needed for a 'Reference', be it an equation, pages, a note, or nothing.
+data RefInfo = None
+             | Equation [Int]
+             | Page [Int]
+             | RefNote String
 
 -- | For writing 'Sentence's via combining smaller elements.
 -- 'Sentence's are made up of some known vocabulary of things:

@@ -90,7 +90,7 @@ balanceDecayRateNotes = foldlSent [ch wMass, S "is defined in",
   refS waterMass]
 
 balanceDecayRate :: DataDefinition
-balanceDecayRate = dd balanceDecayRateQD [ref koothoor2013]
+balanceDecayRate = dd balanceDecayRateQD [dRef koothoor2013]
   Nothing "balanceDecayRate" []
 
 ----
@@ -102,7 +102,7 @@ balanceDecayTimeEqn :: Expr
 balanceDecayTimeEqn = sy pcmHTC `mulRe` sy pcmSA $/ (sy coilHTC `mulRe` sy coilSA)
 
 balanceDecayTime :: DataDefinition
-balanceDecayTime = dd balanceDecayTimeQD [ref koothoor2013]
+balanceDecayTime = dd balanceDecayTimeQD [dRef koothoor2013]
   Nothing "balanceDecayTime" []
 
 ----
@@ -115,7 +115,7 @@ balanceSolidPCMEqn = (sy pcmMass `mulRe` sy htCapSP) $/
   (sy pcmHTC `mulRe` sy pcmSA)
 
 balanceSolidPCM :: DataDefinition
-balanceSolidPCM = dd balanceSolidPCMQD [ref lightstone2012]
+balanceSolidPCM = dd balanceSolidPCMQD [dRef lightstone2012]
   Nothing "balanceSolidPCM" []
 
 ----
@@ -128,7 +128,7 @@ balanceLiquidPCMEqn = (sy pcmMass `mulRe` sy htCapLP) $/
   (sy pcmHTC `mulRe` sy pcmSA)
 
 balanceLiquidPCM :: DataDefinition
-balanceLiquidPCM = dd balanceLiquidPCMQD [ref lightstone2012]
+balanceLiquidPCM = dd balanceLiquidPCMQD [dRef lightstone2012]
   Nothing "balanceLiquidPCM" []
 
 ----
@@ -140,7 +140,7 @@ htFusionEqn :: Expr
 htFusionEqn = sy latentHeat $/ sy mass
 
 ddHtFusion :: DataDefinition
-ddHtFusion = dd ddHtFusionQD [refInfo bueche1986 $ Page [282]]
+ddHtFusion = dd ddHtFusionQD [dRefInfo bueche1986 $ Page [282]]
   Nothing "htFusion" [htFusionNote]
 
 htFusionNote :: Sentence
@@ -163,7 +163,7 @@ meltFracEqn :: Expr
 meltFracEqn = sy latentEP $/ (sy htFusion `mulRe` sy pcmMass)
 
 ddMeltFrac :: DataDefinition
-ddMeltFrac = dd ddMeltFracQD [ref koothoor2013]
+ddMeltFrac = dd ddMeltFracQD [dRef koothoor2013]
   Nothing "meltFrac" [meltFracConst, refS ddHtFusion]
   where meltFracConst = atStartNP (the value) `S.of_` eS meltFrac `S.is`
                         S "constrained to" +:+. eS (realInterval meltFrac (Bounded (Inc, exactDbl 0) (Inc, exactDbl 1)))

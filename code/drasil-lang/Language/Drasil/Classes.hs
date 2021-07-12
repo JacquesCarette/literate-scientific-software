@@ -6,6 +6,7 @@ module Language.Drasil.Classes (
   , HasSpace(typ)
   , HasUnitSymbol(usymb)
   , HasReference(getReferences)
+  , HasDecRef(getDecRefs)
   , HasReasVal(reasVal)
   , HasDerivation(derivations)
   , HasAdditionalNotes(getNotes)
@@ -38,6 +39,7 @@ import Language.Drasil.DisplayClasses (Display(toDispExpr))
 import Language.Drasil.Expr (Expr)
 import Language.Drasil.NounPhrase.Core (NP)
 import Language.Drasil.Reference (Reference)
+import Language.Drasil.DecoratedReference(DecRef)
 import Language.Drasil.Space (Space)
 import Language.Drasil.Sentence (Sentence)
 import Language.Drasil.UID (UID)
@@ -89,6 +91,11 @@ class HasSpace c where
 class HasReference c where
   -- | Provides a 'Lens' to the 'Reference's.
   getReferences :: Lens' c [Reference]
+
+-- | A class that contains a list of decorated references ('DecRef's).
+class HasDecRef c where
+  -- | Provides a 'Lens' to the 'DecRef's.
+  getDecRefs :: Lens' c [DecRef]
 
 -- | A class that might have a 'Derivation'.
 class HasDerivation c where

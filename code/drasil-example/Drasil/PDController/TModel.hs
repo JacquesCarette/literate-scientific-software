@@ -27,7 +27,7 @@ tmLaplace
       []
       [toDispExpr laplaceRel]
       []
-      [ref laplaceWiki]
+      [dRef laplaceWiki]
       "laplaceTransform"
       [laplaceDesc]
 
@@ -59,7 +59,7 @@ tmInvLaplace
       []
       [toDispExpr invLaplaceRel]
       []
-      [ref laplaceWiki]
+      [dRef laplaceWiki]
       "invLaplaceTransform"
       [invLaplaceDesc]
 
@@ -88,7 +88,7 @@ tmSOSystem
       []
       [toDispExpr soSystemRel]
       []
-      [ref abbasi2015]
+      [dRef abbasi2015]
       "tmSOSystem"
       [soSystemDesc]
 

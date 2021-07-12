@@ -192,7 +192,7 @@ dd7descr = (QP.angularAccel ^. term) +:+ S "of a" +:+
 
 ------------------------DD9 Chasles Theorem----------------------------------
 chaslesDD :: DataDefinition
-chaslesDD = dd chasles [ref chaslesWiki] Nothing "chaslesThm" 
+chaslesDD = dd chasles [dRef chaslesWiki] Nothing "chaslesThm" 
   [chaslesThmNote, rigidBodyAssump]
 
 chasles :: QDefinition

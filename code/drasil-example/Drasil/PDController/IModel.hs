@@ -27,7 +27,7 @@ imPD
        qwC qdDerivGain $ UpFrom (Exc, exactDbl 0)]
       (qw qdProcessVariableTD)
       [UpFrom (Exc, exactDbl 0)]
-      [ref abbasi2015, ref johnson2008]
+      [dRef abbasi2015, dRef johnson2008]
       (Just imDeriv)
       "pdEquationIM"
       []

@@ -57,8 +57,8 @@ riskQD = mkQuantDef riskFun riskEq
 
 risk :: DataDefinition
 risk = dd riskQD
-  [ref astm2009, refInfo beasonEtAl1998 $ Equation [4, 5],
-  refInfo campidelli $ Equation [14]]
+  [dRef astm2009, dRefInfo beasonEtAl1998 $ Equation [4, 5],
+  dRefInfo campidelli $ Equation [14]]
   Nothing "riskFun" [aGrtrThanB, hRef, ldfRef, jRef]
 
 --DD2--
@@ -74,7 +74,7 @@ hFromtQD :: QDefinition
 hFromtQD = mkQuantDef minThick hFromtEq
 
 hFromt :: DataDefinition
-hFromt = dd hFromtQD [ref astm2009] Nothing "minThick" [hMin]
+hFromt = dd hFromtQD [dRef astm2009] Nothing "minThick" [hMin]
 
 --DD3-- (#749)
 
@@ -85,7 +85,7 @@ loadDFQD :: QDefinition
 loadDFQD = mkQuantDef lDurFac loadDFEq
 
 loadDF :: DataDefinition
-loadDF = dd loadDFQD [ref astm2009] Nothing "loadDurFactor"
+loadDF = dd loadDFQD [dRef astm2009] Nothing "loadDurFactor"
   [stdVals [loadDur, sflawParamM], ldfConst]
 
 --DD4--
@@ -99,7 +99,7 @@ strDisFacQD :: QDefinition
 strDisFacQD = mkQuantDef stressDistFac strDisFacEq
 
 strDisFac :: DataDefinition
-strDisFac = dd strDisFacQD [ref astm2009] Nothing "stressDistFac"
+strDisFac = dd strDisFacQD [dRef astm2009] Nothing "stressDistFac"
   [interpolating stressDistFac dimlessloadVsARFig, arRef, qHtRef]
 
 --DD5--
@@ -112,7 +112,7 @@ nonFLQD :: QDefinition
 nonFLQD = mkQuantDef nonFactorL nonFLEq
 
 nonFL :: DataDefinition
-nonFL = dd nonFLQD [ref astm2009] Nothing "nFL"
+nonFL = dd nonFLQD [dRef astm2009] Nothing "nFL"
   [qHtTlTolRef, stdVals [modElas], hRef, aGrtrThanB]
 
 --DD6--
@@ -127,7 +127,7 @@ glaTyFacQD :: QDefinition
 glaTyFacQD = mkQuantDef gTF glaTyFacEq
 
 glaTyFac :: DataDefinition
-glaTyFac = dd glaTyFacQD [ref astm2009] Nothing "gTF"
+glaTyFac = dd glaTyFacQD [dRef astm2009] Nothing "gTF"
   [anGlass, ftGlass, hsGlass]
 
 --DD7--
@@ -140,7 +140,7 @@ dimLLQD :: QDefinition
 dimLLQD = mkQuantDef dimlessLoad dimLLEq
 
 dimLL :: DataDefinition
-dimLL = dd dimLLQD [ref astm2009, refInfo campidelli $ Equation [7]] Nothing "dimlessLoad"
+dimLL = dd dimLLQD [dRef astm2009, dRefInfo campidelli $ Equation [7]] Nothing "dimlessLoad"
   [qRef, aGrtrThanB, stdVals [modElas], hRef, gtfRef]
 
 --DD8--
@@ -153,7 +153,7 @@ tolPreQD :: QDefinition
 tolPreQD = mkQuantDef tolLoad tolPreEq
 
 tolPre :: DataDefinition
-tolPre = dd tolPreQD [ref astm2009] Nothing "tolLoad"
+tolPre = dd tolPreQD [dRef astm2009] Nothing "tolLoad"
   [interpolating tolLoad dimlessloadVsARFig, arRef, jtolRef]
 
 --DD9--
@@ -168,7 +168,7 @@ tolStrDisFacQD :: QDefinition
 tolStrDisFacQD = mkQuantDef sdfTol tolStrDisFacEq
 
 tolStrDisFac :: DataDefinition
-tolStrDisFac = dd tolStrDisFacQD [ref astm2009] Nothing "sdfTol"
+tolStrDisFac = dd tolStrDisFacQD [dRef astm2009] Nothing "sdfTol"
   [pbTolUsr, aGrtrThanB, stdVals [sflawParamM, sflawParamK, mkUnitary modElas],
    hRef, ldfRef]
 
@@ -181,7 +181,7 @@ standOffDisQD :: QDefinition
 standOffDisQD = mkQuantDef standOffDist standOffDisEq
 
 standOffDis :: DataDefinition
-standOffDis = dd standOffDisQD [ref astm2009] Nothing "standOffDist" []
+standOffDis = dd standOffDisQD [dRef astm2009] Nothing "standOffDist" []
 
 --DD11--
 
@@ -192,7 +192,7 @@ aspRatQD :: QDefinition
 aspRatQD = mkQuantDef aspectRatio aspRatEq
 
 aspRat :: DataDefinition
-aspRat = dd aspRatQD [ref astm2009] Nothing "aspectRatio" [aGrtrThanB]
+aspRat = dd aspRatQD [dRef astm2009] Nothing "aspectRatio" [aGrtrThanB]
 
 --DD12--
 eqTNTWEq :: Expr
@@ -202,7 +202,7 @@ eqTNTWQD :: QDefinition
 eqTNTWQD = mkQuantDef eqTNTWeight eqTNTWEq
 
 eqTNTWDD :: DataDefinition
-eqTNTWDD = dd eqTNTWQD [ref astm2009] Nothing "eqTNTW" []
+eqTNTWDD = dd eqTNTWQD [dRef astm2009] Nothing "eqTNTW" []
 
 --DD13--
 probOfBreakEq :: Expr
@@ -212,7 +212,7 @@ probOfBreakQD :: QDefinition
 probOfBreakQD = mkQuantDef probBr probOfBreakEq
 
 probOfBreak :: DataDefinition
-probOfBreak = dd probOfBreakQD (map ref [astm2009, beasonEtAl1998]) Nothing "probOfBreak" [riskRef]
+probOfBreak = dd probOfBreakQD (map dRef [astm2009, beasonEtAl1998]) Nothing "probOfBreak" [riskRef]
 
 --DD14--
 calofCapacityEq :: Expr
@@ -222,7 +222,7 @@ calofCapacityQD :: QDefinition
 calofCapacityQD = mkQuantDef lRe calofCapacityEq
 
 calofCapacity :: DataDefinition
-calofCapacity = dd calofCapacityQD [ref astm2009] Nothing "calofCapacity"
+calofCapacity = dd calofCapacityQD [dRef astm2009] Nothing "calofCapacity"
   [lrCap, nonFLRef, gtfRef]
 
 --DD15--
@@ -233,7 +233,7 @@ calofDemandQD :: QDefinition
 calofDemandQD = mkQuantDef demand calofDemandEq
 
 calofDemand :: DataDefinition
-calofDemand = dd calofDemandQD [ref astm2009] Nothing "calofDemand" [calofDemandDesc]
+calofDemand = dd calofDemandQD [dRef astm2009] Nothing "calofDemand" [calofDemandDesc]
 
 
 --Additional Notes--

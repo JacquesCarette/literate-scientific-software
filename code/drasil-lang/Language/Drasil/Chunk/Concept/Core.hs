@@ -82,9 +82,9 @@ instance ConceptDomain ConceptInstance where cdom = cdom' . view cc
 -- | Finds the 'ShortName' contained in a 'ConceptInstance'.
 instance HasShortName  ConceptInstance where shortname = shnm 
 -- | Finds the reference address contained in a 'ConceptInstance'.
-instance HasRefAddress ConceptInstance where getRefAdd = ra 
+instance HasRefAddress ConceptInstance where getRefAdd l = RP (defer (sDom $ cdom l) +::+ raw ":" +::+ name) (ra l)
 -- | Finds the reference information contained in a 'ConceptInstance'.
 instance Referable     ConceptInstance where
   refAdd      = ra        -- Finds the reference address contained in a ConceptInstance.
-  renderRef l = RP (defer (sDom $ cdom l) +::+ raw ":" +::+ name) (ra l) -- Finds the reference address but in a diferent form.
+  renderRef   = getRefAdd -- Finds the reference address but in a diferent form.
 

@@ -29,7 +29,7 @@ newtonSL = tmNoRefs' "newtonSL" (EquationalModel newtonSLQD)
 --
 
 weightGD :: GenDefn
-weightGD = gd (EquationalModel weightQD) (getUnit QP.weight) (Just weightDeriv) [weightSrc] 
+weightGD = gd (EquationalModel weightQD) (getUnit QP.weight) (Just weightDeriv) [dRef weightSrc] 
   "weight" [{-Notes-}]
 
 weightQD :: QDefinition
@@ -74,7 +74,7 @@ weightDerivSpecWeightSentence = [S "Substituting", phrase QPP.specWeight,
 
 hsPressureGD :: GenDefn
 hsPressureGD = gd (EquationalModel hsPressureQD) (getUnit QP.pressure) Nothing
-  [hsPressureSrc] "hsPressure" [hsPressureNotes]
+  [dRef hsPressureSrc] "hsPressure" [hsPressureNotes]
 
 hsPressureQD :: QDefinition
 hsPressureQD = mkQuantDef' QP.pressure (nounPhraseSP "hydrostatic pressure") hsPressureEqn
@@ -140,11 +140,11 @@ newtonSLRNotes = map foldlSent [
 accelerationTM :: TheoryModel
 accelerationTM = tm' "accelerationTM" (EquationalModel accelerationQD)
   [qw QP.acceleration, qw QP.velocity, qw QP.time] ([] :: [ConceptChunk]) [accelerationQD] [] []
-  [ref accelerationWiki] "acceleration" []
+  [dRef accelerationWiki] "acceleration" []
 
 ----------
 
 velocityTM :: TheoryModel
 velocityTM = tm' "velocityTM" (EquationalModel velocityQD)
   [qw QP.velocity, qw QP.position, qw QP.time] ([] :: [ConceptChunk]) [velocityQD] [] []
-  [ref velocityWiki] "velocity" []
+  [dRef velocityWiki] "velocity" []

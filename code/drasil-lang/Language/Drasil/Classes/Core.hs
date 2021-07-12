@@ -27,10 +27,10 @@ class HasSymbol c where
 -- | Members must have a reference address.
 class HasRefAddress b where
   -- | Provides the ability to hold a reference address.
-  getRefAdd :: b -> String
+  getRefAdd :: b -> LblType
 
 -- | Members of this class have the ability to be referenced.
-class HasUID s => Referable s where
+class (HasUID s, HasRefAddress s) => Referable s where
   -- | The referencing address (what we're linking to).
   -- Only visible in the source (tex/html).
   refAdd    :: s -> String 

@@ -36,7 +36,7 @@ tMods = [factOfSafety, equilibrium, mcShrStrgth, effStress, newtonSL]
 factOfSafety :: TheoryModel
 factOfSafety = tm' "factOfSafetyTM" (EquationalModel factOfSafetyQD)
   [qw fs, qw resistiveShear, qw mobilizedShear] ([] :: [ConceptChunk])
-  [factOfSafetyQD] [] [] [ref fredlund1977] "factOfSafety" []
+  [factOfSafetyQD] [] [] [dRef fredlund1977] "factOfSafety" []
 
 ------------------------------------
 factOfSafetyQD :: QDefinition
@@ -50,7 +50,7 @@ factOfSafetyExpr = sy resistiveShear $/ sy mobilizedShear
 equilibrium :: TheoryModel
 equilibrium = tm (EquationalConstraints equilibriumCS)
   [qw fx] ([] :: [ConceptChunk])
-  [] (map toDispExpr equilibriumRels) [] [ref fredlund1977] "equilibrium" [eqDesc]
+  [] (map toDispExpr equilibriumRels) [] [dRef fredlund1977] "equilibrium" [eqDesc]
 
 ------------------------------------  
 
@@ -78,7 +78,7 @@ mcShrStrgth :: TheoryModel
 mcShrStrgth = tm' "mcShrSrgth" (EquationalModel mcShrStrgthQD)
   [qw shrStress, qw effNormStress, qw fricAngle, qw effCohesion] 
   ([] :: [ConceptChunk])
-  [mcShrStrgthQD] [] [] [ref fredlund1977] "mcShrStrgth" [mcShrStrgthDesc]
+  [mcShrStrgthQD] [] [] [dRef fredlund1977] "mcShrStrgth" [mcShrStrgthDesc]
 
 ------------------------------------
 mcShrStrgthQD :: QDefinition
@@ -108,7 +108,7 @@ effStress :: TheoryModel
 effStress = tm' "effectiveStressTM" (EquationalModel effStressQD)
   [qw effectiveStress, qw totNormStress, qw porePressure] 
   ([] :: [ConceptChunk])
-  [effStressQD] [] [] [ref fredlund1977] "effStress" [effStressDesc]
+  [effStressQD] [] [] [dRef fredlund1977] "effStress" [effStressDesc]
 
 ------------------------------------
 effStressQD :: QDefinition

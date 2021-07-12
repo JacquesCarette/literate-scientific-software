@@ -38,7 +38,7 @@ eBalanceOnWtr = im (DEModel eBalanceOnWtrRC)
   , qwUC tempInit, qwUC timeFinal, qwUC coilSA, qwUC coilHTC, qwUC htCapW, qwUC wMass]
   (qw tempW) []
   --Tw(0) cannot be presented, there is one more constraint Tw(0) = Tinit
-  [refInfo koothoor2013 $ RefNote "with PCM removed"]
+  [dRefInfo koothoor2013 $ RefNote "with PCM removed"]
   (Just eBalanceOnWtrDeriv) "eBalanceOnWtr" balWtrNotes
 
 eBalanceOnWtrRC :: RelationConcept

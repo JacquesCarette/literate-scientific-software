@@ -35,20 +35,20 @@ spec sm (Ch PluralTerm caps s)  = spec sm $ lookupP (sm ^. ckdb) s caps
 spec sm (Ref u EmptyS notes) =
   let reff = refResolve u (sm ^. ckdb . refTable) in
   case reff of 
-    (Reference _ (RP rp ra) sn _) ->
+    (Reference _ (RP rp ra) sn) ->
       P.Ref P.Internal ra (spec sm $ renderShortName (sm ^. ckdb) rp sn)
-    (Reference _ (Citation ra) _ _) ->
+    (Reference _ (Citation ra) _) ->
       P.Ref (P.Cite2 (spec sm (renderCitInfo notes)))    ra (spec sm $ S ra) 
-    (Reference _ (URI ra) sn _) ->
+    (Reference _ (URI ra) sn) ->
       P.Ref P.External    ra (spec sm $ renderURI sm sn)
 spec sm (Ref u dName notes) =
   let reff = refResolve u (sm ^. ckdb . refTable) in
   case reff of 
-    (Reference _ (RP _ ra) _ _) ->
+    (Reference _ (RP _ ra) _) ->
       P.Ref P.Internal ra (spec sm dName)
-    (Reference _ (Citation ra) _ _) ->
+    (Reference _ (Citation ra) _) ->
       P.Ref (P.Cite2 (spec sm (renderCitInfo notes)))   ra (spec sm dName) 
-    (Reference _ (URI ra) _ _) ->
+    (Reference _ (URI ra) _) ->
       P.Ref P.External    ra (spec sm dName)
 spec sm (Quote q)          = P.Quote $ spec sm q
 spec _  EmptyS             = P.EmptyS

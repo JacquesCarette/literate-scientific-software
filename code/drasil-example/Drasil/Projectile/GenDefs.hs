@@ -32,7 +32,7 @@ genDefns = [rectVelGD, rectPosGD, velVecGD, posVecGD]
 ----------
 rectVelGD :: GenDefn
 rectVelGD = gd (EquationalModel rectVelQD) (getUnit projSpeed) (Just rectVelDeriv)
-  [refInfo hibbeler2004 $ Page [8]] "rectVel" [{-Notes-}]
+  [dRefInfo hibbeler2004 $ Page [8]] "rectVel" [{-Notes-}]
 
 rectVelQD :: QDefinition 
 rectVelQD = mkQuantDef' projSpeed (nounPhraseSent $ foldlSent_ 
@@ -57,7 +57,7 @@ rectVelDerivEqns = map eS [E.rectVelDerivEqn1, E.rectVelDerivEqn2]
 ----------
 rectPosGD :: GenDefn
 rectPosGD = gd (EquationalModel rectPosQD) (getUnit scalarPos) (Just rectPosDeriv)
-  [refInfo hibbeler2004 $ Page [8]] "rectPos" [{-Notes-}]
+  [dRefInfo hibbeler2004 $ Page [8]] "rectPos" [{-Notes-}]
 
 rectPosQD :: QDefinition
 rectPosQD = mkQuantDef' scalarPos (nounPhraseSent $ foldlSent_ 

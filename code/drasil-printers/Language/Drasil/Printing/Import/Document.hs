@@ -47,20 +47,20 @@ lay sm (UlC x) = layUnlabelled sm (x ^. accessContents)
 layLabelled :: PrintingInformation -> LabelledContent -> T.LayoutObj
 layLabelled sm x@(LblC _ (Table hdr lls t b)) = T.Table ["table"]
   (map (spec sm) hdr : map (map (spec sm)) lls)
-  (P.S $ getRefAdd x)
+  (P.S $ getAdd $ getRefAdd x)
   b (spec sm t)
 layLabelled sm x@(LblC _ (EqnBlock c))          = T.HDiv ["equation"]
   [T.EqnBlock (P.E (dispExpr c sm))]
-  (P.S $ getRefAdd x)
+  (P.S $ getAdd $ getRefAdd x)
 layLabelled sm x@(LblC _ (Figure c f wp))     = T.Figure
-  (P.S $ getRefAdd x)
+  (P.S $ getAdd $ getRefAdd x)
   (spec sm c) f wp
 layLabelled sm x@(LblC _ (Graph ps w h t))    = T.Graph
   (map (bimap (spec sm) (spec sm)) ps) w h (spec sm t)
-  (P.S $ getRefAdd x)
+  (P.S $ getAdd $ getRefAdd x)
 layLabelled sm x@(LblC _ (Defini dtyp pairs)) = T.Definition
   dtyp (layPairs pairs)
-  (P.S $ getRefAdd x)
+  (P.S $ getAdd $ getRefAdd x)
   where layPairs = map (second (map (lay sm)))
 layLabelled sm (LblC _ (Paragraph c))    = T.Paragraph (spec sm c)
 layLabelled sm x@(LblC _ (DerivBlock h d)) = T.HDiv ["subsubsubsection"]

@@ -14,10 +14,10 @@ data ScopeType =
   | Global      -- ^ Visible everywhere.
 
 -- | A data definition is a 'QDefinition' that may have additional notes: 
--- the scope, any references, maybe a derivation, a label ('ShortName'), a reference address, and other notes ('Sentence's).
+-- the scope, any references (as 'DecRef's), maybe a derivation, a label ('ShortName'), a reference address, and other notes ('Sentence's).
 data DataDefinition = DatDef { _qd    :: QDefinition
                              , _scp   :: ScopeType
-                             , _rf   :: [Reference]
+                             , _rf    :: [DecRef]
                              , _deri  :: Maybe Derivation
                              , lbl    :: ShortName
                              , ra     :: String
@@ -41,8 +41,10 @@ instance Quantity           DataDefinition where
 instance DefiningExpr       DataDefinition where defnExpr = qd . defnExpr
 -- | Converts the defining expression of a 'DataDefinition' into the display language.
 instance Display            DataDefinition where toDispExpr d = defines (sy d) (d ^. defnExpr)
--- | Finds 'Reference's contained in the 'DataDefinition'.
-instance HasReference       DataDefinition where getReferences = rf
+{-- Finds 'Reference's contained in the 'DataDefinition'.
+instance HasReference       DataDefinition where getReferences = rf-}
+-- | Finds 'DecRef's contained in the 'DataDefinition'.
+instance HasDecRef          DataDefinition where getDecRefs = rf
 -- | Equal if 'UID's are equal.
 instance Eq                 DataDefinition where a == b = (a ^. uid) == (b ^. uid)
 -- | Finds the derivation of the 'DataDefinition'. May contain Nothing.
@@ -54,18 +56,18 @@ instance MayHaveUnit        DataDefinition where getUnit = getUnit . view qd
 -- | Finds the 'ShortName' of the 'DataDefinition'.
 instance HasShortName       DataDefinition where shortname = lbl
 -- | Finds the reference address of a 'DataDefinition'.
-instance HasRefAddress      DataDefinition where getRefAdd = ra
+instance HasRefAddress      DataDefinition where getRefAdd l = RP (prepend $ abrv l) (ra l)
 -- | Finds the domain of the 'QDefinition' used to make the 'DataDefinition'.
 instance ConceptDomain      DataDefinition where cdom _ = cdom dataDefn
 -- | Finds the idea of a 'DataDefinition' (abbreviation).
 instance CommonIdea         DataDefinition where abrv _ = abrv dataDefn
 -- | Finds the reference address of a 'DataDefinition'.
 instance Referable          DataDefinition where
-  refAdd      = getRefAdd
-  renderRef l = RP (prepend $ abrv l) (getRefAdd l)
+  refAdd      = ra
+  renderRef l = RP (prepend $ abrv l) (refAdd l)
 
 -- | Smart constructor for data definitions.
-dd :: QDefinition -> [Reference] -> Maybe Derivation -> String -> [Sentence] -> DataDefinition
+dd :: QDefinition -> [DecRef] -> Maybe Derivation -> String -> [Sentence] -> DataDefinition
 dd q []   _   _  = error $ "Source field of " ++ q ^. uid ++ " is empty"
 dd q refs der sn = DatDef q Global refs der (shortname' $ S sn) (prependAbrv dataDefn sn)
 

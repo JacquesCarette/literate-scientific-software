@@ -35,7 +35,7 @@ dataDefs = [intersliceWtrF, angleA, angleB, lengthB, lengthLb, lengthLs,
 --DD intersliceWtrF: interslice normal water forces
 
 intersliceWtrF :: DataDefinition
-intersliceWtrF = dd intersliceWtrFQD [ref fredlund1977] Nothing "intersliceWtrF"
+intersliceWtrF = dd intersliceWtrFQD [dRef fredlund1977] Nothing "intersliceWtrF"
   []--Notes
 --FIXME: fill empty lists in
 
@@ -56,7 +56,7 @@ intersliceWtrFEqn = completeCase [case1,case2,case3]
 --DD angleA: base angles
 
 angleA :: DataDefinition
-angleA = dd angleAQD [ref fredlund1977] Nothing "angleA"
+angleA = dd angleAQD [dRef fredlund1977] Nothing "angleA"
   [angleANotes]
 --FIXME: fill empty lists in
 
@@ -75,7 +75,7 @@ angleANotes = foldlSent [S "This", phrase equation, S "is based" `S.onThe`
 --DD angleB: surface angles
 
 angleB :: DataDefinition
-angleB = dd angleBQD [ref fredlund1977] Nothing "angleB"
+angleB = dd angleBQD [dRef fredlund1977] Nothing "angleB"
   [angleBNotes]--Notes
 --FIXME: fill empty lists in
 
@@ -94,7 +94,7 @@ angleBNotes = foldlSent [S "This", phrase equation, S "is based" `S.onThe`
 --DD lengthB: base width of slices
 
 lengthB :: DataDefinition
-lengthB = dd lengthBQD [ref fredlund1977] Nothing "lengthB" []--Notes
+lengthB = dd lengthBQD [dRef fredlund1977] Nothing "lengthB" []--Notes
 --FIXME: fill empty lists in
 
 lengthBQD :: QDefinition
@@ -106,7 +106,7 @@ lengthBEqn = inxi slipDist $- inx slipDist (-1)
 --DD lengthLb: total base lengths of slices
 
 lengthLb :: DataDefinition
-lengthLb = dd lengthLbQD [ref fredlund1977] Nothing "lengthLb"
+lengthLb = dd lengthLbQD [dRef fredlund1977] Nothing "lengthLb"
   [lengthLbNotes]--Notes
 --FIXME: fill empty lists in
 
@@ -123,7 +123,7 @@ lengthLbNotes = foldlSent [baseWthX `definedIn'''`
 --DD lengthLs: surface lengths of slices
 
 lengthLs :: DataDefinition
-lengthLs = dd lengthLsQD [ref fredlund1977] Nothing "lengthLs"
+lengthLs = dd lengthLsQD [dRef fredlund1977] Nothing "lengthLs"
   [lengthLsNotes]--Notes
 --FIXME: fill empty lists in
 
@@ -141,7 +141,7 @@ lengthLsNotes = foldlSent [baseWthX `definedIn'''`
 --DD slcHeight: y-direction heights of slices
 
 slcHeight :: DataDefinition
-slcHeight = dd slcHeightQD [ref fredlund1977] Nothing "slcHeight"
+slcHeight = dd slcHeightQD [dRef fredlund1977] Nothing "slcHeight"
   slcHeightNotes
 
 slcHeightQD :: QDefinition
@@ -161,7 +161,7 @@ slcHeightNotes = [S "This" +:+ phrase equation +:+ S "is based on the" +:+
 --DD normStress: total normal stress
 
 normStressDD :: DataDefinition
-normStressDD = dd normStressQD [ref huston2008] Nothing "normStress" []
+normStressDD = dd normStressQD [dRef huston2008] Nothing "normStress" []
 
 normStressQD :: QDefinition
 normStressQD = mkQuantDef totNormStress normStressEqn
@@ -172,7 +172,7 @@ normStressEqn = sy fn $/ sy genericA
 --DD tangStress: tangential stress
 
 tangStressDD :: DataDefinition
-tangStressDD = dd tangStressQD [ref huston2008] Nothing "tangStress" []
+tangStressDD = dd tangStressQD [dRef huston2008] Nothing "tangStress" []
 
 tangStressQD :: QDefinition
 tangStressQD = mkQuantDef tangStress tangStressEqn
@@ -183,7 +183,7 @@ tangStressEqn = sy ft $/ sy genericA
 --DD ratioVariation: interslice normal to shear force ratio variation function
 
 ratioVariation :: DataDefinition
-ratioVariation = dd ratioVarQD [ref fredlund1977] Nothing
+ratioVariation = dd ratioVarQD [dRef fredlund1977] Nothing
   "ratioVariation" []
 
 ratioVarQD :: QDefinition
@@ -199,7 +199,7 @@ ratioVarEqn = completeCase [case1, case2]
 --DD convertFunc1: first function for incorporating interslice forces into shear force
 
 convertFunc1 :: DataDefinition
-convertFunc1 = dd convertFunc1QD (map ref [chen2005, karchewski2012]) Nothing
+convertFunc1 = dd convertFunc1QD (map dRef [chen2005, karchewski2012]) Nothing
   "convertFunc1" [convertFunc1Notes]
 
 convertFunc1QD :: QDefinition
@@ -217,7 +217,7 @@ convertFunc1Notes = foldlSent [scalFunc `definedIn'''` ratioVariation `S.and_` (
 --DD convertFunc2: second function for incorporating interslice forces into shear force
 
 convertFunc2 :: DataDefinition
-convertFunc2 = dd convertFunc2QD (map ref [chen2005, karchewski2012]) Nothing
+convertFunc2 = dd convertFunc2QD (map dRef [chen2005, karchewski2012]) Nothing
   "convertFunc2" [convertFunc2Notes]
 
 convertFunc2QD :: QDefinition
@@ -283,13 +283,13 @@ mobShr_deriv_ssp = (weave [mobShrDerivation_sentence, map E mobShr_deriv_eqns_ss
 
 nrmForceSumDD, watForceSumDD, sliceHghtRightDD,
   sliceHghtLeftDD :: DataDefinition
-nrmForceSumDD = dd nrmForceSumQD [ref fredlund1977] Nothing
+nrmForceSumDD = dd nrmForceSumQD [dRef fredlund1977] Nothing
   "nrmForceSumDD" []--Notes
-watForceSumDD = dd watForceSumQD [ref fredlund1977] Nothing
+watForceSumDD = dd watForceSumQD [dRef fredlund1977] Nothing
   "watForceSumDD" []--Notes
-sliceHghtRightDD = dd sliceHghtRightQD [ref fredlund1977] Nothing
+sliceHghtRightDD = dd sliceHghtRightQD [dRef fredlund1977] Nothing
   "sliceHghtRightDD" []--Notes
-sliceHghtLeftDD = dd sliceHghtLeftQD [ref fredlund1977] Nothing
+sliceHghtLeftDD = dd sliceHghtLeftQD [dRef fredlund1977] Nothing
   "sliceHghtLeftDD" []--Notes
 
 nrmForceSumQD :: QDefinition

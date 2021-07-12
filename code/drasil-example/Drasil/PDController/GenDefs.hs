@@ -8,7 +8,7 @@ import Drasil.PDController.Concepts
 import Drasil.PDController.References
 import Drasil.PDController.TModel
 import Language.Drasil
-import Theory.Drasil (GenDefn, gd, ModelKinds (OthModel))
+import Theory.Drasil (GenDefn, gd, othModel')
 import Utils.Drasil
 import Utils.Drasil.Concepts
 import qualified Utils.Drasil.Sentence as S
@@ -22,7 +22,7 @@ genDefns = [gdPowerPlant]
 
 gdPowerPlant :: GenDefn
 gdPowerPlant
-  = gd (OthModel gdPowerPlantRC) (Nothing :: Maybe UnitDefn) Nothing
+  = gd (othModel' gdPowerPlantRC) (Nothing :: Maybe UnitDefn) Nothing
       [ref pidWiki, ref abbasi2015]
       "gdPowerPlant"
       [gdPowerPlantNote]

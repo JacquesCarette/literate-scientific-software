@@ -22,14 +22,14 @@ physicsTMs :: [TheoryModel]
 physicsTMs = [newtonSL]
 
 newtonSL :: TheoryModel
-newtonSL = tmNoRefs' "newtonSL" (EquationalModel newtonSLQD)
+newtonSL = tmNoRefs (equationalModelU "newtonSL" newtonSLQD)
   [qw QP.force, qw QPP.mass, qw QP.acceleration] ([] :: [ConceptChunk])
   [newtonSLQD] [] [] "NewtonSecLawMot" [newtonSLDesc]
 
 --
 
 weightGD :: GenDefn
-weightGD = gd (EquationalModel weightQD) (getUnit QP.weight) (Just weightDeriv) [weightSrc] 
+weightGD = gd (equationalModel' weightQD) (getUnit QP.weight) (Just weightDeriv) [weightSrc] 
   "weight" [{-Notes-}]
 
 weightQD :: QDefinition
@@ -73,7 +73,7 @@ weightDerivSpecWeightSentence = [S "Substituting", phrase QPP.specWeight,
 --
 
 hsPressureGD :: GenDefn
-hsPressureGD = gd (EquationalModel hsPressureQD) (getUnit QP.pressure) Nothing
+hsPressureGD = gd (equationalModel' hsPressureQD) (getUnit QP.pressure) Nothing
   [hsPressureSrc] "hsPressure" [hsPressureNotes]
 
 hsPressureQD :: QDefinition
@@ -119,7 +119,7 @@ vecMag = ddNoRefs vecMagQD Nothing "vecMag" [magNote]
 
 --
 newtonSLR :: TheoryModel
-newtonSLR = tmNoRefs' "newtonSLR" (EquationalModel newtonSLRQD)
+newtonSLR = tmNoRefs (equationalModelU "newtonSLR" newtonSLRQD)
   [qw QP.torque, qw QP.momentOfInertia, qw QP.angularAccel] 
   ([] :: [ConceptChunk]) [newtonSLRQD] [] [] "NewtonSecLawRotMot" newtonSLRNotes
 
@@ -138,13 +138,13 @@ newtonSLRNotes = map foldlSent [
 --
 
 accelerationTM :: TheoryModel
-accelerationTM = tm' "accelerationTM" (EquationalModel accelerationQD)
+accelerationTM = tm (equationalModelU "accelerationTM" accelerationQD)
   [qw QP.acceleration, qw QP.velocity, qw QP.time] ([] :: [ConceptChunk]) [accelerationQD] [] []
   [ref accelerationWiki] "acceleration" []
 
 ----------
 
 velocityTM :: TheoryModel
-velocityTM = tm' "velocityTM" (EquationalModel velocityQD)
+velocityTM = tm (equationalModelU "velocityTM" velocityQD)
   [qw QP.velocity, qw QP.position, qw QP.time] ([] :: [ConceptChunk]) [velocityQD] [] []
   [ref velocityWiki] "velocity" []

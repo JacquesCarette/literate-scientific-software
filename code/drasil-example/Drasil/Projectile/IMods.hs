@@ -3,7 +3,7 @@ module Drasil.Projectile.IMods (iMods, landPosIM, messageIM, offsetIM, timeIM, i
 import Prelude hiding (cos, sin)
 
 import Language.Drasil
-import Theory.Drasil (InstanceModel, imNoDerivNoRefs',imNoRefs', qwC, ModelKinds ( EquationalModel))
+import Theory.Drasil (InstanceModel, imNoDerivNoRefs, imNoRefs, qwC, equationalModelN)
 import Utils.Drasil
 import Utils.Drasil.Concepts
 import qualified Utils.Drasil.Sentence as S
@@ -34,7 +34,7 @@ iMods :: [InstanceModel]
 iMods = [timeIM, landPosIM, offsetIM, messageIM]
 ---
 timeIM :: InstanceModel
-timeIM = imNoRefs' (EquationalModel timeQD)(nounPhraseSP "calculation of landing time")
+timeIM = imNoRefs (equationalModelN (nounPhraseSP "calculation of landing time") timeQD)
   [qwC launSpeed $ UpFrom (Exc, exactDbl 0)
   ,qwC launAngle $ Bounded (Exc, exactDbl 0) (Exc, half $ sy pi_)]
   (qw flightDur) [UpFrom (Exc, exactDbl 0)]
@@ -73,7 +73,7 @@ timeDerivEqns = [E.timeDerivEqn1, E.timeDerivEqn2, E.timeDerivEqn3, E.timeDerivE
 
 ---
 landPosIM :: InstanceModel
-landPosIM = imNoRefs' (EquationalModel landPosQD)(nounPhraseSP "calculation of landing position")
+landPosIM = imNoRefs (equationalModelN (nounPhraseSP "calculation of landing position") landPosQD)
   [qwC launSpeed $ UpFrom (Exc, exactDbl 0),
    qwC launAngle $ Bounded (Exc, exactDbl 0) (Exc, half $ sy pi_)]
   (qw landPos) [UpFrom (Exc, exactDbl 0)]
@@ -107,7 +107,7 @@ landPosDerivEqns = [E.landPosDerivEqn1, E.landPosDerivEqn2, E.landPosDerivEqn3, 
 
 ---
 offsetIM :: InstanceModel
-offsetIM = imNoDerivNoRefs' (EquationalModel offsetQD) (nounPhraseSP "offset")
+offsetIM = imNoDerivNoRefs (equationalModelN (nounPhraseSP "offset") offsetQD)
   [qwC landPos $ UpFrom (Exc, exactDbl 0)
   ,qwC targPos $ UpFrom (Exc, exactDbl 0)]
   (qw offset) [] "offsetIM" [landPosNote, landAndTargPosConsNote]
@@ -116,7 +116,7 @@ offsetQD :: QDefinition
 offsetQD = mkQuantDef offset E.offset'
 ---
 messageIM :: InstanceModel
-messageIM = imNoDerivNoRefs' (EquationalModel messageQD)(nounPhraseSP "output message")
+messageIM = imNoDerivNoRefs (equationalModelN (nounPhraseSP "output message") messageQD)
   [qwC offset $ UpFrom (Exc, neg (sy landPos))
   ,qwC targPos $ UpFrom (Exc, exactDbl 0)]
   (qw message)

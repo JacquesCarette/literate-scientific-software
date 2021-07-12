@@ -4,7 +4,7 @@ module Drasil.SSP.IMods where
 import Prelude hiding (tan, product, sin, cos)
 
 import Language.Drasil
-import Theory.Drasil (InstanceModel, im, imNoDeriv, qwUC, ModelKinds (OthModel, EquationalModel))
+import Theory.Drasil
 import Utils.Drasil
 import Utils.Drasil.Concepts
 import qualified Utils.Drasil.Sentence as S
@@ -51,7 +51,7 @@ iMods = [fctSfty, nrmShrFor, nrmShrForNum, nrmShrForDen, intsliceFs, crtSlpId]
 --
 
 fctSfty :: InstanceModel
-fctSfty = im (EquationalModel fctSftyQD)
+fctSfty = im (equationalModel' fctSftyQD)
  [qwUC slopeDist, qwUC slopeHght, qwUC waterHght, qwUC effCohesion, qwUC fricAngle,
   qwUC dryWeight, qwUC satWeight, qwUC waterWeight, qwUC slipDist, qwUC slipHght, qwUC constF]
   (qw fs) [] (map ref [chen2005, karchewski2012])
@@ -372,7 +372,7 @@ fctSftyDerivEqn18 = sy fs `mulRe` (idx (sy mobShrC) (sy numbSlices $- int 1) `mu
 ------------------------------------------------------------------------
 
 nrmShrFor :: InstanceModel
-nrmShrFor = im (OthModel nrmShrForRC) [qwUC slopeDist, qwUC slopeHght, qwUC waterHght,
+nrmShrFor = im (othModel' nrmShrForRC) [qwUC slopeDist, qwUC slopeHght, qwUC waterHght,
   qwUC waterWeight, qwUC slipDist, qwUC slipHght, qwUC constF]
   (qw normToShear) [] (map ref [chen2005, karchewski2012])
   (Just nrmShrDeriv) "nrmShrFor" [nrmShrFDesc]
@@ -457,7 +457,7 @@ nrmShrDerivEqn4 = sy normToShear $= sum1toN
 ---------------------------------------------------------------------
 
 nrmShrForNum :: InstanceModel
-nrmShrForNum = im (OthModel nrmShrForNumRC) [qwUC slopeDist, qwUC slopeHght, qwUC waterHght,
+nrmShrForNum = im (othModel' nrmShrForNumRC) [qwUC slopeDist, qwUC slopeHght, qwUC waterHght,
   qwUC waterWeight, qwUC slipDist, qwUC slipHght]
   (qw nrmShearNum) [] (map ref [chen2005, karchewski2012])
   (Just nrmShrFNumDeriv) "nrmShrForNum" [nrmShrFNumDesc]
@@ -495,7 +495,7 @@ nrmShrFNumDesc = (foldlList Comma List [baseWthX `definedIn'''` lengthB,
 ---------------------------------------------------------------------------
 
 nrmShrForDen :: InstanceModel
-nrmShrForDen = im (OthModel nrmShrForDenRC) [qwUC slipDist, qwUC constF]
+nrmShrForDen = im (othModel' nrmShrForDenRC) [qwUC slipDist, qwUC constF]
   (qw nrmShearDen) [] (map ref [chen2005, karchewski2012])
   (Just nrmShrFDenDeriv) "nrmShrForDen" [nrmShrFDenDesc]
 
@@ -525,7 +525,7 @@ nrmShrFDenDesc = baseWthX `definedIn'''`
 --------------------------------------------------------------------------
 
 intsliceFs :: InstanceModel
-intsliceFs = im (OthModel intsliceFsRC) [qwUC slopeDist, qwUC slopeHght, qwUC waterHght
+intsliceFs = im (othModel' intsliceFsRC) [qwUC slopeDist, qwUC slopeHght, qwUC waterHght
   , qwUC effCohesion, qwUC fricAngle, qwUC dryWeight, qwUC satWeight, qwUC waterWeight
   , qwUC slipDist, qwUC slipHght, qwUC constF]
   (qw intNormForce) [] [ref chen2005] (Just intrSlcDeriv) "intsliceFs" [sliceFsDesc]
@@ -585,19 +585,22 @@ intrSlcDerivEqn = inxi intNormForce $=
 
 --------------------------------------------------------------------------
 crtSlpId :: InstanceModel
-crtSlpId = imNoDeriv (OthModel crtSlpIdRC) [qwUC slopeDist, qwUC slopeHght, qwUC waterDist,
+crtSlpId = imNoDeriv crtSlpIdMK [qwUC slopeDist, qwUC slopeHght, qwUC waterDist,
   qwUC waterHght, qwUC effCohesion, qwUC fricAngle, qwUC dryWeight, qwUC satWeight,
   qwUC waterWeight, qwUC constF] (qw fsMin) [] [ref li2010] "crtSlpId"
   [crtSlpIdDesc]
 
-crtSlpIdRC :: RelationConcept
-crtSlpIdRC = makeRC "crtSlpIdRC" (nounPhraseSP "critical slip surface identification")
-  crtSlpIdDesc crtSlpIdRel -- crtSlpIdL
+crtSlpIdMK :: ModelKind
+crtSlpIdMK = equationalModel "crtSlpIdIM"
+  (nounPhraseSP "critical slip surface identification") crtSlpIdQD
+
+crtSlpIdQD :: QDefinition
+crtSlpIdQD = mkQuantDef fsMin crtSlpIdExpr
 
 -- FIXME: horrible hack. This is short an argument... that was never defined!
 -- FIXME: critCoords should also be an output
-crtSlpIdRel :: Relation
-crtSlpIdRel = sy fsMin $= apply minFunction [sy slopeDist,
+crtSlpIdExpr :: Expr
+crtSlpIdExpr = apply minFunction [sy slopeDist,
   sy slopeHght, sy waterDist, sy waterHght, sy effCohesion, sy fricAngle,
   sy dryWeight, sy satWeight, sy waterWeight, sy constF]
 

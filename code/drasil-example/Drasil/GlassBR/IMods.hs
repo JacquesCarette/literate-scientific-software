@@ -2,7 +2,7 @@ module Drasil.GlassBR.IMods (symb, iMods, pbIsSafe, lrIsSafe, instModIntro, iMod
 
 import Prelude hiding (exp)
 import Language.Drasil
-import Theory.Drasil (InstanceModel, imNoDeriv', qwC, ModelKinds ( EquationalModel))
+import Theory.Drasil (InstanceModel, imNoDeriv, qwC, equationalModelN)
 import Utils.Drasil
 import Utils.Drasil.Concepts
 import qualified Utils.Drasil.Sentence as S
@@ -26,7 +26,7 @@ symb = map dqdWr [plateLen, plateWidth, charWeight, standOffDist] ++
 {--}
 
 pbIsSafe :: InstanceModel
-pbIsSafe = imNoDeriv' (EquationalModel pbIsSafeQD) (nounPhraseSP "Safety Req-Pb")
+pbIsSafe = imNoDeriv (equationalModelN (nounPhraseSP "Safety Req-Pb") pbIsSafeQD)
   [qwC probBr $ UpFrom (Exc, exactDbl 0), qwC pbTol $ UpFrom (Exc, exactDbl 0)]
   (qw isSafePb) []
   [ref astm2009] "isSafePb"
@@ -39,7 +39,7 @@ pbIsSafeQD = mkQuantDef isSafePb (sy probBr $< sy pbTol)
 {--}
 
 lrIsSafe :: InstanceModel
-lrIsSafe = imNoDeriv' (EquationalModel lrIsSafeQD) (nounPhraseSP "Safety Req-LR")
+lrIsSafe = imNoDeriv (equationalModelN (nounPhraseSP "Safety Req-LR") lrIsSafeQD)
   [qwC lRe $ UpFrom (Exc, exactDbl 0), qwC demand $ UpFrom (Exc, exactDbl 0)]
   (qw isSafeLR) []
   [ref astm2009] "isSafeLR"

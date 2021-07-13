@@ -117,11 +117,6 @@ makeSecRef :: String -> Sentence -> Reference
 makeSecRef r s = Reference (r ++ "Label") (RP (prepend "Sec") ("Sec:" ++ repUnd r))
   (shortname' s) None
 
--- | Create a reference for a list. Takes in the name of the list and a shortname for the list.
-makeLstRef :: String -> Sentence -> Reference
-makeLstRef r s = Reference (r ++ "Label") (RP (prepend "Lst") ("Lst:" ++ repUnd r))
-  (shortname' s) None
-
 -- | Create a reference for a 'URI'.
 makeURI :: UID -> String -> ShortName -> Reference
 makeURI u r s = Reference u (URI r) s None

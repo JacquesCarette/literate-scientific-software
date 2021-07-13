@@ -20,7 +20,7 @@ import Drasil.DocLang (AppndxSec(..), AuxConstntSec(..), DerivationDisplay(..),
   ReqrmntSec(..), ReqsSub(..), SCSSub(..), SRSDecl, SSDSec(..), SSDSub(..),
   SolChSpec(..), StkhldrSec(..), StkhldrSub(Client, Cstmr),
   TraceabilitySec(TraceabilityProg), TSIntro(SymbOrder, TSPurpose),
-  Verbosity(Verbose), auxSpecSent, characteristicsLabel, intro, mkDoc,
+  Verbosity(Verbose), auxSpecSent, intro, mkDoc,
   termDefnF', tsymb, traceMatStandard, purpDoc, getTraceConfigUID,
   secRefs, fillTraceSI)
 
@@ -302,7 +302,7 @@ sysCtxList = UlC $ ulcc $ Enumeration $ bulletNested sysCtxResp $
 {--User Characteristics--}
 
 userCharacteristicsIntro :: Contents
-userCharacteristicsIntro = LlC $ enumBullet characteristicsLabel $ map foldlSent
+userCharacteristicsIntro = enumBulletU $ map foldlSent
   [[S "The end user of GlassBR is expected to have completed at least the",
     S "equivalent of the second year of an undergraduate degree in civil engineering or structural engineering"],
   [S "The end user is expected to have an understanding of theory behind glass",

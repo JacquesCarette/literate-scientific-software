@@ -17,7 +17,7 @@ import Drasil.DocLang (DerivationDisplay(..), DocSection(..), Emphasis(..),
   SolChSpec(SCSProg), TConvention(..), TSIntro(..), Verbosity(Verbose),
   OffShelfSolnsSec(..), GSDSec(..), GSDSub(..), TraceabilitySec(TraceabilityProg),
   ReqrmntSec(..), ReqsSub(..), AuxConstntSec(..), ProblemDescription(PDProg),
-  PDSub(..), intro, mkDoc, tsymb, traceMatStandard, solutionLabel, purpDoc, getTraceConfigUID,
+  PDSub(..), intro, mkDoc, tsymb, traceMatStandard, purpDoc, getTraceConfigUID,
   secRefs, fillTraceSI)
 import qualified Drasil.DocLang.SRS as SRS
 import Data.Drasil.Concepts.Computation (algorithm)
@@ -420,13 +420,13 @@ offShelfSolsIntro = mkParagraph $ foldlSentCol
   S "there already exist free", phrase openSource, phrase game +:+.
   plural physLib, S "Similar", getAcc twoD, plural physLib, S "are"]
 
-offShelfSols2DList = LlC $ enumBullet solutionLabel [S "Box2D: http://box2d.org/",
+offShelfSols2DList = enumBulletU [S "Box2D: http://box2d.org/",
   S "Nape Physics Engine: http://napephys.com/"]
 
 offShelfSolsMid = mkParagraph $ foldl (+:+) EmptyS [S "Free", phrase openSource,
   getAcc threeD, phrase game, plural physLib, S "include:"]
 
-offShelfSols3DList = LlC $ enumBullet solutionLabel [
+offShelfSols3DList = enumBulletU [
   S "Bullet: http://bulletphysics.org/",
   S "Open Dynamics Engine: http://www.ode.org/",
   S "Newton Game Dynamics: http://newtondynamics.com/"]
